@@ -6,6 +6,7 @@ class Interpretador
     {
 		    char aux;
 		    char atual;
+        int tamanho_da_linha;
         this.linhas = l;
         String Nlinha = new String();
 
@@ -22,5 +23,11 @@ class Interpretador
 
             }
         }
+
+        tamanho_da_linha = Nlinha.length();
+
+        System.out.println("a linha tem: " + tamanho_da_linha + " caracteres.");
+
+
     }
 }
