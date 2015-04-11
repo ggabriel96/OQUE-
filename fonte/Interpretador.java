@@ -28,7 +28,11 @@ class Interpretador
 
         System.out.println("a linha tem: " + tamanho_da_linha + " caracteres.");
 
+<<<<<<< HEAD
       
+=======
+        
+>>>>>>> ec3cdc59c2fbd1fd29ce295ad689e09b9aad908c
 
 
     }
