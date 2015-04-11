@@ -1,0 +1,22 @@
+Escreva aqui o que você fez ou pretende fazer. Quando visualizar um novo update, coloque um # no final da linha.
+
+CLEITON:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+MARCO:
+
+	Criei os IFS do CONTROLE. Escolha umas funções e vai implementando.
