@@ -19,7 +19,7 @@ class Interpretador
                 // Faz a mesma coisa que a função que eu tinha feito.
 				        Nlinha = this.linhas[i].replaceAll("\\s+"," ");
 
-				        System.out.println("Linha reescrita: " + Nlinha);
+				        System.out.println("Linha reescrita:" + Nlinha);
 
             }
         }
@@ -27,6 +27,8 @@ class Interpretador
         tamanho_da_linha = Nlinha.length();
 
         System.out.println("a linha tem: " + tamanho_da_linha + " caracteres.");
+
+      
 
 
     }
