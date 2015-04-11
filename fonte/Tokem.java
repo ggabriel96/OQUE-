@@ -7,7 +7,7 @@ class Tokem
 	// Construtor
 	public Tokem()
 	{
-		tokens = new String("={([+-*/]})");
+		tokens = new String("={([+-*/]});");
 	}
 	
 	
@@ -20,36 +20,5 @@ class Tokem
 				if(tokens.charAt(i) == linha.charAt(j))
 					return j;
 		return -1;		
-	}
-	
-	public void controle(String linha, int pos)
-	{
-		int aqui = achaToken(linha, pos);
-		char tok = linha.charAt(aqui);
-		
-		if(tok == '=')
-		{
-			// Funcao que trata o igual
-		}
-		
-		else if(tok == '+')
-		{
-			// Funcao que trata o mais
-		}
-		
-		else if(tok == '-')
-		{
-			// Funcao que trata o menos
-		}
-		
-		else if(tok == '*')
-		{
-			// Funcao que trata o vezes
-		}
-		
-		else if(tok == '/')
-		{
-			// Funcao que trata o dividir
-		}
 	}
 }
