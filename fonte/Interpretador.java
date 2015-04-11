@@ -28,7 +28,7 @@ class Interpretador
 
         System.out.println("a linha tem: " + tamanho_da_linha + " caracteres.");
 
-      
+        
 
 
     }
