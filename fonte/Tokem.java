@@ -21,4 +21,15 @@ class Tokem
 					return j;
 		return -1;		
 	}
+	
+	public char ehToken(char esse)
+	{
+		int i = 0;
+		
+		for(i = 0; i < this.tokens.length(); i++)
+			if(esse == tokens.charAt(i))
+				return tokens.charAt(i);
+
+		return 'N';		
+	}
 }
