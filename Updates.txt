@@ -20,3 +20,5 @@ CLEITON:
 MARCO:
 
 	Criei os IFS do CONTROLE. Escolha umas funções e vai implementando.
+	Criei classes pra separar funções: pra strings e pra tokens (acho que tu já tinha visto :P).
+	
