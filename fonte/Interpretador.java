@@ -1,107 +1,94 @@
-class Interpretador
-{
+class Interpretador{
+
+// Atributos da classe ==========================
     private String linhas[];
-	private Tokem tokens;
-	private Estring estring;
-	
-	// Construtor
-	public Interpretador()
-	{
-		tokens = new Tokem();
-		estring = new Estring();
-	}
-	
-	
-	
-	
-    public void interpreta(String l[])
-    {
-		int i = 0;
-        int tamanho_da_linha;		
-		String Nlinha = new String("");
+	  private Tokem tokens;
+	  private Estring estring;
 
-		// Arruma o vetor realocando, removendo espacos e separando por tarefas. 
-		this.linhas = estring.arrumavetor(l);			
+// Construtor (instancia objetos da classe) =====
+	  public Interpretador(){
+		    tokens = new Tokem();
+		    estring = new Estring();
+	  }
+
+// Operações da Classe ==========================
+    // operação para tirar arrumar a linha ---
+    public void interpreta(String l[]){
+
+        // variaveis ---
+        int i = 0;
+        int tamanho_da_linha;
+		    String Nlinha = new String("");
+
+		    // Arruma o vetor realocando, removendo espacos e separando por tarefas ---
+		    this.linhas = estring.arrumavetor(l);
 
 
-		// ######
-        for(i = 0; i < this.linhas.length; i++)
-        {
-            if(this.linhas[i] != null)
-            {
+		    // tira os espaços e soma quantos caracteres tem a linha ---
+        for(i = 0; i < this.linhas.length; i++){
+            if(this.linhas[i] != null){
                 System.out.println("Linha " + (i + 1) + ": " + this.linhas[i]);
-				
-				controle(this.linhas[i], 0);
-        
-				tamanho_da_linha = linhas[i].length();
-				System.out.println("a linha tem: " + tamanho_da_linha + " caracteres.\n\n");
+								controle(this.linhas[i], 0);
+        				tamanho_da_linha = linhas[i].length();
+				        System.out.println("a linha tem: " + tamanho_da_linha + " caracteres.\n\n");
             }
         }
-        // ######
-        
     }
-    
+
     // Tipo int para retorno de erros (ainda nao foi implementado).
-    public int controle(String linha, int pos)
-			{
-				
+    public int controle(String linha, int pos){
+
 				// Esta funcao serve para distribuir comandos, de acordo
 				// com o toquem encontrado.
 				//
-				// Ela encontra tokem por tokem e chama sua determinada 
+				// Ela encontra tokem por tokem e chama sua determinada
 				// funcao ate terminar de percorrer a linha recebida.
-				
-				
+
 				int aqui = pos;
-				while(aqui < linha.length())
-				{
-					
-					aqui = tokens.achaToken(linha, aqui);
-					if(aqui == -1)
+
+				while(aqui < linha.length()){
+
+          aqui = tokens.achaToken(linha, aqui);
+
+          if(aqui == -1){
 						return -1;
-					char tok = linha.charAt(aqui);
-	
-		
-		
+          }
+
+          char tok = linha.charAt(aqui);
+
 					// Testes de tokens para trata-los:
-					
-					if(tok == ';')
-					{
+					if(tok == ';'){
 						System.out.println("Achei um ponto e vírgula.");
 					}
-					
-					else if(tok == '=')
-					{
+
+					else if(tok == '='){
 						System.out.println("Achei um igual.");
 					}
-					
-					else if(tok == '+')
-					{
+
+					else if(tok == '+'){
 						// Funcao que trata o mais
 						System.out.println("Achei um mais.");
 					}
-					
-					else if(tok == '-')
-					{
+
+					else if(tok == '-'){
 						// Funcao que trata o menos
 						System.out.println("Achei um menos.");
 					}
-					
-					else if(tok == '*')
-					{
+
+					else if(tok == '*'){
 						// Funcao que trata o vezes
 						System.out.println("Achei um vezes.");
 					}
-					
-					else if(tok == '/')
-					{
+
+					else if(tok == '/'){
 						// Funcao que trata o dividir
 						System.out.println("Achei um dividir.");
 					}
-					aqui++;	
+
+					aqui++;
 				}
-				
+
 				return 0;
 			}
-    
+
 }
