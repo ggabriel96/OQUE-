@@ -2,8 +2,8 @@ import java.util.Scanner;
 import java.io.*;
 
 class OQUE {
-    public static void main(String args[]) throws Exception
-    {
+    public static void main(String args[]) throws Exception{
+
         File f;
         Scanner s;
         Interpretador b;
