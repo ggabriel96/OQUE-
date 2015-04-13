@@ -3,12 +3,14 @@ class Interpretador
     private String linhas[];
 	private Tokem tokens;
 	private Estring estring;
+	private Aritimeticos aritimetico;
 	
 	// Construtor
 	public Interpretador()
 	{
 		tokens = new Tokem();
 		estring = new Estring();
+		aritimetico = new Aritimeticos();
 	}
 	
 	
@@ -73,6 +75,7 @@ class Interpretador
 					else if(tok == '=')
 					{
 						System.out.println("Achei um igual.");
+						System.out.println(aritimetico.simplifica(linha, aqui));
 					}
 					
 					else if(tok == '+')
