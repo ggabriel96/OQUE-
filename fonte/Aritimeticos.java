@@ -144,5 +144,20 @@ class Aritimeticos
 		return nova;
 	}
 	
+	public int getTipo(String palavra)
+	{
+		double numero;
+		try
+		{
+			numero = Double.parseDouble(palavra);
+			return 1;
+		}
+		catch(NumberFormatException nfe)
+		{
+			return 0;
+		}
+		
+	}
+	
 	
 }
