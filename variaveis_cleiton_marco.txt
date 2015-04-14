@@ -1,4 +1,4 @@
-CLEITON :
+﻿CLEITON :
 
 1 - LAÇOS DE REPETIÇÃO    ->  WHILE
 4 - OPERAÇÕES ARITMETICAS ->  +, -, /, *, %
@@ -10,12 +10,8 @@ CLEITON :
 Nomes variaveis Cleiton:
 
 while   ->  repetix
-int     ->  inti
-double  ->  doublix
-string  ->  istringui
-boolean ->  bule_am?
-+       ->  +
--       ->  -
++       ->  &
+-       ->  §
 /       ->  $  
 *       ->  ¨
 %       ->  ¬
