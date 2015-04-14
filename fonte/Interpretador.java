@@ -45,6 +45,8 @@ class Interpretador{
     // Tipo int para retorno de erros (ainda nao foi implementado).
     public int controle(String linha, int pos){
 
+		String parateste = new String("");
+
 				// Esta funcao serve para distribuir comandos, de acordo
 				// com o toquem encontrado.
 				//
@@ -69,10 +71,10 @@ class Interpretador{
 					}
 
 					else if(tok == '='){
-            System.out.println("Achei um igual.");
-						System.out.println(aritimetico.simplifica(linha, aqui));
-            num_var = aritmetico.getTipo()
-
+						System.out.println("Achei um igual.");
+						linha = aritimetico.simplifica(linha, aqui);
+						parateste = estring.entreTokem(linha, aqui);
+						System.out.println(parateste);
 					}
 
 					else if(tok == '+'){

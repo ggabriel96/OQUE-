@@ -1,4 +1,13 @@
-class Estring{
+class Estring
+{
+
+	public Tokem tokem;
+
+	
+	public Estring()
+	{
+		tokem  = new Tokem();
+	}
 
 // Operações da Classe ==========================
 	public String[] Vremovenull(String l[]){
@@ -91,5 +100,17 @@ class Estring{
 		}
 
 		return linhas;
+	}
+	
+	public String entreTokem(String linha, int pos)
+	{
+		String nova = new String("");
+		char a = linha.charAt(tokem.achaToken(linha, pos+1));
+		System.out.println(a);
+		int i;
+		for(i = pos + 1; a != ';'; i++){
+			nova = nova + linha.charAt(i);
+		}
+		return nova;
 	}
 }
