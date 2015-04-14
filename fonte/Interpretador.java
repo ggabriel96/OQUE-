@@ -1,11 +1,11 @@
 class Interpretador{
 
 // Atributos da classe ==========================
-    private String linhas[];
+  private String linhas[];
 	private Tokem tokens;
 	private Estring estring;
 	private Aritimeticos aritimetico;
-	
+
 	// Construtor
 	public Interpretador()
 	{
@@ -13,18 +13,18 @@ class Interpretador{
 		estring = new Estring();
 		aritimetico = new Aritimeticos();
 	}
-	
-	
-	
-	
+
+
+
+
     public void interpreta(String l[])
     {
 		int i = 0;
-        int tamanho_da_linha;		
+    int tamanho_da_linha;
 		String Nlinha = new String("");
 
-		// Arruma o vetor realocando, removendo espacos e separando por tarefas. 
-		this.linhas = estring.arrumavetor(l);			
+		// Arruma o vetor realocando, removendo espacos e separando por tarefas.
+		this.linhas = estring.arrumavetor(l);
 
 
 		// ######
@@ -68,7 +68,7 @@ class Interpretador{
 					}
 
 					else if(tok == '='){
-						System.out.println("Achei um igual.");
+            System.out.println("Achei um igual.");
 						System.out.println(aritimetico.simplifica(linha, aqui));
 					}
 
