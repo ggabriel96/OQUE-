@@ -1,5 +1,5 @@
 class Inteiro{
-  private String nome = new String();
+  private String nome = new String("");
   private int valor;
   private Inteiro proximo;
 
@@ -10,7 +10,7 @@ class Inteiro{
     return this.nome;
   }
 
-  public void setValor(Int valor_var){
+  public void setValor(int valor_var){
     this.valor = valor_var;
   }
   public int getValor(){

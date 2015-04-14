@@ -12,7 +12,7 @@ class Inteiro_lista{
 
   //insere no inicio da lista
   public void insere_lista_int(String nome, int valor){
-    if(quantidade_var == 0){
+    if(qtd_elementos == 0){
       Inteiro novo = new Inteiro();
       novo.setNome(nome);
       novo.setValor(valor);

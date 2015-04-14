@@ -20,6 +20,7 @@ class Interpretador{
     public void interpreta(String l[])
     {
 		int i = 0;
+    int num_var;
     int tamanho_da_linha;
 		String Nlinha = new String("");
 
@@ -70,6 +71,8 @@ class Interpretador{
 					else if(tok == '='){
             System.out.println("Achei um igual.");
 						System.out.println(aritimetico.simplifica(linha, aqui));
+            num_var = aritmetico.getTipo()
+
 					}
 
 					else if(tok == '+'){
