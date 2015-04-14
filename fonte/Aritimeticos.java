@@ -14,7 +14,7 @@ class Aritimeticos
 		String palavra2 = new String("");
 		int aux = 0, i = 0;
 		double valor1 = 0, valor2 = 0;
-		char op = 'Q';
+		char op = 'Q', oper = 'Q';
 		
 		for(i = pos + 1; i < linha.length(); i++)
 		{
@@ -24,7 +24,7 @@ class Aritimeticos
 			else
 			{
 				op = linha.charAt(i);
-			//	System.out.println(op);
+				oper = op;
 				aux = i;
 				
 				try 
@@ -36,14 +36,13 @@ class Aritimeticos
 					System.out.println("Erro tentando converter String para double: " + nfe.getMessage());
 					// Colocar aqui a parte que confere no vetor de variaveis.
 				}
-				//System.out.println(valor1);
+				
 				break;
 			}
 		}
-		//System.out.println(op);
+
 		if(op != ';')
 		{
-			//System.out.println(aux);
 			for(i = aux + 1; i < linha.length(); i++)
 			{
 				if(tokem.ehToken(linha.charAt(i)) == 'N')
@@ -61,31 +60,25 @@ class Aritimeticos
 					
 					catch(NumberFormatException nfe) 
 					{
-						System.out.println("Erro tentando converter String para double: " + nfe.getMessage());
-						// Colocar aqui a parte que confere no vetor de variaveis.
+						
+						//System.out.println("Erro tentando converter String para double: " + nfe.getMessage());
 					}
-			//		System.out.println(valor2);
 					break;
 				}
 			}
 		}
 		
-		//System.out.println(op);
 		
-		if(op == ';')
+		if(oper == ';')
 		{
 			valor1 = valor1 + valor2;
-			//System.out.println(valor1);
-			//System.out.println(pos);
 			linha = troca(linha, pos, valor1, i);
 			
-			//System.out.println(linha);
-			//System.out.println(";;;;;;;;;;");
 			return linha;
 		}
 		
 		
-		else if(op == '+')
+		else if(oper == '+')
 		{
 			valor1 = valor1 + valor2;
 
@@ -95,17 +88,17 @@ class Aritimeticos
 			return linha;
 		}
 		
-		else if(op == '-')
+		else if(oper == '-')
 		{
 			valor1 = valor1 - valor2;
-
+			System.out.println("valor1 = " + valor1);
 			linha = troca(linha, pos, valor1, i);
 						
 			linha = simplifica(linha, pos);
 			return linha;
 		}
 		
-		else if(op == '*')
+		else if(oper == '*')
 		{
 			valor1 = valor1 * valor2;
 
@@ -115,7 +108,7 @@ class Aritimeticos
 			return linha;
 		}
 		
-		else if(op == '/')
+		else if(oper == '/')
 		{
 			valor1 = valor1 / valor2;
 
@@ -133,6 +126,7 @@ class Aritimeticos
 	
 	public String troca(String linha, int igual, double valor, int termina)
 	{
+		System.out.println(valor);
 		String nova = new String("");
 		int ind = 0, i = 0;
 		
@@ -140,7 +134,6 @@ class Aritimeticos
 		for(i = 0; i <= igual; i++)
 			nova = nova + linha.charAt(i);
 			
-		System.out.println("nova: " + nova);
 		nova = nova + valor;
 		// Ate aqui esta certo.
 		
@@ -150,4 +143,6 @@ class Aritimeticos
 		
 		return nova;
 	}
+	
+	
 }
