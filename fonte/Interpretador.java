@@ -2,105 +2,108 @@ class Interpretador{
 
 // Atributos da classe ==========================
   private String linhas[];
-	private Tokem tokens;
-	private Estring estring;
-	private Aritimeticos aritimetico;
+  private Tokem tokens;
+  private Estring estring;
+  private Aritimeticos aritimetico;
+//==============================================
 
-	// Construtor
-	public Interpretador()
-	{
-		tokens = new Tokem();
-		estring = new Estring();
-		aritimetico = new Aritimeticos();
-	}
+// Construtor das classes ======================
+  public Interpretador(){
+    tokens = new Tokem();
+    estring = new Estring();
+    aritimetico = new Aritimeticos();
+  }
 
+//===============================================
 
+// Metodos da classe ====================
 
+  public void interpreta(String l[]){
 
-    public void interpreta(String l[])
-    {
-		int i = 0;
-    int num_var;
+  //variaveis do metodo INTERPRETA ======
+    int i = 0;
     int tamanho_da_linha;
-		String Nlinha = new String("");
 
-		// Arruma o vetor realocando, removendo espacos e separando por tarefas.
-		this.linhas = estring.arrumavetor(l);
+  //======================================
 
+	// Arruma o vetor realocando, removendo espacos e separando por tarefas ========
+    this.linhas = estring.arrumavetor(l);
 
-		// ######
-        for(i = 0; i < this.linhas.length; i++)
-        {
-            if(this.linhas[i] != null)
-            {
+  //======================================
 
-                System.out.println("Linha " + (i + 1) + ": " + this.linhas[i]);
-								controle(this.linhas[i], 0);
-        				tamanho_da_linha = linhas[i].length();
-				        System.out.println("a linha tem: " + tamanho_da_linha + " caracteres.\n\n");
-            }
-        }
+  // printa a linha arrumado e joga dentro do controle e soma a qtd de caracteres da linha ======
+    for(i = 0; i < this.linhas.length; i++){
+      if(this.linhas[i] != null){
+        System.out.println("Linha " + (i + 1) + ": " + this.linhas[i]);
+        controle(this.linhas[i], 0);
+        tamanho_da_linha = linhas[i].length();
+				System.out.println("a linha tem: " + tamanho_da_linha + " caracteres.\n\n");
+      }
     }
+  //========================================
 
-    // Tipo int para retorno de erros (ainda nao foi implementado).
-    public int controle(String linha, int pos){
+  }
 
-		String parateste = new String("");
+  // ipo int para retorno de erros (ainda nao foi implementado).
+  // Esta funcao serve para distribuir comandos, de acordo
+  // com o toquem encontrado.
+  //
+  // Ela encontra tokem por tokem e chama sua determinada
+  // funcao ate terminar de percorrer a linha recebida.
+  public int controle(String linha, int pos){
 
-				// Esta funcao serve para distribuir comandos, de acordo
-				// com o toquem encontrado.
-				//
-				// Ela encontra tokem por tokem e chama sua determinada
-				// funcao ate terminar de percorrer a linha recebida.
+  // variaveis do metodo CONTROLE ==========
+    String palavra = new String("");
+		int aqui = pos;
+    char tok;
 
-				int aqui = pos;
+  //=========================================
 
-				while(aqui < linha.length()){
+  // verefica o tipo do tokem ===============
+    while(aqui < linha.length()){
+      aqui = tokens.achaToken(linha, aqui);
 
-          aqui = tokens.achaToken(linha, aqui);
+      if(aqui == -1)
+			     return -1;
 
-          if(aqui == -1){
-						return -1;
-          }
+      tok = linha.charAt(aqui);
 
-          char tok = linha.charAt(aqui);
-
-					// Testes de tokens para trata-los:
-					if(tok == ';'){
-						System.out.println("Achei um ponto e vírgula.");
-					}
-
-					else if(tok == '='){
-						System.out.println("Achei um igual.");
-						linha = aritimetico.simplifica(linha, aqui);
-						parateste = estring.entreTokem(linha, aqui);
-						System.out.println(parateste);
-					}
-
-					else if(tok == '+'){
-						// Funcao que trata o mais
-						System.out.println("Achei um mais.");
-					}
-
-					else if(tok == '-'){
-						// Funcao que trata o menos
-						System.out.println("Achei um menos.");
-					}
-
-					else if(tok == '*'){
-						// Funcao que trata o vezes
-						System.out.println("Achei um vezes.");
-					}
-
-					else if(tok == '/'){
-						// Funcao que trata o dividir
-						System.out.println("Achei um dividir.");
-					}
-
-					aqui++;
-				}
-
-				return 0;
+			if(tok == ';'){
+			     System.out.println("Achei um ponto e vírgula.");
 			}
 
+			else if(tok == '='){
+			     System.out.println("Achei um igual.");
+			     linha = aritimetico.simplifica(linha, aqui);
+					 palavra = estring.entreTokem(linha, aqui);
+					 System.out.println(palavra);
+			}
+
+			else if(tok == '+'){
+			     // Funcao que trata o mais
+					 System.out.println("Achei um mais.");
+			}
+
+			else if(tok == '-'){
+			     // Funcao que trata o menos
+					 System.out.println("Achei um menos.");
+			}
+
+			else if(tok == '*'){
+			     // Funcao que trata o vezes
+					 System.out.println("Achei um vezes.");
+			}
+
+			else if(tok == '/'){
+			     // Funcao que trata o dividir
+					 System.out.println("Achei um dividir.");
+			}
+
+			aqui++;
+		}//fim do while
+
+  //===================================================
+
+    return 0;
+	}
 }
