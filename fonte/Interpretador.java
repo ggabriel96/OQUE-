@@ -73,10 +73,10 @@ class Interpretador{
 			}
 
 			else if(tok == '='){
-			     System.out.println("Achei um igual.");
-			     linha = aritimetico.simplifica(linha, aqui);
-					 palavra = estring.entreTokem(linha, aqui);
-					 System.out.println(palavra);
+				System.out.println("Achei um igual.");
+				linha = aritimetico.simplifica(linha, aqui);
+				palavra = estring.entreTokem(linha, aqui);
+				System.out.println("Linha simplificada: " + linha);
 			}
 
 			else if(tok == '+'){
@@ -96,6 +96,11 @@ class Interpretador{
 
 			else if(tok == '/'){
 			     // Funcao que trata o dividir
+					 System.out.println("Achei um dividir.");
+			}
+			
+			else if(tok == '{'){
+			     // Funcao que trata o escopo
 					 System.out.println("Achei um dividir.");
 			}
 

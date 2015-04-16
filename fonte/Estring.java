@@ -106,9 +106,8 @@ class Estring
 	{
 		String nova = new String("");
 		char a = linha.charAt(tokem.achaToken(linha, pos+1));
-		System.out.println(a);
 		int i;
-		for(i = pos + 1; a != ';'; i++){
+		for(i = pos + 1; linha.charAt(i) != ';'; i++){
 			nova = nova + linha.charAt(i);
 		}
 		return nova;
