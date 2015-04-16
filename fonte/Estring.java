@@ -59,10 +59,12 @@ class Estring
 
 		// Remove os espacos
 		Nlinha = Nlinha.replaceAll(" ","");
-
+		Nlinha = Nlinha.replaceAll("	","");
+		
 
 		int tamV = 0, auxi = 0, w = 0;
 		char eh;
+		int flag = 1;
 		auxi = 0;
 		w = 0;
 
@@ -70,8 +72,22 @@ class Estring
 		for(w = 0; w < Nlinha.length(); w++){
 			eh = tokens.ehToken(Nlinha.charAt(w));
 
-			if(eh == ';'){
-				tamV++;
+			if(eh == '{')
+			{
+				flag = 0;
+			}
+			
+			if(eh == '}')
+			{
+				flag = 1;
+			}
+			
+			if(flag == 1)
+			{
+				if(eh == ';')
+				{
+					tamV++;
+				}
 			}
 		}
 
@@ -82,20 +98,35 @@ class Estring
 			linhas[w] = new String("");
 		}
 
-		// Ate aqui esta certo <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-		// Quebra a string novamente no vetor por tarefas (ponto e virgula)
+		// Quebra a string novamente no vetor por tarefas (ponto e virgula ou escopo)
 		auxi = 0;
 		w = 0;
-
+		int flag1 = 1, Nesc = 0;;
 		while(w < linhas.length){
 
 			linhas[w] = linhas[w] + Nlinha.charAt(auxi);
-
-			if(Nlinha.charAt(auxi) == ';'){
-				w++;
+			
+			if(Nlinha.charAt(auxi) == '{')
+			{
+				flag1 = 0;
+				Nesc++;
 			}
-
+				
+			if(Nlinha.charAt(auxi) == '}')
+			{
+				Nesc--;
+				if(Nesc == 0)
+					w++;
+			}
+			
+			if(flag1 != 0)
+			{
+				if(Nlinha.charAt(auxi) == ';'){
+					w++;
+				}
+			}
+			
 			auxi++;
 		}
 

@@ -1,10 +1,11 @@
 class Interpretador{
 
 // Atributos da classe ==========================
-  private String linhas[];
-  private Tokem tokens;
-  private Estring estring;
-  private Aritimeticos aritimetico;
+	private String linhas[];
+	private Tokem tokens;
+	private Estring estring;
+	private Aritimeticos aritimetico;
+	private Blocos blocos;
 //==============================================
 
 // Construtor das classes ======================
@@ -12,6 +13,7 @@ class Interpretador{
     tokens = new Tokem();
     estring = new Estring();
     aritimetico = new Aritimeticos();
+	blocos = new Blocos();
   }
 
 //===============================================
@@ -41,7 +43,7 @@ class Interpretador{
       }
     }
   //========================================
-
+	System.out.println(linhas[2]);
   }
 
   // ipo int para retorno de erros (ainda nao foi implementado).
@@ -50,11 +52,11 @@ class Interpretador{
   //
   // Ela encontra tokem por tokem e chama sua determinada
   // funcao ate terminar de percorrer a linha recebida.
-  public int controle(String linha, int pos){
+  public String controle(String linha, int pos){
 
   // variaveis do metodo CONTROLE ==========
     String palavra = new String("");
-		int aqui = pos;
+	int aqui = pos;
     char tok;
 
   //=========================================
@@ -62,53 +64,60 @@ class Interpretador{
   // verefica o tipo do tokem ===============
     while(aqui < linha.length()){
       aqui = tokens.achaToken(linha, aqui);
-
+	  
       if(aqui == -1)
-			     return -1;
+			     return "-1";
 
-      tok = linha.charAt(aqui);
-
+		tok = linha.charAt(aqui);
 			if(tok == ';'){
 			     System.out.println("Achei um ponto e vírgula.");
 			}
 
-			else if(tok == '='){
+			if(tok == '='){
 				System.out.println("Achei um igual.");
+				
 				linha = aritimetico.simplifica(linha, aqui);
 				palavra = estring.entreTokem(linha, aqui);
 				System.out.println("Linha simplificada: " + linha);
 			}
 
-			else if(tok == '+'){
-			     // Funcao que trata o mais
-					 System.out.println("Achei um mais.");
+			if(tok == '+'){
+				// Funcao que trata o mais
+				System.out.println("Achei um mais.");
 			}
 
-			else if(tok == '-'){
-			     // Funcao que trata o menos
-					 System.out.println("Achei um menos.");
+			if(tok == '-'){
+				// Funcao que trata o menos
+				System.out.println("Achei um menos.");
 			}
 
-			else if(tok == '*'){
-			     // Funcao que trata o vezes
-					 System.out.println("Achei um vezes.");
+			if(tok == '*'){
+				// Funcao que trata o vezes
+				System.out.println("Achei um vezes.");
 			}
 
-			else if(tok == '/'){
-			     // Funcao que trata o dividir
-					 System.out.println("Achei um dividir.");
+			if(tok == '/'){
+				// Funcao que trata o dividir
+				System.out.println("Achei um dividir.");
 			}
 			
-			else if(tok == '{'){
-			     // Funcao que trata o escopo
-					 System.out.println("Achei um dividir.");
+			if(tok == '{'){
+				// Funcao que trata o escopo
+				System.out.println("Achei um abre escopo.");
+				linha = blocos.escopo(blocos.achaEscopo(linha, aqui));
+			}
+			
+			if(tok == '}'){
+				// Funcao que trata o escopo
+				System.out.println("Achei um fecha escopo.");
+				return linha;
 			}
 
 			aqui++;
 		}//fim do while
 
   //===================================================
-
-    return 0;
+	
+    return "0";
 	}
 }
