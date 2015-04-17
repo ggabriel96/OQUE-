@@ -12,10 +12,10 @@ class Aritimeticos
 	{
 		String palavra1 = new String("");
 		String palavra2 = new String("");
-		int aux = 0, i = 0;
+		int aux = 0, i = 0, sinal = 1;
 		double valor1 = 0, valor2 = 0;
 		char op = 'Q', oper = 'Q';
-		
+																			// A=-2+1;
 		for(i = pos + 1; i < linha.length(); i++){
 			if(tokem.ehToken(linha.charAt(i)) == 'N')
 				palavra1 = palavra1 + linha.charAt(i);
@@ -26,16 +26,35 @@ class Aritimeticos
 				aux = i;
 				
 				try {
-					valor1 = Double.parseDouble(palavra1); 
+					if(palavra1 != "")
+						valor1 = sinal * (Double.parseDouble(palavra1));
+					else
+						{
+							if(op == '-')
+								sinal = -1;
+								
+							else if(op == '+')
+								sinal = 1;
+							
+							else
+								System.out.println("Erro de sintaxe");
+							
+							continue;
+						} 
 				}
 				catch(NumberFormatException nfe){
-					System.out.println("Erro tentando converter String para double: " + nfe.getMessage());
+					System.out.println("Tratando 2 tokens consecutivos porque deu a excecao: " + nfe.getMessage());
 					// Colocar aqui a parte que confere no vetor de variaveis.
+					
+					if(op == '-')
+						sinal = sinal*-1;
+					continue;
+					
 				}
 				break;
 			}
 		}
-
+		sinal = 1;
 		if(op != ';'){
 			for(i = aux + 1; i < linha.length(); i++){
 				if(tokem.ehToken(linha.charAt(i)) == 'N')
@@ -46,18 +65,38 @@ class Aritimeticos
 					aux = i;
 					
 					try{ 
-						valor2 = Double.parseDouble(palavra2); 
+						if(palavra2 != "")
+							valor2 = sinal * (Double.parseDouble(palavra2)); 
+					
+						else
+						{
+							if(op == '-')
+								sinal = -1;
+								
+							else if(op == '+')
+								sinal = 1;
+							
+							else
+								System.out.println("Erro de sintaxe");
+							
+							continue;
+						}
 					}
 					catch(NumberFormatException nfe){
 						
-						System.out.println("Erro tentando converter String para double: " + nfe.getMessage());
+						System.out.println("Tratando 2 tokens consecutivos porque deu a excecao: " + nfe.getMessage());
+						
+						if(op == '-')
+							sinal = sinal*-1;
+						continue;
+						
 					}
 					break;
 				}
 			}
 		}
 		
-		
+		sinal = 1;
 		if(oper == ';'){
 			valor1 = valor1 + valor2;
 			linha = troca(linha, pos, valor1, i);

@@ -43,7 +43,6 @@ class Interpretador{
       }
     }
   //========================================
-	System.out.println(linhas[2]);
   }
 
   // ipo int para retorno de erros (ainda nao foi implementado).

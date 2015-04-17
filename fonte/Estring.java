@@ -137,6 +137,11 @@ class Estring
 	{
 		String nova = new String("");
 		char a = linha.charAt(tokem.achaToken(linha, pos+1));
+		
+		// Se houver dois tokens consecutivos (Para tratar numeros negativos, ou quase).
+		if(linha.charAt(1) == '-')
+			a = linha.charAt(tokem.achaToken(linha, pos+2));
+		
 		int i;
 		for(i = pos + 1; linha.charAt(i) != ';'; i++){
 			nova = nova + linha.charAt(i);
