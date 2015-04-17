@@ -3,7 +3,7 @@ class Estring
 
 	public Tokem tokem;
 
-	
+
 	public Estring()
 	{
 		tokem  = new Tokem();
@@ -60,7 +60,7 @@ class Estring
 		// Remove os espacos
 		Nlinha = Nlinha.replaceAll(" ","");
 		Nlinha = Nlinha.replaceAll("	","");
-		
+
 
 		int tamV = 0, auxi = 0, w = 0;
 		char eh;
@@ -76,12 +76,12 @@ class Estring
 			{
 				flag = 0;
 			}
-			
+
 			if(eh == '}')
 			{
 				flag = 1;
 			}
-			
+
 			if(flag == 1)
 			{
 				if(eh == ';')
@@ -106,34 +106,34 @@ class Estring
 		while(w < linhas.length){
 
 			linhas[w] = linhas[w] + Nlinha.charAt(auxi);
-			
+
 			if(Nlinha.charAt(auxi) == '{')
 			{
 				flag1 = 0;
 				Nesc++;
 			}
-				
+
 			if(Nlinha.charAt(auxi) == '}')
 			{
 				Nesc--;
 				if(Nesc == 0)
 					w++;
 			}
-			
+
 			if(flag1 != 0)
 			{
 				if(Nlinha.charAt(auxi) == ';'){
 					w++;
 				}
 			}
-			
+
 			auxi++;
 		}
 
 		return linhas;
 	}
-	
-	public String entreTokem(String linha, int pos)
+
+	public String entreTokem(String linha, int pos) // pega o que esta depois do "="
 	{
 		String nova = new String("");
 		char a = linha.charAt(tokem.achaToken(linha, pos+1));
@@ -147,5 +147,16 @@ class Estring
 			nova = nova + linha.charAt(i);
 		}
 		return nova;
+	}
+
+	public String antesTokem(String linha, int pos) // pega o que esta antes do "="
+	{
+		String antesTokem = new String("");
+		char a = linha.charAt(pos-1);
+		int i;
+		for(i = pos - 1; i >= 0; i--){
+			antesTokem = antesTokem + linha.charAt(i);
+		}
+		return antesTokem;
 	}
 }
