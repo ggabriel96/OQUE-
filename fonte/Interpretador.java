@@ -72,7 +72,7 @@ class Interpretador{
 
 		  tok = linha.charAt(aqui);
 			if(tok == ';'){
-			     System.out.println("\n\n\n\nAchei um ponto e vírgula.");
+			     System.out.println("\n\n\n\nAchei um ponto e virgula.");
 			}
 
 			if(tok == '='){
@@ -96,7 +96,7 @@ class Interpretador{
 					System.out.println("\nvalor da variavel em numero: "  + int_ou_double); // imprime numero
 					if((int_ou_double % 1) == 0){
 						lista_int.insere_lista_int(nomeVariavel, int_ou_double); // insere na lista int
-						System.out.println("\nIsso esta na lista. Deu certo essa bagaça graças ao café!!!");
+						System.out.println("\nIsso esta na lista. Deu certo essa bagaca gracas ao cafe!!!");
 						lista_int.imprimir();
 					}
 					else{
