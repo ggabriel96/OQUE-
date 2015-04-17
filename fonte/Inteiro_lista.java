@@ -29,7 +29,7 @@ class Inteiro_lista{
     this.qtd_elementos++;
   }
 
-  /* SE QUISER IMPRIMIR A LISTA
+
 
     public void imprimir(){
       if(this.qtd_elementos == 0){
@@ -47,7 +47,7 @@ class Inteiro_lista{
       }
     }
 
-  */
+  
 
   //pesquisa elementos na lista retorna 1 se achou ou -1 se nao achou
   public int pesquisa_inteiro(String nome){
