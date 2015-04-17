@@ -14,7 +14,8 @@ class Interpretador{
     tokens = new Tokem();
     estring = new Estring();
     aritimetico = new Aritimeticos();
-	blocos = new Blocos();
+	  blocos = new Blocos();
+		lista_int = new Inteiro_lista();
   }
 
 //===============================================
@@ -72,39 +73,41 @@ class Interpretador{
 
 		  tok = linha.charAt(aqui);
 			if(tok == ';'){
-			     System.out.println("Achei um ponto e vírgula.");
+			     System.out.println("\n\n\n\nAchei um ponto e vírgula.");
 			}
 
 			if(tok == '='){
-				System.out.println("Achei um igual.");
+				System.out.println("\nAchei um igual.");
 
 				linha = aritimetico.simplifica(linha, aqui); // simplifica a linha
 				valorVariavel = estring.entreTokem(linha, aqui); // passa valores após do "=" para valorVariavel
 				nomeVariavel = estring.antesTokem(linha, aqui); // passa valores antes do "=" para nomeVariavel
 
-				System.out.println("Linha simplificada: " + linha); // imprime a linha so p teste
-				System.out.println("valorVariavel: " + valorVariavel); // imprime o que tem dps do "=" so p teste
-				System.out.println("nomeVariavel: " + nomeVariavel); // imprime o que tem antes do "=" so p teste
+				System.out.println("\nLinha simplificada: " + linha); // imprime a linha so p teste
+				System.out.println("\nvalorVariavel: " + valorVariavel); // imprime o que tem dps do "=" so p teste
+				System.out.println("\nnomeVariavel: " + nomeVariavel); // imprime o que tem antes do "=" so p teste
 
 				tipo = aritimetico.getTipo(valorVariavel);
-				System.out.println("tipo da variavel: " + tipo);
+				System.out.println("\ntipo da variavel: " + tipo);
 
 				if(tipo == 1){// valorVariavel é um numero
-					int_ou_double = Integer.parseInt(valorVariavel); // converte a string para numero
-					System.out.println("valor da variavel em numero: " + int_ou_double); // imprime numero
 
+					int_ou_double = (int)Double.parseDouble(valorVariavel); // converte a string para numero
+
+					System.out.println("\nvalor da variavel em numero: "  + int_ou_double); // imprime numero
 					if((int_ou_double % 1) == 0){
-						 lista_int.insere_lista_int(nomeVariavel, int_ou_double); // insere na lista int
-						System.out.println("Isso esta na lista. Deu certo essa bagaça graças ao café!!!");
+						lista_int.insere_lista_int(nomeVariavel, int_ou_double); // insere na lista int
+						System.out.println("\nIsso esta na lista. Deu certo essa bagaça graças ao café!!!");
 						lista_int.imprimir();
 					}
-					///else{
+					else{
 						// é um double
-					//}
+					}
+
 				}
-				//else{
+				else{
 						// a palavra é uma string
-				//}
+				}
 			}
 
 			if(tok == '+'){

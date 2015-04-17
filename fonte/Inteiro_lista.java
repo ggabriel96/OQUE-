@@ -38,16 +38,16 @@ class Inteiro_lista{
       else{
         Inteiro aux = this.primeiro;
         for(int i = 0; i < this.qtd_elementos - 1; i++){
-          System.out.println(aux.getNome());
-          System.out.println(aux.getValor());
+          System.out.println("Nome dessa variavel é: " + aux.getNome());
+          System.out.println("O valor dela é: " + aux.getValor());
           aux = aux.getProximo();
         }
-        System.out.println(aux.getNome());
-        System.out.println(aux.getValor());
+        System.out.println("Nome dessa variavel é: " + aux.getNome());
+        System.out.println("O valor dela é: " + aux.getValor());
       }
     }
 
-  
+
 
   //pesquisa elementos na lista retorna 1 se achou ou -1 se nao achou
   public int pesquisa_inteiro(String nome){
