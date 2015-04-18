@@ -7,6 +7,7 @@ class Interpretador{
 	private Aritimeticos aritimetico;
 	private Blocos blocos;
 	private Inteiro_lista lista_int;
+	private Double_lista lista_double;
 //==============================================
 
 // Construtor das classes ======================
@@ -16,6 +17,7 @@ class Interpretador{
     aritimetico = new Aritimeticos();
 	  blocos = new Blocos();
 		lista_int = new Inteiro_lista();
+		lista_double = new Double_lista();
   }
 
 //===============================================
@@ -30,8 +32,8 @@ class Interpretador{
 
   //======================================
 
-	// Arruma o vetor realocando, removendo espacos e separando por tarefas ========
-    this.linhas = estring.arrumavetor(l);
+
+    this.linhas = estring.arrumavetor(l); // Arruma o vetor realocando, removendo espacos e separando por tarefas
 
   //======================================
 
@@ -41,7 +43,6 @@ class Interpretador{
         System.out.println("Linha " + (i + 1) + ": " + this.linhas[i]);
         controle(this.linhas[i], 0);
         tamanho_da_linha = linhas[i].length();
-				System.out.println("a linha tem: " + tamanho_da_linha + " caracteres.\n\n");
       }
     }
   //========================================
@@ -58,7 +59,8 @@ class Interpretador{
   // variaveis do metodo CONTROLE ==========
     String valorVariavel = new String("");
 		String nomeVariavel = new String("");
-	  int aqui = pos, tipo, int_ou_double;
+	  int aqui = pos, tipo;
+		double int_ou_double;
     char tok;
 
   //=========================================
@@ -72,7 +74,7 @@ class Interpretador{
 
 		  tok = linha.charAt(aqui);
 			if(tok == ';'){
-			     System.out.println("\n\n\n\nAchei um ponto e virgula.");
+			     System.out.println("\nAchei um ponto e virgula.\n");
 			}
 
 			if(tok == '='){
@@ -81,26 +83,25 @@ class Interpretador{
 				linha = aritimetico.simplifica(linha, aqui); // simplifica a linha
 				valorVariavel = estring.entreTokem(linha, aqui); // passa valores após do "=" para valorVariavel
 				nomeVariavel = estring.antesTokem(linha, aqui); // passa valores antes do "=" para nomeVariavel
-
-				System.out.println("\nLinha simplificada: " + linha); // imprime a linha so p teste
-				System.out.println("\nvalorVariavel: " + valorVariavel); // imprime o que tem dps do "=" so p teste
-				System.out.println("\nnomeVariavel: " + nomeVariavel); // imprime o que tem antes do "=" so p teste
-
 				tipo = aritimetico.getTipo(valorVariavel);
-				System.out.println("\ntipo da variavel: " + tipo);
+
+				System.out.println("linha simplificada:" + linha);
 
 				if(tipo == 1){// valorVariavel é um numero
 
-					int_ou_double = (int)Double.parseDouble(valorVariavel); // converte a string para numero
+					int_ou_double = Double.parseDouble(valorVariavel); // converte a string para numero
 
-					System.out.println("\nvalor da variavel em numero: "  + int_ou_double); // imprime numero
 					if((int_ou_double % 1) == 0){
-						lista_int.insere_lista_int(nomeVariavel, int_ou_double); // insere na lista int
-						System.out.println("\nIsso esta na lista. Deu certo essa bagaca gracas ao cafe!!!");
+						int decimal = (int) int_ou_double;
+						lista_int.insere_lista_int(nomeVariavel, decimal); // insere na lista int
+						System.out.println("\nIsso esta na lista de inteiros");
 						lista_int.imprimir();
 					}
 					else{
-						// é um double
+						double numDouble = int_ou_double;
+						lista_double.insere_lista_double(nomeVariavel, numDouble); // insere na lista double
+						System.out.println("\nIsso esta na lista de double");
+						lista_double.imprimir();
 					}
 
 				}

@@ -152,10 +152,10 @@ class Estring
 	public String antesTokem(String linha, int pos) // pega o que esta antes do "="
 	{
 		String antesTokem = new String("");
-		char a = linha.charAt(pos-1);
-		int i;
-		for(i = 0; i != pos; i++){
+		int i, x = pos;
+		for(i = 0; i != pos ; i++){
 			antesTokem = antesTokem + linha.charAt(i);
+			x--;
 		}
 		return antesTokem;
 	}
