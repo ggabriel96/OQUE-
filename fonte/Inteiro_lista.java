@@ -38,11 +38,11 @@ class Inteiro_lista{
       else{
         Inteiro aux = this.primeiro;
         for(int i = 0; i < this.qtd_elementos - 1; i++){
-          System.out.println("Nome dessa variavel: " + aux.getNome());
+          System.out.println("Nome dessa variavel:" + aux.getNome());
           System.out.println("O valor dela: " + aux.getValor());
           aux = aux.getProximo();
         }
-        System.out.println("Nome dessa variavel: " + aux.getNome());
+        System.out.println("Nome dessa variavel:" + aux.getNome());
         System.out.println("O valor dela: " + aux.getValor());
       }
     }
