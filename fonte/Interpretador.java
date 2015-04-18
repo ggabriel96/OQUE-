@@ -8,6 +8,7 @@ class Interpretador{
 	private Blocos blocos;
 	private Inteiro_lista lista_int;
 	private Double_lista lista_double;
+	private String_lista lista_String;
 //==============================================
 
 // Construtor das classes ======================
@@ -18,6 +19,7 @@ class Interpretador{
 	  blocos = new Blocos();
 		lista_int = new Inteiro_lista();
 		lista_double = new Double_lista();
+		lista_String = new String_lista();
   }
 
 //===============================================
@@ -41,14 +43,14 @@ class Interpretador{
     for(i = 0; i < this.linhas.length; i++){
       if(this.linhas[i] != null){
         System.out.println("Linha " + (i + 1) + ": " + this.linhas[i]);
-        controle(this.linhas[i], 0);
-        tamanho_da_linha = linhas[i].length();
+				controle(this.linhas[i], 0);
+				tamanho_da_linha = linhas[i].length();
       }
     }
   //========================================
   }
 
-  // ipo int para retorno de erros (ainda nao foi implementado).
+  // tipo int para retorno de erros (ainda nao foi implementado).
   // Esta funcao serve para distribuir comandos, de acordo
   // com o toquem encontrado.
   //
@@ -59,11 +61,16 @@ class Interpretador{
   // variaveis do metodo CONTROLE ==========
     String valorVariavel = new String("");
 		String nomeVariavel = new String("");
-	  int aqui = pos, tipo;
+		String repetix = new String("");
+	  int aqui = pos, tipo, posInicioRepetix;
 		double int_ou_double;
     char tok;
 
   //=========================================
+		// chama a classe para achar a palavra repetix no meio da linha
+		repetix = tokens.achaRepetix(linha);
+		System.out.println("o que tem na variavel linha: " + linha + "\n");
+		System.out.println("o que tem na variavel repetix: " + repetix + "\n");
 
   // verefica o tipo do tokem ===============
     while(aqui < linha.length()){
@@ -82,10 +89,12 @@ class Interpretador{
 
 				linha = aritimetico.simplifica(linha, aqui); // simplifica a linha
 				valorVariavel = estring.entreTokem(linha, aqui); // passa valores após do "=" para valorVariavel
+				System.out.println("\nvalorrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr:" + valorVariavel);  //;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; quando é uma variavel ela não entra aqui
 				nomeVariavel = estring.antesTokem(linha, aqui); // passa valores antes do "=" para nomeVariavel
 				tipo = aritimetico.getTipo(valorVariavel);
 
 				System.out.println("linha simplificada:" + linha);
+
 
 				if(tipo == 1){// valorVariavel é um numero
 
@@ -93,20 +102,22 @@ class Interpretador{
 
 					if((int_ou_double % 1) == 0){
 						int decimal = (int) int_ou_double;
-						lista_int.insere_lista_int(nomeVariavel, decimal); // insere na lista int
+						lista_int.insiraNaListaInt(nomeVariavel, decimal); // insere na lista int
 						System.out.println("\nIsso esta na lista de inteiros");
 						lista_int.imprimir();
 					}
 					else{
 						double numDouble = int_ou_double;
-						lista_double.insere_lista_double(nomeVariavel, numDouble); // insere na lista double
+						lista_double.insiraNaListaDouble(nomeVariavel, numDouble); // insere na lista double
 						System.out.println("\nIsso esta na lista de double");
 						lista_double.imprimir();
 					}
 
 				}
 				else{
-						// a palavra é uma string
+					lista_String.insiraNaListaString(nomeVariavel, valorVariavel); // insere na lista String
+					System.out.println("\nIsso esta na lista de STRING");
+					lista_String.imprimir();
 				}
 			}
 

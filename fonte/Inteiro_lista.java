@@ -11,7 +11,7 @@ class Inteiro_lista{
   }
 
   //insere no inicio da lista
-  public void insere_lista_int(String nome, int valor){
+  public void insiraNaListaInt(String nome, int valor){
     if(qtd_elementos == 0){
       Inteiro novo = new Inteiro();
       novo.setNome(nome);
@@ -64,18 +64,3 @@ class Inteiro_lista{
   }
 
 }
-
-/*
-  exemplo de inserção:
-
-  public static void main(String args[]){
-
-    Inteiro_lista a = new Inteiro_lista();
-    a.insere_lista_int(nomevariavel, valorvariavel);
-    a.insere_lista_int(nomevariavel2, valorvariavel2);
-    a.insere_lista_int(nomevariavel3, valorvariavel3);
-
-    a.imprimir();
-    a.pesquisainteiro(nomevariavel);
-  }
-*/
