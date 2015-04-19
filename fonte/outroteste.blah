@@ -1,0 +1,11 @@
+A     =                 1                    ;
+B = 1 + 5 * C;
+H = 7 - 6;
+
+			Teste de casting:
+         
+			char testi = '1';
+			String test = new String("");
+			test = test + testi;
+			int foo = Integer.parseInt(test);
+			System.out.println(foo + 10000);
