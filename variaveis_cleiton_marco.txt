@@ -21,7 +21,17 @@ while   ->  repetix
 
 MARCO :
 
-2 - SEPARADORES          ->  [], (), '', "", ;, {}
+2 - SEPARADORES          ->  [], (), "", ;, {}
 3 - OPERAÇÕES BOOLEANAS  ->  <, >, ==, !=, !
-5 - ATRIBUIÇÕES LEITURAS ->  PRINTF, SCANF, =
-6 - VEREFICADORES        ->  IF, ELSE, ELSE IF
+5 - ATRIBUIÇÕES LEITURAS ->  printf, scanf, =
+6 - VEREFICADORES        ->  if, else  //else if está implícito 
+
+------------------------------
+Nomes variaveis do Marco:
+
+if      ->  se
+else    ->  senao
+printf  ->  imprime
+scanf   ->  le
+// Os outros permanecem iguais.
+

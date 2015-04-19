@@ -139,7 +139,7 @@ class Estring
 		char a = linha.charAt(tokem.achaToken(linha, pos+1));
 		
 		// Se houver dois tokens consecutivos (Para tratar numeros negativos, ou quase).
-		if(linha.charAt(1) == '-')
+		if(linha.charAt(pos) == '-')
 			a = linha.charAt(tokem.achaToken(linha, pos+2));
 		
 		int i;
