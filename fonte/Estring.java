@@ -152,8 +152,14 @@ class Estring
 	public String antesTokem(String linha, int pos) // pega o que esta antes do "="
 	{
 		String antesTokem = new String("");
-		int i, x = pos;
-		for(i = 0; i != pos ; i++){
+		int i = 0, x = pos;
+		int y = linha.charAt(tokem.achaToken(linha, i));
+
+		if(y >= 0){
+			i = 1;
+		}
+
+		for(; i != pos; i++){
 			antesTokem = antesTokem + linha.charAt(i);
 			x--;
 		}

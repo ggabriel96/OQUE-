@@ -150,7 +150,7 @@ class Interpretador{
 			if(tok == '}'){
 				// Funcao que trata o escopo
 				System.out.println("Achei um fecha escopo.");
-				return linha;
+				//return linha;
 			}
 
 			aqui++;
