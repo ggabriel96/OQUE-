@@ -38,4 +38,5 @@ class Blocos
 		Interpretador interpretador = new Interpretador();
 		return interpretador.controle(linha, 1);
 	}	
+	
 }

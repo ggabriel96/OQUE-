@@ -90,7 +90,6 @@ class Estring
 				}
 			}
 		}
-		System.out.println(tamV);
 		
 		// Reinstancia o vetor no tamanho certo
 		linhas = new String[tamV];
@@ -163,7 +162,6 @@ class Estring
 		}
 		
 		antesTokem = new StringBuffer(antesTokem).reverse().toString();
-		System.out.println(antesTokem + "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
 		return antesTokem;
 		
 	}
