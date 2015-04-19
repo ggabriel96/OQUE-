@@ -25,3 +25,6 @@ MARCO :
 3 - OPERAÇÕES BOOLEANAS  ->  <, >, ==, !=, !
 5 - ATRIBUIÇÕES LEITURAS ->  PRINTF, SCANF, =
 6 - VEREFICADORES        ->  IF, ELSE, ELSE IF
+
+==      ->  @
+!=      ->  !

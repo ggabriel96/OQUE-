@@ -36,7 +36,12 @@ class Blocos
 	public String escopo(String linha)
 	{
 		Interpretador interpretador = new Interpretador();
-		return interpretador.controle(linha, 1);
+		String a[] = new String[2];
+		String b = new String("");
+		a[0] = linha.substring(1, linha.length()-1);
+		interpretador.interpreta(a);
+		return "0";
+		//return interpretador.controle(linha, 1);
 	}	
 	
 }

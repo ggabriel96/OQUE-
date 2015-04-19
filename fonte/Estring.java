@@ -93,7 +93,9 @@ class Estring
 		
 		// Reinstancia o vetor no tamanho certo
 		linhas = new String[tamV];
-
+		
+		System.out.println(tamV);
+		
 		for(w = 0; w < tamV; w++){
 			linhas[w] = new String("");
 		}

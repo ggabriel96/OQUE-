@@ -1,7 +1,7 @@
 class Inteiro_lista{
-  int qtd_elementos;
-  Inteiro primeiro;
-  Inteiro ultimo;
+  public static int qtd_elementos;
+  public static Inteiro primeiro;
+  public static Inteiro ultimo;
 
   //inicializa a lista vazia
   public void Inteiro_lista(){

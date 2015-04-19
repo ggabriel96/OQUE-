@@ -1,6 +1,9 @@
-oibixo     =        4 +672/2 ;
-deucertoporra     =    10 ;
+a = 1 + 2;
 {
-		a = -13   ;     testee = 2*8;
+	
+	{
+		b = 4;
+		c = 5;
 	}
-	continua = 3;
+	d = 1;
+}

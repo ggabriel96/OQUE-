@@ -47,6 +47,13 @@ class Interpretador{
 				System.out.println("a linha tem: " + tamanho_da_linha + " caracteres.\n\n");
       }
     }
+    
+    int q;
+    for(q = 0; q < this.linhas.length; q++)
+		System.out.println(this.linhas[q]);
+	
+	lista_int.imprimir();
+	
   //========================================
   }
 
@@ -141,6 +148,7 @@ class Interpretador{
 			if(tok == '}'){
 				// Funcao que trata o escopo
 				System.out.println("Achei um fecha escopo.");
+				System.out.println(linha);
 				return linha;
 			}
 
@@ -148,8 +156,8 @@ class Interpretador{
 		}//fim do while
 
   //===================================================
-	
-	for(int q = 0; q < this.linhas.length; q++)
+	int q;
+	for(q = 0; q < this.linhas.length; q++)
 		System.out.println(this.linhas[q]);
 		
     return "0";
