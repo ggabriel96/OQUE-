@@ -52,7 +52,7 @@ class Aritimeticos
 						sinal = sinal*-1;
 						continue;
 					}
-					if(op == ';'){
+					if(op == ';' || op == '+'){
 						valor1 = -666;
 						flag = 1;
 						
@@ -63,7 +63,7 @@ class Aritimeticos
 			}
 		}
 		sinal = 1;
-		flag2 = 0;
+		
 		if(op != ';'){
 			for(i = aux + 1; i < linha.length(); i++){
 				if(tokem.ehToken(linha.charAt(i)) == 'N')
@@ -74,6 +74,7 @@ class Aritimeticos
 					aux = i;
 
 					try{ 
+						flag2 = 0;
 						if(palavra2 != "")
 							valor2 = sinal * (Double.parseDouble(palavra2)); 
 					
@@ -99,7 +100,7 @@ class Aritimeticos
 						sinal = sinal*-1;
 						continue;
 					}
-					if(op == ';')
+					if(op == ';' || op == '+')
 						valor1 = -666;
 						flag2 = 1;
 					}
@@ -107,6 +108,9 @@ class Aritimeticos
 				}
 			}
 		}
+		
+		
+		
 		
 		sinal = 1;
 
@@ -128,6 +132,7 @@ class Aritimeticos
 
 
 		else if(oper == '+'){
+			System.out.println("palavra1: " + palavra1 + "palavra2: " + palavra2 + "++++++++++++++++++++++++++++++++++++++++++\nflag: " + flag + " flag2: " + flag2);
 			if(flag == 0 && flag2 == 0){
 				valor1 = valor1 + valor2;
 
@@ -138,7 +143,9 @@ class Aritimeticos
 
 			else
 			{
+				System.out.println("palavra1: " + palavra1 + "palavra2: " + palavra2 + "++++++++++++++++++++++++++++++++++++++++++");
 				palavra1 = palavra1 + palavra2;
+				System.out.println("palavra1: " + palavra1 + "palavra2: " + palavra2 + "------------------------------------------");
 				linha = troca(linha, pos, palavra1, i);
 			}
 			
