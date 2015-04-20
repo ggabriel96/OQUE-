@@ -90,12 +90,12 @@ class Estring
 				}
 			}
 		}
-		
+
 		// Reinstancia o vetor no tamanho certo
 		linhas = new String[tamV];
-		
+
 		System.out.println(tamV);
-		
+
 		for(w = 0; w < tamV; w++){
 			linhas[w] = new String("");
 		}
@@ -144,13 +144,12 @@ class Estring
 			a = linha.charAt(tokem.achaToken(linha, pos+2));
 
 		int i;
-		System.out.println("entreTokem pos: " + pos + 1);
 		for(i = pos + 1; linha.charAt(i) != ';'; i++){
 			nova = nova + linha.charAt(i);
 		}
 		return nova;
 	}
-	
+
 	public String NantesTokem(String linha, int pos)
 	{
 		String antesTokem = new String("");
@@ -161,12 +160,12 @@ class Estring
 			antesTokem = antesTokem + linha.charAt(i);
 			if(i > 0)
 				a = linha.charAt(i - 1);
-			
+
 		}
-		
+
 		antesTokem = new StringBuffer(antesTokem).reverse().toString();
 		return antesTokem;
-		
+
 	}
 
 	public String antesTokem(String linha, int pos) // pega o que esta antes do "="

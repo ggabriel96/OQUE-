@@ -38,12 +38,12 @@ class String_lista{
         else{
           String_node aux2 = this.primeiro;
           for(int i = 0; i < this.qtd_elementos - 1; i++){
-            System.out.println("Nome dessa variavel:" + aux2.getNome());
-            System.out.println("O valor dela: " + aux2.getValor());
+            System.out.println("Nome dessa variavel :" + aux2.getNome());
+            System.out.println("O valor dela        : " + aux2.getValor());
             aux2 = aux2.getProximo();
           }
-          System.out.println("Nome dessa variavel:" + aux2.getNome());
-          System.out.println("O valor dela: " + aux2.getValor());
+          System.out.println("Nome dessa variavel :" + aux2.getNome());
+          System.out.println("O valor dela        : " + aux2.getValor());
         }
       }
 
