@@ -1,26 +1,26 @@
-class Double_lista{
+class String_lista{
     public static int qtd_elementos;
-    public static Double_node primeiro;
-    public static Double_node ultimo;
+    public static String_node primeiro;
+    public static String_node ultimo;
 
     //inicializa a lista vazia
-    public void Double_lista(){
+    public void String_lista(){
       this.qtd_elementos = 0;
       this.primeiro = null;
       this.ultimo = null;
     }
 
     //insere no inicio da lista
-    public void insiraNaListaDouble(String nome, double valor){
+    public void insiraNaListaString(String nome, String valor){
       if(qtd_elementos == 0){
-        Double_node novo = new Double_node();
+        String_node novo = new String_node();
         novo.setNome(nome);
         novo.setValor(valor);
         novo.setProximo(primeiro);
         this.primeiro = novo;
       }
       else{
-        Double_node novo2 = new Double_node();
+        String_node novo2 = new String_node();
         novo2.setNome(nome);
         novo2.setValor(valor);
         novo2.setProximo(primeiro);
@@ -36,7 +36,7 @@ class Double_lista{
           System.out.println("Lista esta vazia bixo!");
         }
         else{
-          Double_node aux2 = this.primeiro;
+          String_node aux2 = this.primeiro;
           for(int i = 0; i < this.qtd_elementos - 1; i++){
             System.out.println("Nome dessa variavel:" + aux2.getNome());
             System.out.println("O valor dela: " + aux2.getValor());
@@ -50,8 +50,8 @@ class Double_lista{
 
 
     //pesquisa elementos na lista retorna 1 se achou ou -1 se nao achou
-    public int pesquisa_double(String nome){
-      Double_node aux = this.primeiro;
+    public int pesquisa_String(String nome){
+      String_node aux = this.primeiro;
 
       while(aux.getProximo() != null){
         if(aux.getNome() == nome){

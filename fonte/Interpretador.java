@@ -8,6 +8,7 @@ class Interpretador{
 	private Blocos blocos;
 	private Inteiro_lista lista_int;
 	private Double_lista lista_double;
+	private String_lista lista_string;
 //==============================================
 
 // Construtor das classes ======================
@@ -18,6 +19,7 @@ class Interpretador{
 	  blocos = new Blocos();
 		lista_int = new Inteiro_lista();
 		lista_double = new Double_lista();
+		lista_string = new String_lista();
   }
 
 //===============================================
@@ -122,7 +124,9 @@ class Interpretador{
 
 				}
 				else{
-						// a palavra é uma string
+						lista_string.insiraNaListaString(nomeVariavel, valorVariavel);
+						System.out.println("\nIsso esta na lista de string");
+						lista_string.imprimir();
 				}
 			}
 
