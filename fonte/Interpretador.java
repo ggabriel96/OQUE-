@@ -124,6 +124,7 @@ class Interpretador{
 					// Funcao que trata o escopo
 					System.out.println("Achei um abre escopo.");
 					linha = blocos.escopo(blocos.achaEscopo(linha, aqui));
+					Interpretador.farol = false;
 				}
 				else
 				{
