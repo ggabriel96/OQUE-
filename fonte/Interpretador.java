@@ -9,6 +9,7 @@ class Interpretador{
 	private Inteiro_lista lista_int;
 	private Double_lista lista_double;
 	private String_lista lista_string;
+	public static boolean farol;
 //==============================================
 
 // Construtor das classes ======================
@@ -16,10 +17,11 @@ class Interpretador{
     tokens = new Tokem();
     estring = new Estring();
     aritimetico = new Aritimeticos();
-	  blocos = new Blocos();
-		lista_int = new Inteiro_lista();
-		lista_double = new Double_lista();
-		lista_string = new String_lista();
+	blocos = new Blocos();
+	lista_int = new Inteiro_lista();
+	lista_double = new Double_lista();
+	lista_string = new String_lista();
+	Interpretador.farol = true;
   }
 
 //===============================================
@@ -48,8 +50,6 @@ class Interpretador{
       }
     }
 
-	lista_int.imprimir();
-	lista_string.imprimir();
 
   //========================================
   }
@@ -119,9 +119,17 @@ class Interpretador{
 			}
 
 			if(tok == '{'){
-				// Funcao que trata o escopo
-				System.out.println("Achei um abre escopo.");
-				linha = blocos.escopo(blocos.achaEscopo(linha, aqui));
+				if(Interpretador.farol)
+				{
+					// Funcao que trata o escopo
+					System.out.println("Achei um abre escopo.");
+					linha = blocos.escopo(blocos.achaEscopo(linha, aqui));
+				}
+				else
+				{
+					Interpretador.farol = true;
+					break;
+				}
 			}
 
 			if(tok == '}'){
@@ -129,6 +137,13 @@ class Interpretador{
 				System.out.println("Achei um fecha escopo.");
 				System.out.println(linha);
 				return linha;
+			}
+			
+			if(tok == '(')
+			{
+				System.out.println("Achei um abre escopo.");
+				Interpretador.farol = estring.executaCondicional(linha, aqui, true, '&');
+				System.out.println("farol============= " + Interpretador.farol);
 			}
 
 			aqui++;

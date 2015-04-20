@@ -2,3 +2,12 @@ nome = fulano + 5;
 a = 5+6;
 b = 5/3;
 
+if(1@1)
+{
+	s = 3;
+	if(0!0)
+	{
+		fff = 666;
+	}
+	outroS = outro + 3;
+}
