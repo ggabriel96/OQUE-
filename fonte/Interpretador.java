@@ -57,6 +57,7 @@ class Interpretador{
 		System.out.println(this.linhas[q]);
 
 	lista_int.imprimir();
+	lista_string.imprimir();
 
   //========================================
   }

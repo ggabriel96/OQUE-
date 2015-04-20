@@ -63,6 +63,7 @@ class Aritimeticos
 			}
 		}
 		sinal = 1;
+		flag2 = 0;
 		if(op != ';'){
 			for(i = aux + 1; i < linha.length(); i++){
 				if(tokem.ehToken(linha.charAt(i)) == 'N')
@@ -100,7 +101,7 @@ class Aritimeticos
 					}
 					if(op == ';')
 						valor1 = -666;
-						
+						flag2 = 1;
 					}
 					break;
 				}
@@ -111,13 +112,14 @@ class Aritimeticos
 
 		if(oper == ';'){
 			System.out.println("flag: " + flag + "\npalavra1: " + palavra1);
-			if(flag == 0){
+			if(flag == 0 && flag2 == 0){
 			valor1 = valor1 + valor2;
 			linha = troca(linha, pos, valor1, i);
 			}
 			
 			else
 			{
+				System.out.println("palavra2: " + palavra2 + "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
 				linha = troca(linha, pos, palavra1, i);
 			}
 			
@@ -126,11 +128,20 @@ class Aritimeticos
 
 
 		else if(oper == '+'){
-			valor1 = valor1 + valor2;
+			if(flag == 0 && flag2 == 0){
+				valor1 = valor1 + valor2;
 
-			linha = troca(linha, pos, valor1, i);
+				linha = troca(linha, pos, valor1, i);
 
-			linha = simplifica(linha, pos);
+				linha = simplifica(linha, pos);
+			}
+
+			else
+			{
+				palavra1 = palavra1 + palavra2;
+				linha = troca(linha, pos, palavra1, i);
+			}
+			
 			return linha;
 		}
 

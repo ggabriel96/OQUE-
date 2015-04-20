@@ -15,5 +15,5 @@ a = 1 + 2;
 }
 e = 25 / 3;
 f = 20 / 6;
-nome = fulano;
+nome = fulano + abacate;
 
