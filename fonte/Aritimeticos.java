@@ -34,20 +34,18 @@ class Aritimeticos
 						{
 							if(op == '-')
 								sinal = -1;
-								
+
 							else if(op == '+')
 								sinal = 1;
-							
+
 							else
 								System.out.println("Erro de sintaxe");
-							
+
 							continue;
-						} 
+						}
 				}
 				catch(NumberFormatException nfe){
-					System.out.println("Tratando 2 tokens consecutivos porque deu a excecao: " + nfe.getMessage());
 					// Colocar aqui a parte que confere no vetor de variaveis.
-					System.out.println("ooooooooooooooooooooooooooooooooooooooop" + op);
 					if(op == '-'){
 						sinal = sinal*-1;
 						continue;
@@ -55,8 +53,8 @@ class Aritimeticos
 					if(op == ';'){
 						valor1 = -666;
 						flag = 1;
-						
-					
+
+
 					}
 				}
 				break;
@@ -73,28 +71,25 @@ class Aritimeticos
 					op = linha.charAt(i);
 					aux = i;
 
-					try{ 
+					try{
 						if(palavra2 != "")
-							valor2 = sinal * (Double.parseDouble(palavra2)); 
-					
+							valor2 = sinal * (Double.parseDouble(palavra2));
+
 						else
 						{
 							if(op == '-')
 								sinal = -1;
-								
+
 							else if(op == '+')
 								sinal = 1;
-							
+
 							else
 								System.out.println("Erro de sintaxe");
-							
+
 							continue;
 						}
 					}
 					catch(NumberFormatException nfe){
-						
-						System.out.println("Tratando 2 tokens consecutivos porque deu a excecao: " + nfe.getMessage());
-						
 						if(op == '-'){
 						sinal = sinal*-1;
 						continue;
@@ -107,22 +102,20 @@ class Aritimeticos
 				}
 			}
 		}
-		
+
 		sinal = 1;
 
 		if(oper == ';'){
-			System.out.println("flag: " + flag + "\npalavra1: " + palavra1);
 			if(flag == 0 && flag2 == 0){
 			valor1 = valor1 + valor2;
 			linha = troca(linha, pos, valor1, i);
 			}
-			
+
 			else
 			{
-				System.out.println("palavra2: " + palavra2 + "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
 				linha = troca(linha, pos, palavra1, i);
 			}
-			
+
 			return linha;
 		}
 
@@ -141,7 +134,7 @@ class Aritimeticos
 				palavra1 = palavra1 + palavra2;
 				linha = troca(linha, pos, palavra1, i);
 			}
-			
+
 			return linha;
 		}
 
@@ -199,7 +192,7 @@ class Aritimeticos
 
 		return nova;
 	}
-	
+
 	public String troca(String linha, int igual, String valor, int termina){
 		String nova = new String("");
 		int ind = 0, i = 0;
@@ -214,8 +207,8 @@ class Aritimeticos
 
 		return nova;
 	}
-	
-	
+
+
 
 	public int getTipo(String palavra){
 		double numero;
