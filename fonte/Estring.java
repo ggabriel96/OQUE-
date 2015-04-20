@@ -1,14 +1,3 @@
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Arrays;
-import java.util.stream.Collectors;
-
-
-// 	A função para remover null do meio do vetor foi pega em:
-//	http://stackoverflow.com/questions/4150233/remove-null-value-from-string-array-in-java
-//
-
-
 class Estring
 {
 
@@ -25,15 +14,13 @@ class Estring
 		int w = 0;
 		String linhas[];
 
-		while(w < l.length){
+		while(true){
 			if(l[w] != null){
-				System.out.println("w vale " + w);
 				w++;
 			}
 			else{
 				break;
 			}
-			System.out.println(w);
 		}
 
 		linhas = new String[w];
@@ -143,37 +130,7 @@ class Estring
 
 			auxi++;
 		}
-		
-		
-		
-		// /* >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-		for(w = 0; w < linhas.length; w++)
-		{
-			if(linhas[w].contains("SE(") && linhas[w + 1].contains("SENAO{"))
-			{
-				if(w < (linhas.length - 1))
-				{
-					System.out.println("SEEEEEEEEEEEE");
-					linhas[w] = linhas[w] + linhas[w + 1];
-					linhas[w + 1] = null;
-					w = w + 1;
-				}
-			}
-		}
-		int y = 0;
-		
-		
-		linhas = Arrays.stream(linhas)
-                     .filter(s -> (s != null && s.length() > 0))
-                     .toArray(String[]::new);
-		
-		
-		linhas = Vremovenull(linhas);
-		for(w = 0; w < linhas.length; w++)
-			System.out.println(linhas[w]);
-			
-		// */
-		
+
 		return linhas;
 	}
 

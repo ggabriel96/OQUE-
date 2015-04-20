@@ -7,6 +7,8 @@ class Interpretador{
 	private Aritimeticos aritimetico;
 	private Blocos blocos;
 	private Inteiro_lista lista_int;
+	private Double_lista lista_double;
+	private String_lista lista_string;
 //==============================================
 
 // Construtor das classes ======================
@@ -16,6 +18,8 @@ class Interpretador{
     aritimetico = new Aritimeticos();
 	  blocos = new Blocos();
 		lista_int = new Inteiro_lista();
+		lista_double = new Double_lista();
+		lista_string = new String_lista();
   }
 
 //===============================================
@@ -32,7 +36,7 @@ class Interpretador{
 
 	// Arruma o vetor realocando, removendo espacos e separando por tarefas ========
     this.linhas = estring.arrumavetor(l);
-    
+
     for(int q = 0; q < this.linhas.length; q++)
 		System.out.println(this.linhas[q]);
 
@@ -47,13 +51,13 @@ class Interpretador{
 				System.out.println("a linha tem: " + tamanho_da_linha + " caracteres.\n\n");
       }
     }
-    
+
     int q;
     for(q = 0; q < this.linhas.length; q++)
 		System.out.println(this.linhas[q]);
-	
+
 	lista_int.imprimir();
-	
+
   //========================================
   }
 
@@ -68,7 +72,8 @@ class Interpretador{
   // variaveis do metodo CONTROLE ==========
     String valorVariavel = new String("");
 		String nomeVariavel = new String("");
-	  int aqui = pos, tipo, int_ou_double;
+	  int aqui = pos, tipo;
+		double int_ou_double;
     char tok;
 
   //=========================================
@@ -101,21 +106,27 @@ class Interpretador{
 
 				if(tipo == 1){// valorVariavel é um numero
 
-					int_ou_double = (int)Double.parseDouble(valorVariavel); // converte a string para numero
+					int_ou_double = Double.parseDouble(valorVariavel); // converte a string para numero
 
 					System.out.println("\nvalor da variavel em numero: "  + int_ou_double); // imprime numero
 					if((int_ou_double % 1) == 0){
-						lista_int.insere_lista_int(nomeVariavel, int_ou_double); // insere na lista int
-						System.out.println("\nIsso esta na lista. Deu certo essa bagaca gracas ao cafe!!!");
+						int decimal = (int) int_ou_double;
+						lista_int.insiraNaListaInt(nomeVariavel, decimal); // insere na lista int
+						System.out.println("\nIsso esta na lista de inteiros");
 						lista_int.imprimir();
 					}
 					else{
-						// é um double
+						double numDouble = int_ou_double;
+						lista_double.insiraNaListaDouble(nomeVariavel, numDouble); // insere na lista double
+						System.out.println("\nIsso esta na lista de double");
+						lista_double.imprimir();
 					}
 
 				}
 				else{
-						// a palavra é uma string
+						lista_string.insiraNaListaString(nomeVariavel, valorVariavel);
+						System.out.println("\nIsso esta na lista de string");
+						lista_string.imprimir();
 				}
 			}
 
@@ -159,7 +170,7 @@ class Interpretador{
 	int q;
 	for(q = 0; q < this.linhas.length; q++)
 		System.out.println(this.linhas[q]);
-		
+
     return "0";
 	}
 }

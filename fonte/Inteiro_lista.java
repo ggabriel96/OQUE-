@@ -11,7 +11,7 @@ class Inteiro_lista{
   }
 
   //insere no inicio da lista
-  public void insere_lista_int(String nome, int valor){
+  public void insiraNaListaInt(String nome, int valor){
     if(qtd_elementos == 0){
       Inteiro novo = new Inteiro();
       novo.setNome(nome);
