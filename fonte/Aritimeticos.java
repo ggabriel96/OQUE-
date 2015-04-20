@@ -15,6 +15,7 @@ class Aritimeticos
 		int aux = 0, i = 0, sinal = 1;
 		double valor1 = 0, valor2 = 0;
 		char op = 'Q', oper = 'Q';
+		int flag = 0, flag2 = 0;
 
 		for(i = pos + 1; i < linha.length(); i++){
 			if(tokem.ehToken(linha.charAt(i)) == 'N')
@@ -26,6 +27,7 @@ class Aritimeticos
 				aux = i;
 
 				try {
+					flag = 0;
 					if(palavra1 != "")
 						valor1 = sinal * (Double.parseDouble(palavra1));
 					else
@@ -45,11 +47,17 @@ class Aritimeticos
 				catch(NumberFormatException nfe){
 					System.out.println("Tratando 2 tokens consecutivos porque deu a excecao: " + nfe.getMessage());
 					// Colocar aqui a parte que confere no vetor de variaveis.
-					
-					if(op == '-')
+					System.out.println("ooooooooooooooooooooooooooooooooooooooop" + op);
+					if(op == '-'){
 						sinal = sinal*-1;
-					continue;
+						continue;
+					}
+					if(op == ';'){
+						valor1 = -666;
+						flag = 1;
+						
 					
+					}
 				}
 				break;
 			}
@@ -86,9 +94,12 @@ class Aritimeticos
 						
 						System.out.println("Tratando 2 tokens consecutivos porque deu a excecao: " + nfe.getMessage());
 						
-						if(op == '-')
-							sinal = sinal*-1;
+						if(op == '-'){
+						sinal = sinal*-1;
 						continue;
+					}
+					if(op == ';')
+						valor1 = -666;
 						
 					}
 					break;
@@ -99,9 +110,17 @@ class Aritimeticos
 		sinal = 1;
 
 		if(oper == ';'){
+			System.out.println("flag: " + flag + "\npalavra1: " + palavra1);
+			if(flag == 0){
 			valor1 = valor1 + valor2;
 			linha = troca(linha, pos, valor1, i);
-
+			}
+			
+			else
+			{
+				linha = troca(linha, pos, palavra1, i);
+			}
+			
 			return linha;
 		}
 
@@ -169,6 +188,23 @@ class Aritimeticos
 
 		return nova;
 	}
+	
+	public String troca(String linha, int igual, String valor, int termina){
+		String nova = new String("");
+		int ind = 0, i = 0;
+
+		for(i = 0; i <= igual; i++)
+			nova = nova + linha.charAt(i);
+
+		nova = nova + valor;
+
+		for(i = termina; i < linha.length(); i++)
+				nova = nova + linha.charAt(i);
+
+		return nova;
+	}
+	
+	
 
 	public int getTipo(String palavra){
 		double numero;

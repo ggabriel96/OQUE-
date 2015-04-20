@@ -144,6 +144,7 @@ class Estring
 			a = linha.charAt(tokem.achaToken(linha, pos+2));
 
 		int i;
+		System.out.println("entreTokem pos: " + pos + 1);
 		for(i = pos + 1; linha.charAt(i) != ';'; i++){
 			nova = nova + linha.charAt(i);
 		}
