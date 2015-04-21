@@ -45,6 +45,31 @@ class Estring
 		return Nlinha;
 	}
 
+
+	public String removeEspaco(String linha)
+	{
+		int i = 0, j = 0, asp = 0;
+		String nova = new String("");
+		
+		for(i = 0; i <  linha.length(); i++)
+		{
+			if(linha.charAt(i) == '"')
+				asp++;
+			
+			if(asp%2 == 0)
+			{
+				if(linha.charAt(i) != ' ' && linha.charAt(i) != '\t')
+					nova = nova + linha.charAt(i);
+			}
+			else
+			{
+				nova = nova + linha.charAt(i);
+			}
+		}
+		return nova;
+	}
+
+
 	public String[] arrumavetor(String l[]){
 
 		String linhas[] = new String[l.length];
@@ -58,9 +83,7 @@ class Estring
 		Nlinha = concatenaVetor(linhas);
 
 		// Remove os espacos
-		Nlinha = Nlinha.replaceAll(" ","");
-		Nlinha = Nlinha.replaceAll("	","");
-
+		Nlinha = removeEspaco(Nlinha);
 
 		int tamV = 0, auxi = 0, w = 0;
 		char eh;
@@ -153,7 +176,13 @@ class Estring
 	public String NantesTokem(String linha, int pos)
 	{
 		String antesTokem = new String("");
-		char a = linha.charAt(pos-1);
+		char a;
+		
+		if(pos > 0)
+			a = linha.charAt(pos-1);
+		else
+			return "";
+			
 		int i;
 		for(i = pos - 1; (a != '{' && a != ';' && i >= 0); i--)
 		{
@@ -286,6 +315,34 @@ class Estring
 	}
 	
 	
+	public void abreParenteses(String linha, int pos)
+	{
+		String nova = NantesTokem(linha, pos);
+		System.out.println(nova);
+		
+		if(nova.equals("SE"))
+		{
+			System.out.println(nova + "111111111111111111111111111111111111111111111111111111111111111111111111111111111111");
+			Interpretador.farol = executaCondicional(linha, pos, true, '&');
+		}
+		
+		else if(nova.equals("repetix"))
+		{
+			// Colocar a função repetix aqui.
+		}
+		
+		else if(nova.equals("IMPRIME"))
+		{
+			// Colocar a função repetix aqui.
+		}
+		
+		/* else
+		{
+			System.out.println("Erro de sintaxe.");
+			System.exit(0);
+		}
+		*/
+	}
 	
 	
 	

@@ -178,15 +178,6 @@ class Interpretador{
 				}
 			}
 
-			valorInteiro = lista_int.retornaValor(nomeVariavel);
-			System.out.println("valor variavel valorInteiro: " + valorInteiro);
-
-			valorDouble = lista_double.retornaValor(nomeVariavel);
-			System.out.println("valor variavel valorDouble: " + valorDouble);
-
-			valorString = lista_string.retornaValor(nomeVariavel);
-			System.out.println("valor variavel valorString: " + valorString);
-
 			if(tok == '{'){
 				if(Interpretador.farol)
 				{
