@@ -69,26 +69,26 @@ class Interpretador{
 		String nomeVariavel = new String("");
 		String repetix = new String("");
 		String entreparentes = new String("");
-	  int aqui = pos, tipo, achouInteiro, achouDouble, achouString;
-		int achouTokem;
-		double int_ou_double;
+		String valorString = new String("");
+	  int aqui = pos, tipo, achouInteiro = 0, achouDouble = 0, achouString = 0, valorInteiro = 0;
+		double int_ou_double, valorDouble = 0;
     char tok, tipoTokem;
 
   //=========================================
+	// função de repetição repetix
+			repetix = lacorepeticao.achaRepetix(linha);
+			if(!repetix.equals("\nrepetix e uma palavra reservada, nao pode usar no nome de variaveis\n") &&
+				 !repetix.equals("\nvoce esqueceu de abrir chaves no repetix") &&
+				 !repetix.equals("\nnao existe repetix na linha")){
+				 entreparentes = lacorepeticao.entreParenteses(linha, 7);
 
-	repetix = lacorepeticao.achaRepetix(linha);
-	if(!repetix.equals("\nrepetix e uma palavra reservada, nao pode usar no nome de variaveis\n") &&
-		 !repetix.equals("\nvoce esqueceu de abrir chaves no repetix") &&
-		 !repetix.equals("\nnao existe essa palavra na linha")){
-		 entreparentes = lacorepeticao.entreParenteses(linha, 7);
 
-		// ~~~~~~~~~PAREI AQUI~~~~~~~~~~~~~~~~~~~~~PAREI AQUI~~~~~~~~~~~~~~~~~~~~~PAREI AQUI~~~~~~~~~~~~~~~~~~~~~PAREI AQUI~~~~~~~~~~~~~~~~~~~~~PAREI AQUI~~~~~~~~~~~~
-
-		 System.out.println("entre parenteses: " + entreparentes);
-	}
-	else{
-		System.out.println(repetix + "\n");
-	}
+				 System.out.println("entre parenteses: " + entreparentes);
+			}
+			else{
+				System.out.println(repetix + "\n");
+			}
+	// fim da função de repeticao repetix
 
   // verefica o tipo do tokem ===============
     while(aqui < linha.length()){
@@ -115,16 +115,6 @@ class Interpretador{
 				achouString = lista_string.pesquisa_string(nomeVariavel); // verefica se essa variavel ja esta na lista de strings
 
 				tipo = aritimetico.getTipo(valorVariavel); // verefica o tipo da atribuição se é numero ou string
-
-				/* precisa vereficar pq a linha simplificadas esta tirando os operadores
-				if(tipo == 0){
-					achouTokem = tokens.achaToken(valorVariavel, 0);
-					if(achouTokem >= 0){
-						tipoTokem = valorVariavel.charAt(achouTokem);
-						System.out.println("tokem achado dps do = : " + tipoTokem);
-					}
-				}
-				*/
 
 				if(achouString == 0 && tipo == 1){// valorVariavel é um numero
 
@@ -187,6 +177,15 @@ class Interpretador{
 						}
 				}
 			}
+
+			valorInteiro = lista_int.retornaValor(nomeVariavel);
+			System.out.println("valor variavel valorInteiro: " + valorInteiro);
+
+			valorDouble = lista_double.retornaValor(nomeVariavel);
+			System.out.println("valor variavel valorDouble: " + valorDouble);
+
+			valorString = lista_string.retornaValor(nomeVariavel);
+			System.out.println("valor variavel valorString: " + valorString);
 
 			if(tok == '{'){
 				if(Interpretador.farol)

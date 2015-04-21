@@ -73,4 +73,16 @@ class String_lista{
       }
     }
 
-  }
+    public String retornaValor(String nome){
+      String_node aux = this.primeiro;
+
+      while(aux != null){
+        if(aux.getNome().equals(nome)){
+          return aux.getValor();
+        }
+        aux = aux.getProximo();
+      }
+      return null;
+    }
+
+}

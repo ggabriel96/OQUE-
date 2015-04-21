@@ -73,4 +73,17 @@ class Inteiro_lista{
       aux = aux.getProximo();
     }
   }
+
+  public int retornaValor(String nome){
+    Inteiro aux = this.primeiro;
+
+    while(aux != null){
+      if(aux.getNome().equals(nome)){
+        return aux.getValor();
+      }
+      aux = aux.getProximo();
+    }
+
+    return 0;
+  }
 }

@@ -74,4 +74,16 @@ class Double_lista{
       }
     }
 
-  }
+    public double retornaValor(String nome){
+      Double_node aux = this.primeiro;
+
+      while(aux != null){
+        if(aux.getNome().equals(nome)){
+          return aux.getValor();
+        }
+        aux = aux.getProximo();
+      }
+
+      return 0;
+    }
+}
