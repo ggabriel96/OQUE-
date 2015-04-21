@@ -28,3 +28,9 @@ MARCO :
 
 ==      ->  @
 !=      ->  !
+
+O QUE FALTA FAZER:
+[]
+PRINTF
+SCANF
+ELSE *

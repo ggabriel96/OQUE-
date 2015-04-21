@@ -112,9 +112,11 @@ class Aritimeticos
 		//
 		// Essa parte confere se é uma string ou uma variável.
 		//
-		if(palavra2 != null && !palavra2.isEmpty())
+		if(palavra1 != null && !palavra1.isEmpty())
 		{
-			if(palavra1.charAt(0) == '"' && palavra1.charAt(palavra1.length()-1) == '"'){
+			
+			if((palavra1.charAt(0) == '"') && (palavra1.charAt(palavra1.length()-1) == '"'))
+			{
 				
 				palavra1 = palavra1.substring(1, palavra1.length()-1);
 				flag = 1;
@@ -138,7 +140,7 @@ class Aritimeticos
 				// Procurar na lista aqui e já mudar o valor de flag, para string ou numero.
 			}
 		}
-
+		System.out.println("palavra1: " + palavra1 + " >>>>>>>>>>>>>>>>>>>>>>>>>> palavra2: " + palavra2);
 
 
 		sinal = 1;
@@ -163,7 +165,6 @@ class Aritimeticos
 				valor1 = valor1 + valor2;
 
 				linha = troca(linha, pos, valor1, i);
-
 				linha = simplifica(linha, pos);
 			}
 
@@ -171,6 +172,7 @@ class Aritimeticos
 			{
 				palavra1 = palavra1 + palavra2;
 				linha = troca(linha, pos, palavra1, i);
+				linha = simplifica(linha, pos);
 			}
 
 			return linha;

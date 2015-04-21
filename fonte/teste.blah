@@ -1,14 +1,12 @@
-nome = "fulano" + 5;
-a = 5+6;
-b = 5%3;
-
-
-
 SE(-1>-2)
 {
 	h = abacatos;
 }
-SENAO
+
 {
-	h = 777777777;
+	k = 777777777;
+}
+SE(1<2)
+{
+	d = "variavel" + 123 + "algo muito legal";
 }

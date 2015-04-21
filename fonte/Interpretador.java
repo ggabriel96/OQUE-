@@ -189,18 +189,28 @@ class Interpretador{
 			}
 
 			if(tok == '{'){
-				if(Interpretador.farol)
+				if(Interpretador.farol && (estring.NantesTokem(linha, aqui)== "SENAO"))
+				{
+					if(Interpretador.farol)
+					{
+						// Funcao que trata o escopo
+						System.out.println("Achei um abre escopo.");
+						linha = blocos.escopo(blocos.achaEscopo(linha, aqui));
+						Interpretador.farol = false;
+					}
+					else
+					{
+						Interpretador.farol = true;
+						break;
+					}
+				}
+				else
 				{
 					// Funcao que trata o escopo
 					System.out.println("Achei um abre escopo.");
 					linha = blocos.escopo(blocos.achaEscopo(linha, aqui));
-					Interpretador.farol = false;
 				}
-				else
-				{
-					Interpretador.farol = true;
-					break;
-				}
+				
 			}
 
 			if(tok == '}'){
@@ -212,8 +222,8 @@ class Interpretador{
 
 			if(tok == '(')
 			{
-				System.out.println("Achei um abre escopo.");
-				Interpretador.farol = estring.executaCondicional(linha, aqui, true, '&');
+				System.out.println("Achei um abre parenteses.");
+				estring.abreParenteses(linha, aqui);
 				System.out.println("farol============= " + Interpretador.farol);
 			}
 
