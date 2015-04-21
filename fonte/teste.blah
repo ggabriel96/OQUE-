@@ -2,27 +2,3 @@ nome = fulano + 5;
 a = 5+6;
 b = 5%3;
 
-SE(6@1)
-{
-	s = 9;
-}
-SENAO
-{
-	SE(6!5)
-	{
-		s = abacaxi;
-	}
-	
-	SENAO
-	{
-		SE(6!6)
-		{
-			s = WTH?;
-		}
-		
-		SENAO
-		{
-			s = 3.14;
-		}
-	}
-}
