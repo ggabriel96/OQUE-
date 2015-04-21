@@ -52,7 +52,6 @@ class Interpretador{
         tamanho_da_linha = linhas[i].length();
       }
     }
-
   //========================================
   }
 

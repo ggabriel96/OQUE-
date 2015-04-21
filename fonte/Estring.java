@@ -48,7 +48,25 @@ class Estring
 
 	public String removeEspaco(String linha)
 	{
-		return "0";
+		int i = 0, j = 0, asp = 0;
+		String nova = new String("");
+		
+		for(i = 0; i <  linha.length(); i++)
+		{
+			if(linha.charAt(i) == '"')
+				asp++;
+			
+			if(asp%2 == 0)
+			{
+				if(linha.charAt(i) != ' ' && linha.charAt(i) != '\t')
+					nova = nova + linha.charAt(i);
+			}
+			else
+			{
+				nova = nova + linha.charAt(i);
+			}
+		}
+		return nova;
 	}
 
 
@@ -65,9 +83,7 @@ class Estring
 		Nlinha = concatenaVetor(linhas);
 
 		// Remove os espacos
-		Nlinha = Nlinha.replaceAll(" ","");
-		Nlinha = Nlinha.replaceAll("	","");
-
+		Nlinha = removeEspaco(Nlinha);
 
 		int tamV = 0, auxi = 0, w = 0;
 		char eh;
