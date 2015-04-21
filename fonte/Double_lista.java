@@ -53,14 +53,25 @@ class Double_lista{
     public int pesquisa_double(String nome){
       Double_node aux = this.primeiro;
 
-      while(aux.getProximo() != null){
-        if(aux.getNome() == nome){
+      while(aux != null){
+        if(aux.getNome().equals(nome)){
           return 1;
         }
         aux = aux.getProximo();
       }
 
-      return -1;
+      return 0;
+    }
+
+    public void insere_ja_existente(String nome, double valor){
+      Double_node aux = this.primeiro;
+
+      while(aux != null){
+        if(aux.getNome().equals(nome)){
+          aux.setValor(valor);
+        }
+        aux = aux.getProximo();
+      }
     }
 
   }
