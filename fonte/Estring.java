@@ -178,4 +178,88 @@ class Estring
 		}
 		return antesTokem;
 	}
+	
+	
+	public String condicional(String linha, int pos)
+	{
+		int i = 0;
+		String nova = new String("");
+		
+		for(i = pos + 1; pos < linha.length(); i++)
+		{
+			if(linha.charAt(i) == ')')
+				break;
+			
+			else
+				nova = nova + linha.charAt(i);
+		}
+		return nova;
+	}
+	
+	public boolean executaCondicional(String linha, int pos, boolean vale, char ok)
+	{
+		int valor1 = 0, valor2 = 0, i = 0, aux = 0, n = 0;
+		boolean bool = true;
+		char tok = 'Q', tok2 = 'Q';
+		String nova = new String("");
+		String palavra1 = new String("");
+		String palavra2 = new String("");
+		nova = condicional(linha, pos);
+		
+		for(i = 0; i < nova.length(); i++)
+		{
+			if(tokem.ehToken(nova.charAt(i)) != 'N')
+			{
+				tok = tokem.ehToken(nova.charAt(i));
+				break;
+			}
+			
+			else
+				palavra1 += nova.charAt(i);
+		}
+		
+		for(i = i + 1; i < nova.length(); i++)
+		{
+			if(tokem.ehToken(nova.charAt(i)) != 'N')
+			{
+				tok2 = tokem.ehToken(nova.charAt(i));
+				break;
+			}
+			
+			else
+				palavra2 += nova.charAt(i);
+		}
+		System.out.println("condicional 1: " + palavra1 + "|  condicional 2: " + palavra2 + "   ------   tok1: " + tok + "|  tok2: " + tok2);
+		
+		valor1 = Integer.parseInt(palavra1);
+		valor2 = Integer.parseInt(palavra2);
+		
+		if(tok == '@')
+		{
+			if(valor1 == valor2)
+				bool = true;
+			else
+				bool = false;
+		}
+		
+		else if(tok == '!')
+		{
+			if(valor1 != valor2)
+				bool = true;
+			else
+				bool = false;
+		}
+		
+		if(ok == '&')
+			bool = bool && vale;
+		else if(ok == '|')
+			bool = bool && vale;
+			
+		return bool;
+	}
+	
+	
+	
+	
+	
 }

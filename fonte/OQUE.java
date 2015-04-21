@@ -3,7 +3,11 @@ import java.io.*;
 
 class OQUE {
     public static void main(String args[]) throws Exception{
-
+		
+		Inteiro_lista lista_int = new Inteiro_lista();
+		Double_lista lista_double = new Double_lista();
+		String_lista lista_string = new String_lista();
+		
         File f;
         Scanner s;
         Interpretador b;
@@ -22,5 +26,9 @@ class OQUE {
         }
 
         b.interpreta(linhas); // Agora o interpretador que se vire
+        
+        lista_int.imprimir();
+		lista_string.imprimir();
+		lista_double.imprimir();
     }
 }

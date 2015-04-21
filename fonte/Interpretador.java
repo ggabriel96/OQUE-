@@ -9,7 +9,9 @@ class Interpretador{
 	private Inteiro_lista lista_int;
 	private Double_lista lista_double;
 	private String_lista lista_string;
+	public static boolean farol;
 	private LacoRepeticao lacorepeticao;
+
 //==============================================
 
 // Construtor das classes ======================
@@ -21,6 +23,7 @@ class Interpretador{
 		lista_int = new Inteiro_lista();
 		lista_double = new Double_lista();
 		lista_string = new String_lista();
+		Interpretador.farol = true;
 		lacorepeticao = new LacoRepeticao();
   }
 
@@ -49,6 +52,7 @@ class Interpretador{
         tamanho_da_linha = linhas[i].length();
       }
     }
+
 
 	System.out.println("Lista inteiro \n");
 	lista_int.imprimir();
@@ -193,9 +197,18 @@ class Interpretador{
 			}
 
 			if(tok == '{'){
-				// Funcao que trata o escopo
-				System.out.println("Achei um abre escopo.");
-				linha = blocos.escopo(blocos.achaEscopo(linha, aqui));
+				if(Interpretador.farol)
+				{
+					// Funcao que trata o escopo
+					System.out.println("Achei um abre escopo.");
+					linha = blocos.escopo(blocos.achaEscopo(linha, aqui));
+					Interpretador.farol = false;
+				}
+				else
+				{
+					Interpretador.farol = true;
+					break;
+				}
 			}
 
 			if(tok == '}'){
@@ -203,6 +216,13 @@ class Interpretador{
 				System.out.println("Achei um fecha escopo.");
 				System.out.println(linha);
 				return linha;
+			}
+
+			if(tok == '(')
+			{
+				System.out.println("Achei um abre escopo.");
+				Interpretador.farol = estring.executaCondicional(linha, aqui, true, '&');
+				System.out.println("farol============= " + Interpretador.farol);
 			}
 
 			aqui++;
