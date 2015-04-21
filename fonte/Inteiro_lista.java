@@ -53,29 +53,24 @@ class Inteiro_lista{
   public int pesquisa_inteiro(String nome){
     Inteiro aux = this.primeiro;
 
-    while(aux.getProximo() != null){
-      if(aux.getNome() == nome){
+    while(aux != null){
+      if(aux.getNome().equals(nome)){
         return 1;
       }
       aux = aux.getProximo();
     }
 
-    return -1;
+    return 0;
   }
 
+  public void insere_ja_existente(String nome, int valor){
+    Inteiro aux = this.primeiro;
+
+    while(aux != null){
+      if(aux.getNome().equals(nome)){
+        aux.setValor(valor);
+      }
+      aux = aux.getProximo();
+    }
+  }
 }
-
-/*
-  exemplo de inserção:
-
-  public static void main(String args[]){
-
-    Inteiro_lista a = new Inteiro_lista();
-    a.insere_lista_int(nomevariavel, valorvariavel);
-    a.insere_lista_int(nomevariavel2, valorvariavel2);
-    a.insere_lista_int(nomevariavel3, valorvariavel3);
-
-    a.imprimir();
-    a.pesquisainteiro(nomevariavel);
-  }
-*/

@@ -27,8 +27,12 @@ class OQUE {
 
         b.interpreta(linhas); // Agora o interpretador que se vire
         
+		System.out.println("Lista inteiro:");
         lista_int.imprimir();
-		lista_string.imprimir();
+		System.out.println("\n Lista double:");
 		lista_double.imprimir();
+		System.out.println("\nLista String:");
+		lista_string.imprimir();
+		System.out.println("\n");
     }
 }

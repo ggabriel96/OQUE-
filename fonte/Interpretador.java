@@ -10,6 +10,8 @@ class Interpretador{
 	private Double_lista lista_double;
 	private String_lista lista_string;
 	public static boolean farol;
+	private LacoRepeticao lacorepeticao;
+
 //==============================================
 
 // Construtor das classes ======================
@@ -17,11 +19,12 @@ class Interpretador{
     tokens = new Tokem();
     estring = new Estring();
     aritimetico = new Aritimeticos();
-	blocos = new Blocos();
-	lista_int = new Inteiro_lista();
-	lista_double = new Double_lista();
-	lista_string = new String_lista();
-	Interpretador.farol = true;
+	  blocos = new Blocos();
+		lista_int = new Inteiro_lista();
+		lista_double = new Double_lista();
+		lista_string = new String_lista();
+		Interpretador.farol = true;
+		lacorepeticao = new LacoRepeticao();
   }
 
 //===============================================
@@ -50,11 +53,10 @@ class Interpretador{
       }
     }
 
-
   //========================================
   }
 
-  // ipo int para retorno de erros (ainda nao foi implementado).
+  // Tipo int para retorno de erros (ainda nao foi implementado).
   // Esta funcao serve para distribuir comandos, de acordo
   // com o toquem encontrado.
   //
@@ -65,11 +67,28 @@ class Interpretador{
   // variaveis do metodo CONTROLE ==========
     String valorVariavel = new String("");
 		String nomeVariavel = new String("");
-	  int aqui = pos, tipo;
+		String repetix = new String("");
+		String entreparentes = new String("");
+	  int aqui = pos, tipo, achouInteiro, achouDouble, achouString;
+		int achouTokem;
 		double int_ou_double;
-    char tok;
+    char tok, tipoTokem;
 
   //=========================================
+
+	repetix = lacorepeticao.achaRepetix(linha);
+	if(!repetix.equals("\nrepetix e uma palavra reservada, nao pode usar no nome de variaveis\n") &&
+		 !repetix.equals("\nvoce esqueceu de abrir chaves no repetix") &&
+		 !repetix.equals("\nnao existe essa palavra na linha")){
+		 entreparentes = lacorepeticao.entreParenteses(linha, 7);
+
+		// ~~~~~~~~~PAREI AQUI~~~~~~~~~~~~~~~~~~~~~PAREI AQUI~~~~~~~~~~~~~~~~~~~~~PAREI AQUI~~~~~~~~~~~~~~~~~~~~~PAREI AQUI~~~~~~~~~~~~~~~~~~~~~PAREI AQUI~~~~~~~~~~~~
+
+		 System.out.println("entre parenteses: " + entreparentes);
+	}
+	else{
+		System.out.println(repetix + "\n");
+	}
 
   // verefica o tipo do tokem ===============
     while(aqui < linha.length()){
@@ -91,30 +110,81 @@ class Interpretador{
 
 				System.out.println("\nLinha simplificada: " + linha); // imprime a linha so p teste
 
-				tipo = aritimetico.getTipo(valorVariavel);
+				achouInteiro = lista_int.pesquisa_inteiro(nomeVariavel); // verefica se essa variavel ja esta na lista de inteiros
+				achouDouble = lista_double.pesquisa_double(nomeVariavel); // verefica se essa variavel ja esta na lista de double
+				achouString = lista_string.pesquisa_string(nomeVariavel); // verefica se essa variavel ja esta na lista de strings
 
-				if(tipo == 1){// valorVariavel é um numero
+				tipo = aritimetico.getTipo(valorVariavel); // verefica o tipo da atribuição se é numero ou string
+
+				/* precisa vereficar pq a linha simplificadas esta tirando os operadores
+				if(tipo == 0){
+					achouTokem = tokens.achaToken(valorVariavel, 0);
+					if(achouTokem >= 0){
+						tipoTokem = valorVariavel.charAt(achouTokem);
+						System.out.println("tokem achado dps do = : " + tipoTokem);
+					}
+				}
+				*/
+
+				if(achouString == 0 && tipo == 1){// valorVariavel é um numero
 
 					int_ou_double = Double.parseDouble(valorVariavel); // converte a string para numero
 
-					if((int_ou_double % 1) == 0){
-						int decimal = (int) int_ou_double;
-						lista_int.insiraNaListaInt(nomeVariavel, decimal); // insere na lista int
-						System.out.println("\n^^^^^^^^^^ Isso esta na lista de inteiros ^^^^^^^^^^");
-						lista_int.imprimir();
+					if((int_ou_double % 1) == 0 && achouDouble == 0){
+						if(achouInteiro == 0){
+							int decimal = (int) int_ou_double;
+							lista_int.insiraNaListaInt(nomeVariavel, decimal); // insere na lista int
+							System.out.println("\n^^^^^^^^^^ Isso esta na lista de inteiros ^^^^^^^^^^");
+							lista_int.imprimir();
+						}
+						else{
+							int decimal = (int) int_ou_double;
+							lista_int.insere_ja_existente(nomeVariavel, decimal); // insere na lista int em uma variavel ja existente
+							System.out.println("\n^^^^^^^^^^ Isso esta na lista de inteiros ^^^^^^^^^^");
+							lista_int.imprimir();
+						}
 					}
-					else{
-						double numDouble = int_ou_double;
-						lista_double.insiraNaListaDouble(nomeVariavel, numDouble); // insere na lista double
-						System.out.println("\n^^^^^^^^^^ Isso esta na lista de double ^^^^^^^^^^");
-						lista_double.imprimir();
+					else if((int_ou_double % 1) == 0 && achouDouble == 1){
+						System.out.println("A variavel " + "'" + nomeVariavel + "'" + " e do tipo double, nao pode atribuir um valor inteiro para ela");
 					}
-
+					else if((int_ou_double % 1) != 0 && achouInteiro == 0){
+						if(achouDouble == 0){
+							double numDouble = int_ou_double;
+							lista_double.insiraNaListaDouble(nomeVariavel, numDouble); // insere na lista double
+							System.out.println("\n^^^^^^^^^^ Isso esta na lista de double ^^^^^^^^^^");
+							lista_double.imprimir();
+						}
+						else{
+							double numDouble = int_ou_double;
+							lista_double.insere_ja_existente(nomeVariavel, numDouble); // insere na lista double em uma variavel ja existente
+							System.out.println("\n^^^^^^^^^^ Isso esta na lista de double ^^^^^^^^^^");
+							lista_double.imprimir();
+						}
+					}
+					else if((int_ou_double % 1) != 0 && achouInteiro == 1){
+						System.out.println("A variavel " + "'" + nomeVariavel + "'" + " e do tipo inteiro, nao pode atribuir um valor double para ela");
+					}
 				}
-				else{
-						lista_string.insiraNaListaString(nomeVariavel, valorVariavel);
-						System.out.println("\n^^^^^^^^^^ Isso esta na lista de string ^^^^^^^^^^");
-						lista_string.imprimir();
+				else if(achouString == 1 && tipo == 1){
+					System.out.println("\nA variavel " + "'" + nomeVariavel + "'" + " e uma string nao pode atribuir valor para ela!");
+				}
+				else if(achouInteiro == 0 && achouDouble == 1 && tipo == 0){
+					System.out.println("\nA variavel " + "'" + nomeVariavel + "'" + " e do tipo double, nao pode atribuir uma palavra a ela");
+				}
+				else if(achouInteiro == 1 && achouDouble == 0 && tipo == 0){
+					System.out.println("\nA variavel " + "'" + nomeVariavel + "'" + " e do tipo inteira, nao pode atribuir uma palavra a ela");
+				}
+				else if(achouInteiro == 0 && achouDouble == 0 && tipo == 0){
+						if(achouString == 0){
+							lista_string.insiraNaListaString(nomeVariavel, valorVariavel);
+							System.out.println("\n^^^^^^^^^^ Isso esta na lista de string ^^^^^^^^^^");
+							lista_string.imprimir();
+						}
+						else{
+							lista_string.insere_ja_existente(nomeVariavel, valorVariavel);
+							System.out.println("\n^^^^^^^^^^ Isso esta na lista de string ^^^^^^^^^^");
+							lista_string.imprimir();
+						}
 				}
 			}
 
@@ -139,7 +209,7 @@ class Interpretador{
 				System.out.println(linha);
 				return linha;
 			}
-			
+
 			if(tok == '(')
 			{
 				System.out.println("Achei um abre escopo.");

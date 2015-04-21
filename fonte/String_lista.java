@@ -50,17 +50,27 @@ class String_lista{
 
 
     //pesquisa elementos na lista retorna 1 se achou ou -1 se nao achou
-    public int pesquisa_String(String nome){
+    public int pesquisa_string(String nome){
       String_node aux = this.primeiro;
 
-      while(aux.getProximo() != null){
-        if(aux.getNome() == nome){
+      while(aux != null){
+        if(aux.getNome().equals(nome)){
           return 1;
         }
         aux = aux.getProximo();
       }
+      return 0;
+    }
 
-      return -1;
+    public void insere_ja_existente(String nome, String valor){
+      String_node aux = this.primeiro;
+
+      while(aux != null){
+        if(aux.getNome().equals(nome)){
+          aux.setValor(valor);
+        }
+        aux = aux.getProximo();
+      }
     }
 
   }
