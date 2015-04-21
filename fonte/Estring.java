@@ -210,6 +210,12 @@ class Estring
 		{
 			if(tokem.ehToken(nova.charAt(i)) != 'N')
 			{
+				if(nova.charAt(i) == '-')
+				{
+					palavra1 += nova.charAt(i);
+					continue;
+				}
+				
 				tok = tokem.ehToken(nova.charAt(i));
 				break;
 			}
@@ -222,6 +228,11 @@ class Estring
 		{
 			if(tokem.ehToken(nova.charAt(i)) != 'N')
 			{
+				if(nova.charAt(i) == '-')
+				{
+					palavra2 += nova.charAt(i);
+					continue;
+				}
 				tok2 = tokem.ehToken(nova.charAt(i));
 				break;
 			}
@@ -245,6 +256,22 @@ class Estring
 		else if(tok == '!')
 		{
 			if(valor1 != valor2)
+				bool = true;
+			else
+				bool = false;
+		}
+		
+		else if(tok == '<')
+		{
+			if(valor1 < valor2)
+				bool = true;
+			else
+				bool = false;
+		}
+		
+		else if(tok == '>')
+		{
+			if(valor1 > valor2)
 				bool = true;
 			else
 				bool = false;

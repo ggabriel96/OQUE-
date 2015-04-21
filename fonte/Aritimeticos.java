@@ -90,19 +90,56 @@ class Aritimeticos
 							continue;
 						}
 					}
-					catch(NumberFormatException nfe){
-						if(op == '-'){
-						sinal = sinal*-1;
-						continue;
-					}
+					catch(NumberFormatException nfe)
+					{
+						if(op == '-')
+						{
+							sinal = sinal*-1;
+							continue;
+						}
+					
 					if(op == ';' || op == '+')
+						{
 						valor1 = -666;
 						flag2 = 1;
+						}
 					}
 					break;
 				}
 			}
 		}
+		
+		//
+		// Essa parte confere se é uma string ou uma variável.
+		//
+		if(palavra2 != null && !palavra2.isEmpty())
+		{
+			if(palavra1.charAt(0) == '"' && palavra1.charAt(palavra1.length()-1) == '"'){
+				
+				palavra1 = palavra1.substring(1, palavra1.length()-1);
+				flag = 1;
+			}
+			
+			else
+			{
+				// Procurar na lista aqui e já mudar o valor de flag, para string ou numero.
+			}
+		}
+		
+		if(palavra2 != null && !palavra2.isEmpty()){
+			if(palavra2.charAt(0) == '"' && palavra2.charAt(palavra2.length()-1) == '"')
+			{
+				palavra2 = palavra2.substring(1, palavra2.length()-1);
+				flag2 = 1;
+			}
+			
+			else
+			{
+				// Procurar na lista aqui e já mudar o valor de flag, para string ou numero.
+			}
+		}
+
+
 
 		sinal = 1;
 
