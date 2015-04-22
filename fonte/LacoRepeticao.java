@@ -16,6 +16,7 @@ class LacoRepeticao{
 			tamanholinha++;
 		}
 
+
 		for(i = 0; i <= (tamanholinha - 1); i++){
 			if(linha.charAt(i) == 'r'){
 				for(int j = i; j <= (i + 6); j++){
@@ -28,7 +29,8 @@ class LacoRepeticao{
 			}
 		}
 
-    if(!repetix.equals("")){
+    if(!repetix.equals(" ")){
+
   		if(repetix.contains("repetix"))
   		{
   			if(inicioRepetix - 1 != -1){
@@ -43,30 +45,35 @@ class LacoRepeticao{
     				repetix = "\nvoce esqueceu de abrir chaves no repetix";
     			}
           else{
-            repetix = "repetix(";
+            repetix = "repetix";
           }
         }
   		}
       else
   		{
-  			repetix = "\nnao existe essa palavra na linha";
+  			repetix = "\nnao existe repetix na linha";
   		}
     }
 		else
 		{
-			repetix = "\nnao existe essa palavra na linha";
+			repetix = "\nnao existe repetix na linha";
 		}
 		return repetix;
-	}
+}
 
   public String entreParenteses(String linha, int pos)
 	{
 		String nova = new String("");
 
 		int i;
-		for(i = pos + 1; linha.charAt(i) != tokens.charAt(10) && linha.charAt(i) != tokens.charAt(1) && linha.charAt(i) != tokens.charAt(9); i++){
-			nova = nova + linha.charAt(i);
-		}
+    if(linha.charAt(pos) == tokens.charAt(2)){
+  		for(i = pos + 1; linha.charAt(i) != tokens.charAt(10) && linha.charAt(i) != tokens.charAt(1) && linha.charAt(i) != tokens.charAt(9); i++){
+  			nova = nova + linha.charAt(i);
+  		}
+    }
+    else{
+      nova = "nao tem nada entre as chaves";
+    }
 		return nova;
 	}
 

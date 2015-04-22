@@ -10,6 +10,7 @@ class Interpretador{
 	private Double_lista lista_double;
 	private String_lista lista_string;
 	public static boolean farol;
+	private boolean encontrouInicioLaco, encontrouFimLaco;
 	private LacoRepeticao lacorepeticao;
 
 //==============================================
@@ -42,8 +43,6 @@ class Interpretador{
 	// Arruma o vetor realocando, removendo espacos e separando por tarefas ========
     this.linhas = estring.arrumavetor(l);
 
-  //======================================
-
   // printa a linha arrumado e joga dentro do controle e soma a qtd de caracteres da linha ======
     for(i = 0; i < this.linhas.length; i++){
       if(this.linhas[i] != null){
@@ -69,25 +68,29 @@ class Interpretador{
 		String nomeVariavel = new String("");
 		String repetix = new String("");
 		String entreparentes = new String("");
-		String valorString = new String("");
-	  int aqui = pos, tipo, achouInteiro = 0, achouDouble = 0, achouString = 0, valorInteiro = 0;
-		double int_ou_double, valorDouble = 0;
+	  int aqui = pos, tipo, achouInteiro = 0, achouDouble = 0, achouString = 0;
+		double int_ou_double;
     char tok, tipoTokem;
 
   //=========================================
 	// função de repetição repetix
-			repetix = lacorepeticao.achaRepetix(linha);
-			if(!repetix.equals("\nrepetix e uma palavra reservada, nao pode usar no nome de variaveis\n") &&
-				 !repetix.equals("\nvoce esqueceu de abrir chaves no repetix") &&
-				 !repetix.equals("\nnao existe repetix na linha")){
-				 entreparentes = lacorepeticao.entreParenteses(linha, 7);
 
+		repetix = lacorepeticao.achaRepetix(linha);
+		if(!repetix.equals("\nrepetix e uma palavra reservada, nao pode usar no nome de variaveis\n") &&
+				!repetix.equals("\nvoce esqueceu de abrir chaves no repetix") &&
+				!repetix.equals("\nnao existe repetix na linha")){
 
-				 System.out.println("entre parenteses: " + entreparentes);
-			}
-			else{
-				System.out.println(repetix + "\n");
-			}
+				entreparentes = lacorepeticao.entreParentes(linha, pos + 7);
+				// ~~~~~~~PAREI AQUI FALTA VEREFICAR SE ENREPARENTES É VERDADEIRO E GRAVAR NA VARIAVEL EHVERDADEIRO ~~~~~~~~ PAREI AQUI FALTA VEREFICAR SE ENREPARENTES É VERDADEIRO E GRAVAR NA VARIAVEL EHVERDADEIRO ~~~~~~~~~~~~~~~~~~~~
+				while( ehVerdadeiro(entreparentes) ){
+					controle(linha, pos +7+entreparentes.size() + 3)
+				}
+
+		}
+		else{
+			System.out.println(repetix + "\n");
+		}
+
 	// fim da função de repeticao repetix
 
   // verefica o tipo do tokem ===============
@@ -184,7 +187,6 @@ class Interpretador{
 					// Funcao que trata o escopo
 					System.out.println("Achei um abre escopo.");
 					linha = blocos.escopo(blocos.achaEscopo(linha, aqui));
-					Interpretador.farol = false;
 				}
 				else
 				{
