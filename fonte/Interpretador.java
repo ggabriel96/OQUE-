@@ -80,16 +80,16 @@ class Interpretador{
 				!repetix.equals("\nvoce esqueceu de abrir chaves no repetix") &&
 				!repetix.equals("\nnao existe repetix na linha")){
 
-				entreparentes = lacorepeticao.entreParentes(linha, pos + 7);
-				// ~~~~~~~PAREI AQUI FALTA VEREFICAR SE ENREPARENTES É VERDADEIRO E GRAVAR NA VARIAVEL EHVERDADEIRO ~~~~~~~~ PAREI AQUI FALTA VEREFICAR SE ENREPARENTES É VERDADEIRO E GRAVAR NA VARIAVEL EHVERDADEIRO ~~~~~~~~~~~~~~~~~~~~
-				while( ehVerdadeiro(entreparentes) ){
-					controle(linha, pos +7+entreparentes.size() + 3)
+				entreparentes = lacorepeticao.entreParenteses(linha, pos + 7);
+				while( estring.executaCondicional(entreparentes, 0, true, '&') ){
+					controle(linha, pos +7+entreparentes.length() + 3);
 				}
 
 		}
 		else{
 			System.out.println(repetix + "\n");
 		}
+
 
 	// fim da função de repeticao repetix
 

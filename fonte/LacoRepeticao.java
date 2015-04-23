@@ -4,7 +4,7 @@ class LacoRepeticao{
 
   // Construtor (instancia objetos da classe) =====
   	public LacoRepeticao(){
-  		tokens = new String("={([+-*/]});");
+  		tokens = new String("={([+-*/@!%<>]});");
   	}
 
   public String achaRepetix(String linha){
@@ -34,7 +34,7 @@ class LacoRepeticao{
   		if(repetix.contains("repetix"))
   		{
   			if(inicioRepetix - 1 != -1){
-  				if(linha.charAt(inicioRepetix - 1) != tokens.charAt(9))
+  				if(linha.charAt(inicioRepetix - 1) != tokens.charAt(14))
   				{
   					repetix = "\nrepetix e uma palavra reservada, nao pode usar no nome de variaveis\n";
   				}
@@ -67,7 +67,7 @@ class LacoRepeticao{
 
 		int i;
     if(linha.charAt(pos) == tokens.charAt(2)){
-  		for(i = pos + 1; linha.charAt(i) != tokens.charAt(10) && linha.charAt(i) != tokens.charAt(1) && linha.charAt(i) != tokens.charAt(9); i++){
+  		for(i = pos + 1; linha.charAt(i) != tokens.charAt(15) && linha.charAt(i) != tokens.charAt(1) && linha.charAt(i) != tokens.charAt(14); i++){
   			nova = nova + linha.charAt(i);
   		}
     }
@@ -76,5 +76,6 @@ class LacoRepeticao{
     }
 		return nova;
 	}
+  
 
 }
