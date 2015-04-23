@@ -77,7 +77,7 @@ class Interpretador{
 
   //=========================================
 	// função de repetição repetix
-
+	/*
 		repetix = lacorepeticao.achaRepetix(linha);
 		if(!repetix.equals("\nrepetix e uma palavra reservada, nao pode usar no nome de variaveis\n") &&
 				!repetix.equals("\nvoce esqueceu de abrir chaves no repetix") &&
@@ -93,7 +93,7 @@ class Interpretador{
 			System.out.println(repetix + "\n");
 		}
 
-
+	*/	
 	// fim da função de repeticao repetix
 
   // verefica o tipo do tokem ===============
