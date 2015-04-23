@@ -284,4 +284,12 @@ class Aritimeticos
 			return 0;
 		}
 	}
+	
+	
+	public String pegaValor()
+	{
+		
+		return "0";
+	}
+	
 }

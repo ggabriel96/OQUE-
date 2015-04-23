@@ -322,7 +322,6 @@ class Estring
 		
 		if(nova.equals("SE"))
 		{
-			System.out.println(nova + "111111111111111111111111111111111111111111111111111111111111111111111111111111111111");
 			Interpretador.farol = executaCondicional(linha, pos, true, '&');
 		}
 		
@@ -333,17 +332,15 @@ class Estring
 		
 		else if(nova.equals("IMPRIME"))
 		{
-			// Colocar a função repetix aqui.
+			String maisNova = achaStrParen(linha, pos);	
+			System.out.print(maisNova);
 		}
-		
-		/* else
-		{
-			System.out.println("Erro de sintaxe.");
-			System.exit(0);
-		}
-		*/
 	}
 	
 	
+	public String achaStrParen(String linha, int pos)
+	{
+		return null;
+	}
 	
 }
