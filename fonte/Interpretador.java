@@ -140,7 +140,7 @@ class Interpretador{
 							lista_int.imprimir();
 						}
 					}
-					else if((int_ou_double % 1) == 0 && achouDouble.equals("achou") ){
+					else if((int_ou_double % 1) == 0 && achouDouble != null ){
 						System.out.println("A variavel " + "'" + nomeVariavel + "'" + " e do tipo double, nao pode atribuir um valor inteiro para ela");
 					}
 					else if((int_ou_double % 1) != 0 && achouInteiro == null){
@@ -157,17 +157,17 @@ class Interpretador{
 							lista_double.imprimir();
 						}
 					}
-					else if((int_ou_double % 1) != 0 && achouInteiro.equals("achou")){
+					else if((int_ou_double % 1) != 0 && achouInteiro != null){
 						System.out.println("A variavel " + "'" + nomeVariavel + "'" + " e do tipo inteiro, nao pode atribuir um valor double para ela");
 					}
 				}
-				else if(achouString.equals("achou") && tipo == 1){
+				else if(achouString != null && tipo == 1){
 					System.out.println("\nA variavel " + "'" + nomeVariavel + "'" + " e uma string nao pode atribuir valor para ela!");
 				}
-				else if(achouInteiro == null && achouDouble.equals("achou") && tipo == 0){
+				else if(achouInteiro == null && achouDouble != null && tipo == 0){
 					System.out.println("\nA variavel " + "'" + nomeVariavel + "'" + " e do tipo double, nao pode atribuir uma palavra a ela");
 				}
-				else if(achouInteiro.equals("achou") && achouDouble == null && tipo == 0){
+				else if(achouInteiro != null && achouDouble == null && tipo == 0){
 					System.out.println("\nA variavel " + "'" + nomeVariavel + "'" + " e do tipo inteira, nao pode atribuir uma palavra a ela");
 				}
 				else if(achouInteiro == null && achouDouble == null && tipo == 0){
