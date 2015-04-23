@@ -22,7 +22,6 @@ class Aritimeticos
 		{
 			if(linha.charAt(i) == '"')
 			{
-				System.out.println("Assssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssspa em i = " + i);
 				vai = !vai;
 			}
 			
@@ -172,6 +171,8 @@ class Aritimeticos
 
 			else
 			{
+				// Concatena para colocar entre aspas a resposta.
+				palavra1 = "\"" + palavra1 + "\"";
 				linha = troca(linha, pos, palavra1, i);
 			}
 
@@ -193,7 +194,7 @@ class Aritimeticos
 				
 				// Concatena para colocar entre aspas a resposta.
 				palavra1 = "\"" + palavra1 + "\"";
-				
+				System.out.println("paaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaalavra = " + palavra1);
 				linha = troca(linha, pos, palavra1, i);
 				linha = simplifica(linha, pos);
 			}
