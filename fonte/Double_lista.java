@@ -50,17 +50,17 @@ class Double_lista{
 
 
     //pesquisa elementos na lista retorna 1 se achou ou -1 se nao achou
-    public int pesquisa_double(String nome){
+    public String pesquisa_double(String nome){
       Double_node aux = this.primeiro;
 
       while(aux != null){
         if(aux.getNome().equals(nome)){
-          return 1;
+          return "achou";
         }
         aux = aux.getProximo();
       }
 
-      return 0;
+      return null;
     }
 
     public void insere_ja_existente(String nome, double valor){

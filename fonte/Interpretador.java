@@ -68,7 +68,10 @@ class Interpretador{
 		String nomeVariavel = new String("");
 		String repetix = new String("");
 		String entreparentes = new String("");
-	  int aqui = pos, tipo, achouInteiro = 0, achouDouble = 0, achouString = 0;
+		String achouInteiro = new String("");
+		String achouDouble = new String("");
+		String achouString = new String("");
+	  int aqui = pos, tipo;
 		double int_ou_double;
     char tok, tipoTokem;
 
@@ -119,12 +122,12 @@ class Interpretador{
 
 				tipo = aritimetico.getTipo(valorVariavel); // verefica o tipo da atribuição se é numero ou string
 
-				if(achouString == 0 && tipo == 1){// valorVariavel é um numero
+				if(achouString == null && tipo == 1){// valorVariavel é um numero
 
 					int_ou_double = Double.parseDouble(valorVariavel); // converte a string para numero
 
-					if((int_ou_double % 1) == 0 && achouDouble == 0){
-						if(achouInteiro == 0){
+					if((int_ou_double % 1) == 0 && achouDouble == null){
+						if(achouInteiro == null){
 							int decimal = (int) int_ou_double;
 							lista_int.insiraNaListaInt(nomeVariavel, decimal); // insere na lista int
 							System.out.println("\n^^^^^^^^^^ Isso esta na lista de inteiros ^^^^^^^^^^");
@@ -137,11 +140,11 @@ class Interpretador{
 							lista_int.imprimir();
 						}
 					}
-					else if((int_ou_double % 1) == 0 && achouDouble == 1){
+					else if((int_ou_double % 1) == 0 && achouDouble.equals("achou") ){
 						System.out.println("A variavel " + "'" + nomeVariavel + "'" + " e do tipo double, nao pode atribuir um valor inteiro para ela");
 					}
-					else if((int_ou_double % 1) != 0 && achouInteiro == 0){
-						if(achouDouble == 0){
+					else if((int_ou_double % 1) != 0 && achouInteiro == null){
+						if(achouDouble == null){
 							double numDouble = int_ou_double;
 							lista_double.insiraNaListaDouble(nomeVariavel, numDouble); // insere na lista double
 							System.out.println("\n^^^^^^^^^^ Isso esta na lista de double ^^^^^^^^^^");
@@ -154,21 +157,21 @@ class Interpretador{
 							lista_double.imprimir();
 						}
 					}
-					else if((int_ou_double % 1) != 0 && achouInteiro == 1){
+					else if((int_ou_double % 1) != 0 && achouInteiro.equals("achou")){
 						System.out.println("A variavel " + "'" + nomeVariavel + "'" + " e do tipo inteiro, nao pode atribuir um valor double para ela");
 					}
 				}
-				else if(achouString == 1 && tipo == 1){
+				else if(achouString.equals("achou") && tipo == 1){
 					System.out.println("\nA variavel " + "'" + nomeVariavel + "'" + " e uma string nao pode atribuir valor para ela!");
 				}
-				else if(achouInteiro == 0 && achouDouble == 1 && tipo == 0){
+				else if(achouInteiro == null && achouDouble.equals("achou") && tipo == 0){
 					System.out.println("\nA variavel " + "'" + nomeVariavel + "'" + " e do tipo double, nao pode atribuir uma palavra a ela");
 				}
-				else if(achouInteiro == 1 && achouDouble == 0 && tipo == 0){
+				else if(achouInteiro.equals("achou") && achouDouble == null && tipo == 0){
 					System.out.println("\nA variavel " + "'" + nomeVariavel + "'" + " e do tipo inteira, nao pode atribuir uma palavra a ela");
 				}
-				else if(achouInteiro == 0 && achouDouble == 0 && tipo == 0){
-						if(achouString == 0){
+				else if(achouInteiro == null && achouDouble == null && tipo == 0){
+						if(achouString == null){
 							lista_string.insiraNaListaString(nomeVariavel, valorVariavel);
 							System.out.println("\n^^^^^^^^^^ Isso esta na lista de string ^^^^^^^^^^");
 							lista_string.imprimir();
