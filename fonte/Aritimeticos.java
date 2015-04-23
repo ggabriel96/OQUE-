@@ -15,18 +15,37 @@ class Aritimeticos
 		int aux = 0, i = 0, sinal = 1;
 		double valor1 = 0, valor2 = 0;
 		char op = 'Q', oper = 'Q';
-		int flag = 0, flag2 = 0;
-
-		for(i = pos + 1; i < linha.length(); i++){
-			if(tokem.ehToken(linha.charAt(i)) == 'N')
+		int flag = 0, flag2 = 0, ter = 0, poder = 13;
+		boolean vai = true;
+		
+		for(i = pos + 1; i < linha.length(); i++)
+		{
+			if(linha.charAt(i) == '"')
+			{
+				System.out.println("Assssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssspa em i = " + i);
+				vai = !vai;
+			}
+			
+			if(!vai)
 				palavra1 = palavra1 + linha.charAt(i);
+				
+			else if(vai)
+			{
+				if(tokem.ehToken(linha.charAt(i)) == 'N')
+					palavra1 = palavra1 + linha.charAt(i);
+				else
+					 ter = 13;
+			}
 
-			else{
+			if(ter == poder)
+			{
+				System.out.println("palavra1: " + palavra1 + " >>>>>>>>>>>>>>>>>>>>>>>>>> palavra2: " + palavra2);
 				op = linha.charAt(i);
 				oper = op;
 				aux = i;
 
-				try {
+				try 
+				{
 					flag = 0;
 					if(palavra1 != "")
 						valor1 = sinal * (Double.parseDouble(palavra1));
@@ -171,6 +190,10 @@ class Aritimeticos
 			else
 			{
 				palavra1 = palavra1 + palavra2;
+				
+				// Concatena para colocar entre aspas a resposta.
+				palavra1 = "\"" + palavra1 + "\"";
+				
 				linha = troca(linha, pos, palavra1, i);
 				linha = simplifica(linha, pos);
 			}
