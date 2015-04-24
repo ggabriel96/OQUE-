@@ -1,3 +1,6 @@
+import java.lang.*;
+import java.util.Random;
+
 class Interpretador{
 
 // Atributos da classe ==========================
@@ -10,6 +13,7 @@ class Interpretador{
 	private Double_lista lista_double;
 	private String_lista lista_string;
 	public static boolean farol;
+	public static boolean ELSE;
 	private boolean encontrouInicioLaco, encontrouFimLaco;
 	private LacoRepeticao lacorepeticao;
 
@@ -25,6 +29,7 @@ class Interpretador{
 	lista_double = new Double_lista();
 	lista_string = new String_lista();
 	Interpretador.farol = true;
+	Interpretador.ELSE = false;
 	lacorepeticao = new LacoRepeticao();
   }
 
@@ -189,10 +194,26 @@ class Interpretador{
 			if(tok == '{'){
 				if(Interpretador.farol)
 				{
+					String kl = estring.NantesTokem(linha, aqui);
+					if(kl.equals("SENAO") )
+					{
+						if(Interpretador.ELSE)
+							Interpretador.ELSE = false;
+
+						else
+						{
+							Random gerador = new Random();
+							System.out.println("ERRO: SENAO sem um SE. A maquina se autodestruira em 7 segundos. Numero aleatório: " + gerador.nextInt());
+							System.exit(0);
+						}
+					}
+					
 					// Funcao que trata o escopo
 					System.out.println("Achei um abre escopo.");
 					linha = blocos.escopo(blocos.achaEscopo(linha, aqui));
+					Interpretador.farol = false;
 				}
+				
 				else
 				{
 					Interpretador.farol = true;
@@ -210,7 +231,7 @@ class Interpretador{
 			if(tok == '(')
 			{
 				System.out.println("Achei um abre escopo.");
-				Interpretador.farol = estring.executaCondicional(linha, aqui, true, '&');
+				estring.abreParenteses(linha, aqui);
 			}
 
 			aqui++;

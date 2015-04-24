@@ -1,3 +1,5 @@
+import java.util.Random;
+
 class Estring
 {
 
@@ -225,14 +227,19 @@ class Estring
 		return nova;
 	}
 	
-	public boolean executaCondicional(String linha, int pos, boolean vale, char ok)
+	public boolean executaCondicional(String linha, int pos)
 	{
-		int valor1 = 0, valor2 = 0, i = 0, aux = 0, n = 0;
+		int i = 0, aux = 0, n = 0, flag = 0, flag2 = 0;
 		boolean bool = true;
+		double valor1 = 0, valor2 = 0;
 		char tok = 'Q', tok2 = 'Q';
 		String nova = new String("");
 		String palavra1 = new String("");
 		String palavra2 = new String("");
+		String vale = new String("");
+		String vale2 = new String("");
+		Aritimeticos aritimetico = new Aritimeticos();
+		
 		nova = condicional(linha, pos);
 		
 		for(i = 0; i < nova.length(); i++)
@@ -269,25 +276,162 @@ class Estring
 			else
 				palavra2 += nova.charAt(i);
 		}
-		System.out.println("condicional 1: " + palavra1 + "|  condicional 2: " + palavra2 + "   ------   tok1: " + tok + "|  tok2: " + tok2);
 		
-		valor1 = Integer.parseInt(palavra1);
-		valor2 = Integer.parseInt(palavra2);
+		
+		
+		//???????????????????????????????????????????????????????????????????????????????????????????
+		
+		
+		
+		if(palavra2 != null && !palavra2.isEmpty())
+		{	
+			if((palavra2.charAt(0) == '"') && (palavra2.charAt(palavra2.length()-1) == '"'))
+			{			
+				palavra2 = palavra2.substring(1, palavra2.length()-1);
+				flag = 0;
+			}
+			else
+			{
+				// É número ou variável inválida que começa com número. 
+				if("1234567890".contains(palavra2.charAt(0) + ""))
+				{
+					flag = 1;
+					valor2 = Double.parseDouble(palavra2);
+				}
+				
+				// É variável
+				else
+				{
+					palavra2 = aritimetico.pegaValor(palavra2);
+					if(palavra2 != null)
+					{
+						if(palavra2.charAt(0) == '1'){
+							palavra2 = palavra2.substring(1, palavra2.length());
+							flag = 1;
+							valor2 = Double.parseDouble(palavra2);
+						}
+						
+						else if(palavra2.charAt(0) == '2'){
+							palavra2 = palavra2.substring(1, palavra2.length());
+							flag = 1;
+							valor2 = Double.parseDouble(palavra2);	
+						}
+						
+						else if(palavra2.charAt(0) == '0'){
+							palavra2 = palavra2.substring(2, palavra2.length()-1);
+							flag = 0;
+							vale = palavra2;
+						}
+					}	
+				}
+			}
+		}
+		
+		
+		
+		if(palavra1 != null && !palavra1.isEmpty())
+		{	
+			if((palavra1.charAt(0) == '"') && (palavra1.charAt(palavra1.length()-1) == '"'))
+			{			
+				palavra1 = palavra1.substring(1, palavra1.length()-1);
+				flag2 = 0;
+			}
+			else
+			{
+				// É número ou variável inválida que começa com número. 
+				if("1234567890".contains(palavra1.charAt(0) + ""))
+				{
+					valor1 = Double.parseDouble(palavra1);
+					flag2 = 1;
+				}
+				
+				// É variável
+				else
+				{
+					palavra1 = aritimetico.pegaValor(palavra1);
+					if(palavra1 != null)
+					{
+						if(palavra1.charAt(0) == '1'){
+							palavra1 = palavra1.substring(1, palavra1.length());
+							flag2 = 1;
+							valor1 = Double.parseDouble(palavra1);	
+						}
+						
+						else if(palavra1.charAt(0) == '2'){
+							palavra1 = palavra1.substring(1, palavra1.length());
+							flag2 = 1;
+							valor1 = Double.parseDouble(palavra1);
+						}
+						
+						else if(palavra1.charAt(0) == '0'){
+							palavra1 = palavra1.substring(2, palavra1.length()-1);
+							flag2 = 0;
+							vale2 = palavra1;
+						}
+						
+					}	
+					else
+					{
+						Random gerador = new Random();
+						System.out.println("ERRO: Variável não iniciada.	Número aleatório: " + gerador.nextInt());
+						System.exit(0);
+					}
+				}
+			}
+		}
+		
+		
+		
+		
+		//???????????????????????????????????????????????????????????????????????????????????????????
+		
 		
 		if(tok == '@')
 		{
-			if(valor1 == valor2)
-				bool = true;
+			System.out.println("valor1: " + valor1 + "	valor2: " + valor2 + "\nflag: " + flag + " flag2: " + flag2);
+			if(flag == 1 && flag == flag2)
+			{
+				if(valor1 == valor2)
+					bool = true;
+				else
+					bool = false;
+			}
+			else if(flag == 0 && flag == flag2)
+			{
+				if(palavra1.equals(palavra2))
+					bool = true;
+				else
+					bool = false;
+			}
+			
 			else
-				bool = false;
+			{
+				System.out.println("Errrrrrrrrroooooooooooooooooooooooooooooooou.");
+			}
+			
 		}
 		
 		else if(tok == '!')
-		{
-			if(valor1 != valor2)
-				bool = true;
+		{		
+			if(flag == 1 && flag == flag2)
+			{
+				if(valor1 != valor2)
+					bool = true;
+				else
+					bool = false;
+			}
+			else if(flag == 0 && flag == flag2)
+			{
+				if(!palavra1.equals(palavra2))
+					bool = true;
+				else
+					bool = false;
+			}
+			
 			else
-				bool = false;
+			{
+				System.out.println("Errrrrrrrrroooooooooooooooooooooooooooooooou.");
+			}
 		}
 		
 		else if(tok == '<')
@@ -305,25 +449,42 @@ class Estring
 			else
 				bool = false;
 		}
-		
-		if(ok == '&')
-			bool = bool && vale;
-		else if(ok == '|')
-			bool = bool && vale;
-			
+
+		System.out.println(bool + "afffffffs meu ¬¬");
 		return bool;
 	}
+	/*
+	  
+			else if(flag == 0)
+			{
+				
+			}
+			
+			else if(flag == 1)
+			{
+				
+			}
+			
+			else if(flag == 2)
+			{
+				
+			} 
+	 
+	*/
 	
 	
 	public void abreParenteses(String linha, int pos)
 	{
 		String nova = NantesTokem(linha, pos);
-		System.out.println(nova);
+		System.out.println(Interpretador.ELSE + "porqueeeeeeeeeeeeeeeeeeee");
 		
 		if(nova.equals("SE"))
 		{
-			Interpretador.farol = executaCondicional(linha, pos, true, '&');
+			Interpretador.farol = executaCondicional(linha, pos);
+			System.out.println(Interpretador.farol + " farolfarolfarolfarolfarol");
+			Interpretador.ELSE = true;
 		}
+		
 		
 		else if(nova.equals("repetix"))
 		{
@@ -335,11 +496,34 @@ class Estring
 			String maisNova = achaStrParen(linha, pos);	
 			System.out.print(maisNova);
 		}
+		
+		else
+		{
+			Random gerador = new Random();
+			System.out.println("ERRO: WTF? o que você escreveu antes do parenteses?. Numero aleatório: " + gerador.nextInt());
+			System.exit(0);
+		}
 	}
 	
 	
 	public String achaStrParen(String linha, int pos)
 	{
+		Interpretador interpretador = new Interpretador();
+		String nova = new String("");
+		
+		if(linha.charAt(linha.length()-2) == ')')
+		{
+			//interpretador.interpreta(linha.substring)
+		}
+		else
+		{
+			Random gerador = new Random();
+			System.out.println("ERRO: Erro de sintaxe. Numero aleatório: " + gerador.nextInt());
+			System.exit(0);
+		}
+				
+				
+		
 		return null;
 	}
 	

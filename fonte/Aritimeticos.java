@@ -257,7 +257,6 @@ class Aritimeticos
 		
 
 		sinal = 1;
-		System.out.println(oper + "OOOOOOPPPPPEEEEEERRRRR");
 		if(oper == ';'){
 			if(flag == 0 && flag2 == 0){
 			valor1 = valor1 + valor2;
@@ -276,17 +275,11 @@ class Aritimeticos
 
 
 		else if(oper == '+'){
-			System.out.println("Valor1: " + valor1 + "  valor2: " + valor2 + "  palavra1: " + palavra1 + "  palavra2: " + palavra2);
 			if(flag == 0 && flag2 == 0){
 				valor1 = valor1 + valor2;
 				
-				System.out.println("Vvvalor1: " + valor1 + "   i = " + i);
-				
 				linha = troca(linha, pos, valor1, i);
 				
-				System.out.println("Valor1: " + valor1 + "  valor2: " + valor2 + "  palavra1: " + palavra1 + "  palavra2: " + palavra2);
-				System.out.println("Linha simplificada: " + linha);
-				System.out.println("pos: " + pos);
 				linha = simplifica(linha, pos);
 			}
 
@@ -351,7 +344,6 @@ class Aritimeticos
 
 
 	public String troca(String linha, int igual, double valor, int termina){
-		System.out.println(valor + "ESSE VALOR    tamanho: " + linha.length());
 		String nova = new String("");
 		int ind = 0, i = 0;
 
@@ -365,7 +357,6 @@ class Aritimeticos
 		for(i = termina; i < linha.length(); i++)
 				nova = nova + linha.charAt(i);
 		
-		System.out.println(nova + " NOVAAA");
 		return nova;
 	}
 
