@@ -81,8 +81,6 @@ class Aritimeticos
 					if(op == ';' || op == '+'){
 						valor1 = -666;
 						flag = 1;
-
-
 					}
 				}
 				break;
@@ -93,24 +91,24 @@ class Aritimeticos
 		
 		if(op != ';')
 		{
-			
+			System.out.println("i = " + i + "	QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ");
 			//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 			for(i = aux + 1; i < linha.length(); i++){
 				if(linha.charAt(i) == '"')
-			{
-				vai = !vai;
-			}
-			
-			if(!vai)
-				palavra2 = palavra2 + linha.charAt(i);
+				{
+					vai = !vai;
+				}
 				
-			else if(vai)
-			{
-				if(tokem.ehToken(linha.charAt(i)) == 'N')
+				if(!vai)
 					palavra2 = palavra2 + linha.charAt(i);
-				else
-					 ter = 13;
-			}
+					
+				else if(vai)
+				{
+					if(tokem.ehToken(linha.charAt(i)) == 'N')
+						palavra2 = palavra2 + linha.charAt(i);
+					else
+						 ter = 13;
+				}
 			//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
@@ -122,8 +120,10 @@ class Aritimeticos
 					try{
 
 						if(palavra2 != "")
+						{
 							valor2 = sinal * (Double.parseDouble(palavra2));
-
+							System.out.println("Conseguiu   PPPPPPPPPPPPPPP");
+						}
 						else
 						{
 							if(op == '-')
@@ -143,16 +143,16 @@ class Aritimeticos
 					}
 					catch(NumberFormatException nfe)
 					{
-						if(op == '-')
+						// Colocar aqui a parte que confere no vetor de variaveis.
+						if(op == '-' && palavra2.equals(""))
 						{
 							sinal = sinal*-1;
 							continue;
 						}
-					
-					if(op == ';' || op == '+')
+						if(op == ';' || op == '+')
 						{
-						valor1 = -666;
-						flag2 = 1;
+							valor2 = -666;
+							flag2 = 1;
 						}
 					}
 					break;
@@ -208,10 +208,6 @@ class Aritimeticos
 						System.exit(0);
 					}
 				}
-				
-				
-				// Procurar na lista aqui e já mudar o valor de flag, para string ou numero.
-				//pegaValor(String palavra)
 			}
 		}
 		
@@ -255,31 +251,13 @@ class Aritimeticos
 						}
 					}	
 				}
-				
-				
-				// Procurar na lista aqui e já mudar o valor de flag, para string ou numero.
-				//pegaValor(String palavra)
 			}
 		}
 		
 		
-		/*
-		if(palavra2 != null && !palavra2.isEmpty()){
-			if(palavra2.charAt(0) == '"' && palavra2.charAt(palavra2.length()-1) == '"')
-			{
-				
-				palavra2 = palavra2.substring(1, palavra2.length()-1);
-				flag2 = 1;
-			}
-			else
-			{
-				// Procurar na lista aqui e já mudar o valor de flag, para string ou numero.
-			}
-		}
-		*/
 
 		sinal = 1;
-
+		System.out.println(oper + "OOOOOOPPPPPEEEEEERRRRR");
 		if(oper == ';'){
 			if(flag == 0 && flag2 == 0){
 			valor1 = valor1 + valor2;
@@ -298,10 +276,17 @@ class Aritimeticos
 
 
 		else if(oper == '+'){
+			System.out.println("Valor1: " + valor1 + "  valor2: " + valor2 + "  palavra1: " + palavra1 + "  palavra2: " + palavra2);
 			if(flag == 0 && flag2 == 0){
 				valor1 = valor1 + valor2;
-
+				
+				System.out.println("Vvvalor1: " + valor1 + "   i = " + i);
+				
 				linha = troca(linha, pos, valor1, i);
+				
+				System.out.println("Valor1: " + valor1 + "  valor2: " + valor2 + "  palavra1: " + palavra1 + "  palavra2: " + palavra2);
+				System.out.println("Linha simplificada: " + linha);
+				System.out.println("pos: " + pos);
 				linha = simplifica(linha, pos);
 			}
 
@@ -319,6 +304,7 @@ class Aritimeticos
 		}
 
 		else if(oper == '-'){
+			System.out.println("Caiu na operação de --------");
 			if(flag == 1 && flag2 == 1)
 			{
 				Random gerador = new Random();
@@ -365,17 +351,21 @@ class Aritimeticos
 
 
 	public String troca(String linha, int igual, double valor, int termina){
+		System.out.println(valor + "ESSE VALOR    tamanho: " + linha.length());
 		String nova = new String("");
 		int ind = 0, i = 0;
 
 		for(i = 0; i <= igual; i++)
 			nova = nova + linha.charAt(i);
 
+		while(tokem.ehToken(linha.charAt(termina)) == 'N')
+			termina++;
+		
 		nova = nova + valor;
-
 		for(i = termina; i < linha.length(); i++)
 				nova = nova + linha.charAt(i);
-
+		
+		System.out.println(nova + " NOVAAA");
 		return nova;
 	}
 

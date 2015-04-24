@@ -1,7 +1,9 @@
 a = 1 + 2;
-b = 12 * 20;
-c = 7/3;
-d = "teste1";
-e = "ouro";
-f = d + e;
-g = e + d + " 123 - 321" + "oh god, its working";
+b = a + -3;
+c = -3 + -1;
+m = "marco";
+j = m + 12 + " " + "1 + 2 * 3" + "Q noia";
+a = 666;
+a = 7.9;
+a = "oi!"
+querer = "não é" * "poder";
