@@ -49,7 +49,7 @@ class String_lista{
 
 
 
-    //pesquisa elementos na lista retorna 1 se achou ou -1 se nao achou
+    //pesquisa elementos na lista retorna "achou" se achou ou null se nao achou
     public String pesquisa_string(String nome){
       String_node aux = this.primeiro;
 

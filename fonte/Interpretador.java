@@ -20,12 +20,12 @@ class Interpretador{
     tokens = new Tokem();
     estring = new Estring();
     aritimetico = new Aritimeticos();
-	  blocos = new Blocos();
-		lista_int = new Inteiro_lista();
-		lista_double = new Double_lista();
-		lista_string = new String_lista();
-		Interpretador.farol = true;
-		lacorepeticao = new LacoRepeticao();
+	blocos = new Blocos();
+	lista_int = new Inteiro_lista();
+	lista_double = new Double_lista();
+	lista_string = new String_lista();
+	Interpretador.farol = true;
+	lacorepeticao = new LacoRepeticao();
   }
 
 //===============================================
@@ -78,6 +78,7 @@ class Interpretador{
   //=========================================
 	// função de repetição repetix
  /*
+
 		repetix = lacorepeticao.achaRepetix(linha);
 		if(!repetix.equals("\nrepetix e uma palavra reservada, nao pode usar no nome de variaveis\n") &&
 				!repetix.equals("\nvoce esqueceu de abrir chaves no repetix") &&
@@ -92,6 +93,7 @@ class Interpretador{
 		else{
 			System.out.println(repetix + "\n");
 		}
+
 
  */
 	// fim da função de repeticao repetix
@@ -209,7 +211,6 @@ class Interpretador{
 			{
 				System.out.println("Achei um abre escopo.");
 				Interpretador.farol = estring.executaCondicional(linha, aqui, true, '&');
-				System.out.println("farol============= " + Interpretador.farol);
 			}
 
 			aqui++;
