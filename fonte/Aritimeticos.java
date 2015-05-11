@@ -91,7 +91,6 @@ class Aritimeticos
 		
 		if(op != ';')
 		{
-			System.out.println("i = " + i + "	QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ");
 			//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 			for(i = aux + 1; i < linha.length(); i++){
 				if(linha.charAt(i) == '"')
@@ -122,7 +121,6 @@ class Aritimeticos
 						if(palavra2 != "")
 						{
 							valor2 = sinal * (Double.parseDouble(palavra2));
-							System.out.println("Conseguiu   PPPPPPPPPPPPPPP");
 						}
 						else
 						{
@@ -297,7 +295,6 @@ class Aritimeticos
 		}
 
 		else if(oper == '-'){
-			System.out.println("Caiu na operação de --------");
 			if(flag == 1 && flag2 == 1)
 			{
 				Random gerador = new Random();

@@ -1,28 +1,11 @@
-a = 0;
-b = 5;
+a = 10;
+b = 20;
 
-SE(a!b)
-{
-  h = 10;
-  SE(a@0)
-  {
-	a = 666000;
-  }
-  SENAO
-  {
-	a = 4455;
-  }
-}
-SENAO
-{
-  h = 20;
-}
- SE(7!7)
- {
-	a = 12;
- }
- 
- SENAO
- {
-	a = 1;
- }
+c = a + b;
+c = c/2;
+
+d = "A \nmédia";
+d = d + "\n" + "é " + c;
+
+d = d + "\nPORRAAAAAAAAAAAA.";
+IMPRIME(d);

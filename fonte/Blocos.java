@@ -27,7 +27,7 @@ class Blocos
 			}	
 			aux++;
 		}
-		System.out.println("nova: " + nova);
+		//System.out.println("nova: " + nova);
 		return nova;
 	}
 	

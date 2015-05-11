@@ -119,8 +119,6 @@ class Estring
 		// Reinstancia o vetor no tamanho certo
 		linhas = new String[tamV];
 
-		System.out.println(tamV);
-
 		for(w = 0; w < tamV; w++){
 			linhas[w] = new String("");
 		}
@@ -388,7 +386,6 @@ class Estring
 		
 		if(tok == '@')
 		{
-			System.out.println("valor1: " + valor1 + "	valor2: " + valor2 + "\nflag: " + flag + " flag2: " + flag2);
 			if(flag == 1 && flag == flag2)
 			{
 				if(valor1 == valor2)
@@ -450,38 +447,15 @@ class Estring
 				bool = false;
 		}
 
-		System.out.println(bool + "afffffffs meu ¬¬");
 		return bool;
 	}
-	/*
-	  
-			else if(flag == 0)
-			{
-				
-			}
-			
-			else if(flag == 1)
-			{
-				
-			}
-			
-			else if(flag == 2)
-			{
-				
-			} 
-	 
-	*/
-	
 	
 	public void abreParenteses(String linha, int pos)
 	{
 		String nova = NantesTokem(linha, pos);
-		System.out.println(Interpretador.ELSE + "porqueeeeeeeeeeeeeeeeeeee");
-		
 		if(nova.equals("SE"))
 		{
 			Interpretador.farol = executaCondicional(linha, pos);
-			System.out.println(Interpretador.farol + " farolfarolfarolfarolfarol");
 			Interpretador.ELSE = true;
 		}
 		
@@ -492,8 +466,19 @@ class Estring
 		}
 		
 		else if(nova.equals("IMPRIME"))
-		{
-			String maisNova = achaStrParen(linha, pos);	
+		{	
+			String maisNova = achaStrParen(linha, pos);
+			String aux;
+			
+			for(int i = 0; i < maisNova.length()-2; i++)
+			{
+				if(maisNova.charAt(i) == '\\' && maisNova.charAt(i + 1) == 'n')
+				{
+					aux = maisNova.substring(0, i) + "\n" + maisNova.substring(i+2, maisNova.length());
+					maisNova = aux;
+				}
+			}
+				
 			System.out.print(maisNova);
 		}
 		
@@ -509,22 +494,35 @@ class Estring
 	public String achaStrParen(String linha, int pos)
 	{
 		Interpretador interpretador = new Interpretador();
+		Aritimeticos aritimetico = new Aritimeticos();
+		
 		String nova = new String("");
 		
 		if(linha.charAt(linha.length()-2) == ')')
 		{
-			//interpretador.interpreta(linha.substring)
+			nova = linha.substring(pos + 1, linha.length()-2);
+		
+			if(nova.charAt(0) == '"' && nova.charAt(nova.length()-1) == '"')
+			{
+				return nova.substring(1, nova.length()-1);
+			}
+			else
+			{
+				nova = aritimetico.pegaValor(nova);
+				if(nova.charAt(0) == '0')
+					return nova.substring(2, nova.length() - 1);
+					
+				return nova.substring(1, nova.length());
+			}
 		}
+		
 		else
 		{
 			Random gerador = new Random();
 			System.out.println("ERRO: Erro de sintaxe. Numero aleatório: " + gerador.nextInt());
 			System.exit(0);
 		}
-				
-				
-		
-		return null;
+		return nova;
 	}
 	
 }
