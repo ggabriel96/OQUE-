@@ -21,9 +21,9 @@ class Interpretador{
 
 // Construtor das classes ======================
   public Interpretador(){
-    tokens = new Tokem();
-    estring = new Estring();
-    aritimetico = new Aritimeticos();
+  tokens = new Tokem();
+  estring = new Estring();
+  aritimetico = new Aritimeticos();
 	blocos = new Blocos();
 	lista_int = new Inteiro_lista();
 	lista_double = new Double_lista();
@@ -51,8 +51,7 @@ class Interpretador{
   // printa a linha arrumado e joga dentro do controle e soma a qtd de caracteres da linha ======
     for(i = 0; i < this.linhas.length; i++){
       if(this.linhas[i] != null){
-        
-        
+
         //System.out.println("Linha " + (i + 1) + ": " + this.linhas[i]);
         controle(this.linhas[i], 0);
         tamanho_da_linha = linhas[i].length();
@@ -69,7 +68,7 @@ class Interpretador{
   // Ela encontra tokem por tokem e chama sua determinada
   // funcao ate terminar de percorrer a linha recebida.
   public String controle(String linha, int pos){
-	
+
   // variaveis do metodo CONTROLE ==========
     String valorVariavel = new String("");
 		String nomeVariavel = new String("");
@@ -78,15 +77,43 @@ class Interpretador{
 		String achouInteiro = new String("");
 		String achouDouble = new String("");
 		String achouString = new String("");
+		String caracteresEspeciais = new String("={([+-*/@!%<>]});");
 	  int aqui = pos, tipo;
 		double int_ou_double;
     char tok, tipoTokem;
+		//=========================================
+		// função de repetição repetix
+
+			repetix = lacorepeticao.achaRepetix(linha);
+			// precisa arrumar para não cair nesse if só se for a primeira vez que cai no while ~~~~~~~~~~~~~~~~
+			if(!repetix.equals("\nrepetix e uma palavra reservada, nao pode usar no nome de variaveis\n") &&
+					!repetix.equals("\nvoce esqueceu de abrir chaves no repetix") &&
+					repetix.equals("repetix")){
+
+					if((pos + 7) <= linha.length()){
+						if(linha.charAt(pos + 7) == caracteresEspeciais.charAt(2)){
+							entreparentes = lacorepeticao.entreParenteses(linha, pos + 7);
+							entreparentes = "(" + entreparentes + ")";
+				  	}
+					}
+
+					while(estring.executaCondicional(entreparentes, pos)){
+							controle(linha.substring(pos +7+ entreparentes.length()), 0);
+					}
+					return"0";
+			}
+			else{
+				System.out.println(repetix);
+			}
+
+		// fim da função de repeticao repetix
+
 
 
   // verefica o tipo do tokem ===============
     while(aqui < linha.length()){
       aqui = tokens.achaToken(linha, aqui);
-	
+
       if(aqui == -1)
 			     return "-1";
 
@@ -187,13 +214,13 @@ class Interpretador{
 							System.exit(0);
 						}
 					}
-					
+
 					// Funcao que trata o escopo
 					//System.out.println("Achei um abre escopo.");
 					linha = blocos.escopo(blocos.achaEscopo(linha, aqui));
 					Interpretador.farol = false;
 				}
-				
+
 				else
 				{
 					Interpretador.farol = true;

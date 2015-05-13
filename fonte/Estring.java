@@ -52,12 +52,12 @@ class Estring
 	{
 		int i = 0, j = 0, asp = 0;
 		String nova = new String("");
-		
+
 		for(i = 0; i <  linha.length(); i++)
 		{
 			if(linha.charAt(i) == '"')
 				asp++;
-			
+
 			if(asp%2 == 0)
 			{
 				if(linha.charAt(i) != ' ' && linha.charAt(i) != '\t')
@@ -177,12 +177,12 @@ class Estring
 	{
 		String antesTokem = new String("");
 		char a;
-		
+
 		if(pos > 0)
 			a = linha.charAt(pos-1);
 		else
 			return "";
-			
+
 		int i;
 		for(i = pos - 1; (a != '{' && a != ';' && i >= 0); i--)
 		{
@@ -207,24 +207,24 @@ class Estring
 		}
 		return antesTokem;
 	}
-	
-	
+
+
 	public String condicional(String linha, int pos)
 	{
 		int i = 0;
 		String nova = new String("");
-		
+
 		for(i = pos + 1; pos < linha.length(); i++)
 		{
 			if(linha.charAt(i) == ')')
 				break;
-			
+
 			else
 				nova = nova + linha.charAt(i);
 		}
 		return nova;
 	}
-	
+
 	public boolean executaCondicional(String linha, int pos)
 	{
 		int i = 0, aux = 0, n = 0, flag = 0, flag2 = 0;
@@ -237,9 +237,9 @@ class Estring
 		String vale = new String("");
 		String vale2 = new String("");
 		Aritimeticos aritimetico = new Aritimeticos();
-		
+
 		nova = condicional(linha, pos);
-		
+
 		for(i = 0; i < nova.length(); i++)
 		{
 			if(tokem.ehToken(nova.charAt(i)) != 'N')
@@ -249,15 +249,16 @@ class Estring
 					palavra1 += nova.charAt(i);
 					continue;
 				}
-				
+
 				tok = tokem.ehToken(nova.charAt(i));
 				break;
 			}
-			
+
 			else
 				palavra1 += nova.charAt(i);
 		}
-		
+
+
 		for(i = i + 1; i < nova.length(); i++)
 		{
 			if(tokem.ehToken(nova.charAt(i)) != 'N')
@@ -270,33 +271,31 @@ class Estring
 				tok2 = tokem.ehToken(nova.charAt(i));
 				break;
 			}
-			
+
 			else
 				palavra2 += nova.charAt(i);
 		}
-		
-		
-		
+
+
+
 		//???????????????????????????????????????????????????????????????????????????????????????????
-		
-		
-		
+
 		if(palavra2 != null && !palavra2.isEmpty())
-		{	
+		{
 			if((palavra2.charAt(0) == '"') && (palavra2.charAt(palavra2.length()-1) == '"'))
-			{			
+			{
 				palavra2 = palavra2.substring(1, palavra2.length()-1);
 				flag = 0;
 			}
 			else
 			{
-				// É número ou variável inválida que começa com número. 
+				// É número ou variável inválida que começa com número.
 				if("1234567890".contains(palavra2.charAt(0) + ""))
 				{
 					flag = 1;
 					valor2 = Double.parseDouble(palavra2);
 				}
-				
+
 				// É variável
 				else
 				{
@@ -308,41 +307,41 @@ class Estring
 							flag = 1;
 							valor2 = Double.parseDouble(palavra2);
 						}
-						
+
 						else if(palavra2.charAt(0) == '2'){
 							palavra2 = palavra2.substring(1, palavra2.length());
 							flag = 1;
-							valor2 = Double.parseDouble(palavra2);	
+							valor2 = Double.parseDouble(palavra2);
 						}
-						
+
 						else if(palavra2.charAt(0) == '0'){
 							palavra2 = palavra2.substring(2, palavra2.length()-1);
 							flag = 0;
 							vale = palavra2;
 						}
-					}	
+					}
 				}
 			}
 		}
-		
-		
-		
+
+
+
 		if(palavra1 != null && !palavra1.isEmpty())
-		{	
+		{
 			if((palavra1.charAt(0) == '"') && (palavra1.charAt(palavra1.length()-1) == '"'))
-			{			
+			{
 				palavra1 = palavra1.substring(1, palavra1.length()-1);
 				flag2 = 0;
 			}
 			else
 			{
-				// É número ou variável inválida que começa com número. 
+				// É número ou variável inválida que começa com número.
 				if("1234567890".contains(palavra1.charAt(0) + ""))
 				{
 					valor1 = Double.parseDouble(palavra1);
 					flag2 = 1;
 				}
-				
+
 				// É variável
 				else
 				{
@@ -352,22 +351,22 @@ class Estring
 						if(palavra1.charAt(0) == '1'){
 							palavra1 = palavra1.substring(1, palavra1.length());
 							flag2 = 1;
-							valor1 = Double.parseDouble(palavra1);	
+							valor1 = Double.parseDouble(palavra1);
 						}
-						
+
 						else if(palavra1.charAt(0) == '2'){
 							palavra1 = palavra1.substring(1, palavra1.length());
 							flag2 = 1;
 							valor1 = Double.parseDouble(palavra1);
 						}
-						
+
 						else if(palavra1.charAt(0) == '0'){
 							palavra1 = palavra1.substring(2, palavra1.length()-1);
 							flag2 = 0;
 							vale2 = palavra1;
 						}
-						
-					}	
+
+					}
 					else
 					{
 						Random gerador = new Random();
@@ -377,13 +376,13 @@ class Estring
 				}
 			}
 		}
-		
-		
-		
-		
+
+
+
+
 		//???????????????????????????????????????????????????????????????????????????????????????????
-		
-		
+
+
 		if(tok == '@')
 		{
 			if(flag == 1 && flag == flag2)
@@ -400,16 +399,16 @@ class Estring
 				else
 					bool = false;
 			}
-			
+
 			else
 			{
 				System.out.println("Errrrrrrrrroooooooooooooooooooooooooooooooou.");
 			}
-			
+
 		}
-		
+
 		else if(tok == '!')
-		{		
+		{
 			if(flag == 1 && flag == flag2)
 			{
 				if(valor1 != valor2)
@@ -424,13 +423,13 @@ class Estring
 				else
 					bool = false;
 			}
-			
+
 			else
 			{
 				System.out.println("Errrrrrrrrroooooooooooooooooooooooooooooooou.");
 			}
 		}
-		
+
 		else if(tok == '<')
 		{
 			if(valor1 < valor2)
@@ -438,7 +437,7 @@ class Estring
 			else
 				bool = false;
 		}
-		
+
 		else if(tok == '>')
 		{
 			if(valor1 > valor2)
@@ -449,7 +448,7 @@ class Estring
 
 		return bool;
 	}
-	
+
 	public void abreParenteses(String linha, int pos)
 	{
 		String nova = NantesTokem(linha, pos);
@@ -458,18 +457,18 @@ class Estring
 			Interpretador.farol = executaCondicional(linha, pos);
 			Interpretador.ELSE = true;
 		}
-		
-		
+
+
 		else if(nova.equals("repetix"))
 		{
 			// Colocar a função repetix aqui.
 		}
-		
+
 		else if(nova.equals("IMPRIME"))
-		{	
+		{
 			String maisNova = achaStrParen(linha, pos);
 			String aux;
-			
+
 			for(int i = 0; i < maisNova.length()-2; i++)
 			{
 				if(maisNova.charAt(i) == '\\' && maisNova.charAt(i + 1) == 'n')
@@ -478,10 +477,10 @@ class Estring
 					maisNova = aux;
 				}
 			}
-				
+
 			System.out.print(maisNova);
 		}
-		
+
 		else
 		{
 			Random gerador = new Random();
@@ -489,19 +488,19 @@ class Estring
 			System.exit(0);
 		}
 	}
-	
-	
+
+
 	public String achaStrParen(String linha, int pos)
 	{
 		Interpretador interpretador = new Interpretador();
 		Aritimeticos aritimetico = new Aritimeticos();
-		
+
 		String nova = new String("");
-		
+
 		if(linha.charAt(linha.length()-2) == ')')
 		{
 			nova = linha.substring(pos + 1, linha.length()-2);
-		
+
 			if(nova.charAt(0) == '"' && nova.charAt(nova.length()-1) == '"')
 			{
 				return nova.substring(1, nova.length()-1);
@@ -511,11 +510,11 @@ class Estring
 				nova = aritimetico.pegaValor(nova);
 				if(nova.charAt(0) == '0')
 					return nova.substring(2, nova.length() - 1);
-					
+
 				return nova.substring(1, nova.length());
 			}
 		}
-		
+
 		else
 		{
 			Random gerador = new Random();
@@ -524,5 +523,5 @@ class Estring
 		}
 		return nova;
 	}
-	
+
 }

@@ -1,11 +1,14 @@
-a = 10;
-b = 20;
+a = 4;
 
-c = a + b;
-c = c/2;
-
-d = "A \nmédia";
-d = d + "\n" + "é " + c;
-
-d = d + "\nPORRAAAAAAAAAAAA.";
-IMPRIME(d);
+IMPRIME(a);
+repetix(a ! 0){
+  a = a -1;
+  IMPRIME("valor de a: ");
+  IMPRIME(a);
+  b = 5;
+  repetix(b @ 5){
+    b = b +1;
+    IMPRIME("valor de b: ");
+    IMPRIME(b);
+  };
+};

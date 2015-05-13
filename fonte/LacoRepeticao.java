@@ -11,7 +11,15 @@ class LacoRepeticao{
 		int i, tamanholinha = 0, y = 0, inicioRepetix = 0;
 		String repetix = new String(" ");
 		char x;
-
+    if(linha.length() < 10)
+      return "";
+    if(linha.substring(0,10).contains("repetix(")){
+      return  "repetix";
+    }else if(!linha.contains("repetix(") && linha.contains("repetix")){
+      return "\nrepetix e uma palavra reservada, nao pode usar no nome de variaveis\n";
+    }
+    return "";
+    /*
 		for(x = linha.charAt(y); x != ';'; x = linha.charAt(y++)){
 			tamanholinha++;
 		}
@@ -49,16 +57,10 @@ class LacoRepeticao{
           }
         }
   		}
-      else
-  		{
-  			repetix = "\nnao existe repetix na linha";
-  		}
     }
-		else
-		{
-			repetix = "\nnao existe repetix na linha";
-		}
-		return repetix;
+
+		return repetix;*/
+
 }
 
   public String entreParenteses(String linha, int pos)
@@ -72,10 +74,30 @@ class LacoRepeticao{
   		}
     }
     else{
-      nova = "nao tem nada entre as chaves";
+      nova = "nao tem nada entre as parentes";
     }
+
 		return nova;
 	}
-  
+
+/*
+  public Boolean Condicao(String linha){
+    String palavra1 = new String();
+    String palavra  = new String();
+    int i, x;
+
+    for(i = 0; i <= linha.length(); i++){
+      if(linha.charAt(i) == tokens.charAt(8) || linha.charAt(i) == tokens.charAt(9) || linha.charAt(i) == tokens.charAt(11) || linha.charAt(i) == tokens.charAt(12)){
+        x = i;
+        for(; linha.charAt(i) != ";"; i++){
+          palavra1 = palavra1 + linha.charAt(i);
+        }
+        for(; linha.charAt(i) != tokens.charAt(15); i--){
+          palavra2 = palavra2 + linha.charAt(i);
+        }
+      }
+    }
+  }
+  */
 
 }
