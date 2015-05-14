@@ -1,17 +1,6 @@
-a = 1&2;
-b = a & "\n";
-IMPRIME(b);
-
-a = 1&2^-1;
-b = a & "\n";
-IMPRIME(b);
-a = -4;
-SE(a@4)
+a = "abacate";
+b = "mane";
+SE(a@b)
 {
-	IMPRIME("ABACATE\n\nlol");
-}
-
-SE(a@-4)
-{
-	IMPRIME("\o/\n");
+     IMPRIME("\o/\n");
 }

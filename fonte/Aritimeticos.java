@@ -64,7 +64,7 @@ class Aritimeticos
 						else
 						{
 							Random gerador = new Random();
-							System.out.println("ERRO: Sintaxe invalida.		Número aleatório: " + gerador.nextInt());
+							System.out.println("ERRO: Sintaxe invalida.		Numero aleatorio: " + gerador.nextInt());
 							System.exit(0);
 						}
 						continue;
@@ -125,7 +125,7 @@ class Aritimeticos
 							else
 							{
 								Random gerador = new Random();
-								System.out.println("ERRO: Sintaxe inválida.		Número aleatório: " + gerador.nextInt());
+								System.out.println("ERRO: Sintaxe invalida.		Numero aleatorio: " + gerador.nextInt());
 								System.exit(0);
 							}
 							continue;
@@ -193,7 +193,7 @@ class Aritimeticos
 					else
 					{
 						Random gerador = new Random();
-						System.out.println("ERRO: Variável não iniciada.	Número aleatório: " + gerador.nextInt());
+						System.out.println("ERRO: Variavel nao iniciada.	Numero aleatorio: " + gerador.nextInt());
 						System.exit(0);
 					}
 				}
@@ -289,7 +289,7 @@ class Aritimeticos
 			if(flag == 1 && flag2 == 1)
 			{
 				Random gerador = new Random();
-				System.out.println("ERRO: Tipo incopatível para a operação. Numero aleatório: " + gerador.nextInt());
+				System.out.println("ERRO: Tipo incopativel para a operacao. Numero aleatorio: " + gerador.nextInt());
 				System.exit(0);
 			}
 			valor1 = valor1 - valor2;
@@ -393,7 +393,7 @@ class Aritimeticos
 				nova = lista_string.pesquisa_string(palavra);
 				if(nova == null)
 				{
-					System.out.println("Warning: Variavel \"" + palavra + "\" não iniciada.");
+					System.out.println("Warning: Variavel \"" + palavra + "\" nao iniciada.");
 					return null;
 				}
 				else

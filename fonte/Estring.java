@@ -367,7 +367,7 @@ class Estring
 					else
 					{
 						Random gerador = new Random();
-						System.out.println("ERRO: Variável não iniciada.	Número aleatório: " + gerador.nextInt());
+						System.out.println("ERRO: Variavel nao iniciada.	Numero aleatorio: " + gerador.nextInt());
 						System.exit(0);
 					}
 				}
