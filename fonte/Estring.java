@@ -290,7 +290,7 @@ class Estring
 			else
 			{
 				// É número ou variável inválida que começa com número.
-				if("1234567890".contains(palavra2.charAt(0) + ""))
+				if("-1234567890".contains(palavra2.charAt(0) + ""))
 				{
 					flag = 1;
 					valor2 = Double.parseDouble(palavra2);
@@ -336,7 +336,7 @@ class Estring
 			else
 			{
 				// É número ou variável inválida que começa com número.
-				if("1234567890".contains(palavra1.charAt(0) + ""))
+				if("-1234567890".contains(palavra1.charAt(0) + ""))
 				{
 					valor1 = Double.parseDouble(palavra1);
 					flag2 = 1;
