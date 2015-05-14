@@ -79,9 +79,7 @@ class Interpretador{
 
 		// função de repetição ~repetix~
 			repetix = lacorepeticao.achaRepetix(linha);
-			if(!repetix.equals("\nrepetix e uma palavra reservada, nao pode usar no nome de variaveis\n") &&
-					!repetix.equals("\nvoce esqueceu de abrir chaves no repetix") &&
-					repetix.equals("repetix")){
+			if(!repetix.equals("repetix e uma palavra reservada, nao pode usar no nome de variaveis") && repetix.equals("repetix")){
 
 					if((pos + 7) <= linha.length()){
 						if(linha.charAt(pos + 7) == caracteresEspeciais.charAt(2)){
@@ -96,8 +94,11 @@ class Interpretador{
 					return"0";
 			}
 			else{
-				//System.out.println(repetix);
-				
+				if(repetix.equals("repetix e uma palavra reservada, nao pode usar no nome de variaveis")){
+					System.out.print("\n");
+				}
+				System.out.print(repetix);
+
 			}
 		// fim da função de repeticao ~repetix~
 
@@ -178,7 +179,7 @@ class Interpretador{
 			if(tok == '{'){
 				if(Interpretador.farol)
 				{
-					
+
 					String kl = estring.NantesTokem(linha, aqui);
 					if(kl.equals("SENAO") )
 					{
@@ -196,7 +197,7 @@ class Interpretador{
 					// Funcao que trata o escopo
 					String ajuda = linha;
 					linha = blocos.escopo(blocos.achaEscopo(linha, aqui));
-					
+
 					Interpretador.farol = false;
 				}
 

@@ -15,7 +15,7 @@ class LacoRepeticao{
     if(linha.substring(0,10).contains("repetix(")){
       return  "repetix";
     }else if(!linha.contains("repetix(") && linha.contains("repetix")){
-      return "\nrepetix e uma palavra reservada, nao pode usar no nome de variaveis\n";
+      return "repetix e uma palavra reservada, nao pode usar no nome de variaveis";
     }
     return "";
 
