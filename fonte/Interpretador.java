@@ -174,6 +174,7 @@ class Interpretador{
 			if(tok == '{'){
 				if(Interpretador.farol)
 				{
+					
 					String kl = estring.NantesTokem(linha, aqui);
 					if(kl.equals("SENAO") )
 					{
@@ -190,7 +191,9 @@ class Interpretador{
 					
 					// Funcao que trata o escopo
 					//System.out.println("Achei um abre escopo.");
+					String ajuda = linha;
 					linha = blocos.escopo(blocos.achaEscopo(linha, aqui));
+					
 					Interpretador.farol = false;
 				}
 				

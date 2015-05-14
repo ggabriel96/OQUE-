@@ -1,11 +1,5 @@
 a = 10;
-b = 20;
 
-c = a + b;
-c = c/2;
+teste = "\n" + "a vale: " + a + "\n\n";
 
-d = "A \nmédia";
-d = d + "\n" + "é " + c;
-
-d = d + "\nPORRAAAAAAAAAAAA.";
-IMPRIME(d);
+IMPRIME(teste);

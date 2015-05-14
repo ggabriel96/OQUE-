@@ -462,7 +462,7 @@ class Estring
 		
 		else if(nova.equals("repetix"))
 		{
-			// Colocar a função repetix aqui.
+			
 		}
 		
 		else if(nova.equals("IMPRIME"))
@@ -470,7 +470,7 @@ class Estring
 			String maisNova = achaStrParen(linha, pos);
 			String aux;
 			
-			for(int i = 0; i < maisNova.length()-2; i++)
+			for(int i = 0; i < maisNova.length(); i++)
 			{
 				if(maisNova.charAt(i) == '\\' && maisNova.charAt(i + 1) == 'n')
 				{
