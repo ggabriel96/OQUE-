@@ -4,7 +4,7 @@ class LacoRepeticao{
 
   // Construtor (instancia objetos da classe) =====
   	public LacoRepeticao(){
-  		tokens = new String("={([+-*/@!%<>]});");
+  		tokens = new String("={([+-~$@!#<>]});&^");
   	}
 
   public String achaRepetix(String linha){
@@ -15,7 +15,7 @@ class LacoRepeticao{
     if(linha.substring(0,10).contains("repetix(")){
       return  "repetix";
     }else if(!linha.contains("repetix(") && linha.contains("repetix")){
-      return "repetix e uma palavra reservada, nao pode usar no nome de variaveis";
+      return "'repetix' e uma palavra reservada pelo Imperio Galactico, \nso pode usar essa palavra (sem ser como laco) quem segue o lado negro da forca\nsinto muito =/";
     }
     return "";
 

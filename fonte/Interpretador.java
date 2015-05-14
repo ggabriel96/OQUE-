@@ -72,14 +72,14 @@ class Interpretador{
 		String achouInteiro = new String("");
 		String achouDouble = new String("");
 		String achouString = new String("");
-		String caracteresEspeciais = new String("={([+-*/@!%<>]});");
+		String caracteresEspeciais = new String("={([+-~$@!#<>]});&^");
 	  int aqui = pos, tipo;
 		double int_ou_double;
     char tok, tipoTokem;
 
 		// função de repetição ~repetix~
 			repetix = lacorepeticao.achaRepetix(linha);
-			if(!repetix.equals("repetix e uma palavra reservada, nao pode usar no nome de variaveis") && repetix.equals("repetix")){
+			if(!repetix.equals("'repetix' e uma palavra reservada pelo Imperio Galactico, \nso pode usar essa palavra (sem ser como laco) quem segue o lado negro da forca\nsinto muito =/") && repetix.equals("repetix")){
 
 					if((pos + 7) <= linha.length()){
 						if(linha.charAt(pos + 7) == caracteresEspeciais.charAt(2)){
@@ -94,11 +94,7 @@ class Interpretador{
 					return"0";
 			}
 			else{
-				if(repetix.equals("repetix e uma palavra reservada, nao pode usar no nome de variaveis")){
-					System.out.print("\n");
-				}
 				System.out.print(repetix);
-
 			}
 		// fim da função de repeticao ~repetix~
 
@@ -141,7 +137,7 @@ class Interpretador{
 						}
 					}
 					else if((int_ou_double % 1) == 0 && achouDouble != null ){
-						System.out.println("A variavel " + "'" + nomeVariavel + "'" + " e do tipo double, nao pode atribuir um valor inteiro para ela");
+						System.out.println("A variavel " + "'" + nomeVariavel + "'" + " e do tipo double, voce esta tentando atribuir um valor do tipo 'int' para ela");
 					}
 					else if((int_ou_double % 1) != 0 && achouInteiro == null){
 						if(achouDouble == null){
@@ -154,7 +150,7 @@ class Interpretador{
 						}
 					}
 					else if((int_ou_double % 1) != 0 && achouInteiro != null){
-						System.out.println("A variavel " + "'" + nomeVariavel + "'" + " e do tipo inteiro, nao pode atribuir um valor double para ela");
+						System.out.println("A variavel " + "'" + nomeVariavel + "'" + " e do tipo inteiro, voce esta tentando atribuir um valor do tipo 'double' para ela");
 					}
 				}
 				else if(achouString != null && tipo == 1){
