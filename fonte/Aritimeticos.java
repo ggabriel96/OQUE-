@@ -19,17 +19,17 @@ class Aritimeticos
 		char op = 'Q', oper = 'Q';
 		int flag = 0, flag2 = 0, ter = 0, poder = 13;
 		boolean vai = true;
-		
+
 		for(i = pos + 1; i < linha.length(); i++)
 		{
 			if(linha.charAt(i) == '"')
 			{
 				vai = !vai;
 			}
-			
+
 			if(!vai)
 				palavra1 = palavra1 + linha.charAt(i);
-				
+
 			else if(vai)
 			{
 				if(tokem.ehToken(linha.charAt(i)) == 'N')
@@ -39,14 +39,14 @@ class Aritimeticos
 			}
 
 			if(ter == poder)
-			{	
+			{
 				vai = true;
 				ter = 0;
 				op = linha.charAt(i);
 				oper = op;
 				aux = i;
 
-				try 
+				try
 				{
 					flag = 0;
 					if(!palavra1.equals("")){
@@ -55,7 +55,7 @@ class Aritimeticos
 					}
 					else
 					{
-							
+
 						if(op == '-')
 							sinal = -1;
 
@@ -88,7 +88,7 @@ class Aritimeticos
 		}
 		sinal = 1;
 		// Arrumar esse for também	OQUEOQUEOQUEOQUEOQUEOQUEOQUEOQUEOQUEOQUEOQUEOQUEOQUEOQUEOQUEOQUEOQUEOQUEOQUEOQUEOQUEOQUEOQUEOQUEOQUEOQUEOQUEOQUE
-		
+
 		if(op != ';')
 		{
 			//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -97,10 +97,10 @@ class Aritimeticos
 				{
 					vai = !vai;
 				}
-				
+
 				if(!vai)
 					palavra2 = palavra2 + linha.charAt(i);
-					
+
 				else if(vai)
 				{
 					if(tokem.ehToken(linha.charAt(i)) == 'N')
@@ -157,24 +157,24 @@ class Aritimeticos
 				}
 			}
 		}
-		
-		
+
+
 		// Essa parte confere se é uma string ou uma variável.
 		if(palavra1 != null && !palavra1.isEmpty())
-		{	
+		{
 			if((palavra1.charAt(0) == '"') && (palavra1.charAt(palavra1.length()-1) == '"'))
-			{			
+			{
 				palavra1 = palavra1.substring(1, palavra1.length()-1);
 				flag = 1;
 			}
 			else
 			{
-				// É número ou variável inválida que começa com número. 
+				// É número ou variável inválida que começa com número.
 				if("1234567890".contains(palavra1.charAt(0) + ""))
 				{
-					
+
 				}
-				
+
 				// É variável
 				else
 				{
@@ -184,21 +184,21 @@ class Aritimeticos
 						if(palavra1.charAt(0) == '1'){
 							palavra1 = palavra1.substring(1, palavra1.length());
 							flag = 0;
-							valor1 = Integer.parseInt(palavra1);	
+							valor1 = Integer.parseInt(palavra1);
 						}
-						
+
 						else if(palavra1.charAt(0) == '2'){
 							palavra1 = palavra1.substring(1, palavra1.length());
 							flag = 0;
-							valor1 = Double.parseDouble(palavra1);	
+							valor1 = Double.parseDouble(palavra1);
 						}
-						
+
 						else if(palavra1.charAt(0) == '0'){
 							palavra1 = palavra1.substring(2, palavra1.length()-1);
 							flag = 1;
 						}
-						
-					}	
+
+					}
 					else
 					{
 						Random gerador = new Random();
@@ -208,23 +208,23 @@ class Aritimeticos
 				}
 			}
 		}
-		
+
 		// Essa parte confere se é uma string ou uma variável.
 		if(palavra2 != null && !palavra2.isEmpty())
-		{	
+		{
 			if((palavra2.charAt(0) == '"') && (palavra2.charAt(palavra2.length()-1) == '"'))
-			{			
+			{
 				palavra2 = palavra2.substring(1, palavra2.length()-1);
 				flag = 1;
 			}
 			else
 			{
-				// É número ou variável inválida que começa com número. 
+				// É número ou variável inválida que começa com número.
 				if("1234567890".contains(palavra2.charAt(0) + ""))
 				{
-					
+
 				}
-				
+
 				// É variável
 				else
 				{
@@ -234,25 +234,25 @@ class Aritimeticos
 						if(palavra2.charAt(0) == '1'){
 							palavra2 = palavra2.substring(1, palavra2.length());
 							flag2 = 0;
-							valor2 = Integer.parseInt(palavra2);	
+							valor2 = Integer.parseInt(palavra2);
 						}
-						
+
 						else if(palavra2.charAt(0) == '2'){
 							palavra2 = palavra2.substring(1, palavra2.length());
 							flag2 = 0;
-							valor2 = Double.parseDouble(palavra2);	
+							valor2 = Double.parseDouble(palavra2);
 						}
-						
+
 						else if(palavra2.charAt(0) == '0'){
 							palavra2 = palavra2.substring(2, palavra2.length()-1);
 							flag2 = 1;
 						}
-					}	
+					}
 				}
 			}
 		}
-		
-		
+
+
 
 		sinal = 1;
 		if(oper == ';'){
@@ -272,19 +272,19 @@ class Aritimeticos
 		}
 
 
-		else if(oper == '+'){
+		else if(oper == '&'){
 			if(flag == 0 && flag2 == 0){
 				valor1 = valor1 + valor2;
-				
+
 				linha = troca(linha, pos, valor1, i);
-				
+
 				linha = simplifica(linha, pos);
 			}
 
 			else
 			{
 				palavra1 = palavra1 + palavra2;
-				
+
 				// Concatena para colocar entre aspas a resposta.
 				palavra1 = "\"" + palavra1 + "\"";
 				linha = troca(linha, pos, palavra1, i);
@@ -294,7 +294,7 @@ class Aritimeticos
 			return linha;
 		}
 
-		else if(oper == '-'){
+		else if(oper == '^'){
 			if(flag == 1 && flag2 == 1)
 			{
 				Random gerador = new Random();
@@ -308,7 +308,7 @@ class Aritimeticos
 			return linha;
 		}
 
-		else if(oper == '*'){
+		else if(oper == '~'){
 			valor1 = valor1 * valor2;
 
 			linha = troca(linha, pos, valor1, i);
@@ -317,7 +317,7 @@ class Aritimeticos
 			return linha;
 		}
 
-		else if(oper == '/'){
+		else if(oper == '$'){
 			valor1 = valor1 / valor2;
 
 			linha = troca(linha, pos, valor1, i);
@@ -326,7 +326,7 @@ class Aritimeticos
 			return linha;
 		}
 
-		else if(oper == '%'){
+		else if(oper == '#'){
 			valor1 = valor1 % valor2;
 
 			linha = troca(linha, pos, valor1, i);
@@ -349,11 +349,11 @@ class Aritimeticos
 
 		while(tokem.ehToken(linha.charAt(termina)) == 'N')
 			termina++;
-		
+
 		nova = nova + valor;
 		for(i = termina; i < linha.length(); i++)
 				nova = nova + linha.charAt(i);
-		
+
 		return nova;
 	}
 
@@ -384,7 +384,7 @@ class Aritimeticos
 			return 0;
 		}
 	}
-	
+
 	// Retorna null se não achar, ou "1" + valor se for numero ou "0" + valor se for string.
 	// Cara, que função mais linda :P
 	public String pegaValor(String palavra)
@@ -392,7 +392,7 @@ class Aritimeticos
 		Inteiro_lista lista_int = new Inteiro_lista();
 		Double_lista lista_double = new Double_lista();
 		String_lista lista_string = new String_lista();
-		
+
 		String nova = lista_double.pesquisa_double(palavra);
 		if(nova == null)
 		{
@@ -414,5 +414,5 @@ class Aritimeticos
 		else
 			return "2" + lista_double.retornaValor(palavra);
 	}
-	
+
 }
