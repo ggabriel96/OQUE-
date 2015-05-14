@@ -1,17 +1,6 @@
-a = 4;
+IMPRIME("uma\npalavra\nem\ncada\nlinha\n\n");
 
-IMPRIME(a);
-IMPRIME("\n\n");
-repetix(a ! 0){
-  a = a -1;
-  IMPRIME("valor de a: ");
-  IMPRIME(a);
-  IMPRIME("\n");
-  b = 5;
-  repetix(b @ 5){
-    b = b +1;
-    IMPRIME("valor de b: ");
-    IMPRIME(b);
-    IMPRIME("\n");
-  };
-};
+SE(-1 > -2)
+{
+	IMPRIME("-1 é maior que -1");
+}
