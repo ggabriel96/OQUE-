@@ -1,8 +1,9 @@
-//                             OQUE?
-// Trabalho construido com o proposito de desenvolvimento de um interpretador
-// para arquivos de textos.
-// Autores: Cleiton A. Ambrosini  E-mail: cleito.am@gmail.com
-//          Marco ......
+//                             OQUE
+// Trabalho construido com o proposito de desenvolvimento de um interpretador para arquivos de textos .oq
+// Autores: Cleiton A. Ambrosini        E-mail: cleito.am@gmail.com
+//          Marco Aurélio Alves Puton   E-mail: marcoputon@gmail.com
+//
+//==================================================================================
 
 import java.lang.*;
 import java.util.Random;
