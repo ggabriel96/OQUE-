@@ -13,8 +13,8 @@ class Tokem{
 	public int achaToken(String linha, int pivo){
 		int i = 0;
 		int j = 0;
-		
-		for(j = pivo; j < linha.length(); j++){	
+
+		for(j = pivo; j < linha.length(); j++){
 			for(i = 0; i < this.tokens.length(); i++){
 				if(tokens.charAt(i) == linha.charAt(j)){
 					return j;

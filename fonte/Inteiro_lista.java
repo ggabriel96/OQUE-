@@ -29,43 +29,36 @@ class Inteiro_lista{
     this.qtd_elementos++;
   }
 
-
-
-    public void imprimir(){
-      if(this.qtd_elementos == 0){
-        System.out.println("Lista esta vazia bixo!");
-      }
-      else{
-        Inteiro aux = this.primeiro;
-        for(int i = 0; i < this.qtd_elementos - 1; i++){
-          System.out.println("Nome dessa variavel:" + aux.getNome());
-          System.out.println("O valor dela: " + aux.getValor());
-          aux = aux.getProximo();
-        }
+  public void imprimir(){
+    if(this.qtd_elementos == 0){
+      System.out.println("Lista esta vazia bixo!");
+    }
+    else{
+      Inteiro aux = this.primeiro;
+      for(int i = 0; i < this.qtd_elementos - 1; i++){
         System.out.println("Nome dessa variavel:" + aux.getNome());
         System.out.println("O valor dela: " + aux.getValor());
+        aux = aux.getProximo();
       }
+      System.out.println("Nome dessa variavel:" + aux.getNome());
+      System.out.println("O valor dela: " + aux.getValor());
     }
-
-
+  }
 
   //pesquisa elementos na lista retorna 1 se achou ou -1 se nao achou
   public String pesquisa_inteiro(String nome){
     Inteiro aux = this.primeiro;
-
     while(aux != null){
       if(aux.getNome().equals(nome)){
         return "achou";
       }
       aux = aux.getProximo();
     }
-
     return null;
   }
 
   public void insere_ja_existente(String nome, int valor){
     Inteiro aux = this.primeiro;
-
     while(aux != null){
       if(aux.getNome().equals(nome)){
         aux.setValor(valor);
@@ -76,14 +69,13 @@ class Inteiro_lista{
 
   public int retornaValor(String nome){
     Inteiro aux = this.primeiro;
-
     while(aux != null){
       if(aux.getNome().equals(nome)){
         return aux.getValor();
       }
       aux = aux.getProximo();
     }
-
     return 0;
   }
+
 }
