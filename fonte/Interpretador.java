@@ -1,3 +1,9 @@
+//                             OQUE?
+// Trabalho construido com o proposito de desenvolvimento de um interpretador
+// para arquivos de textos.
+// Autores: Cleiton A. Ambrosini  E-mail: cleito.am@gmail.com
+//          Marco ......
+
 import java.lang.*;
 import java.util.Random;
 
@@ -107,7 +113,7 @@ class Interpretador{
 
 		  tok = linha.charAt(aqui);
 			if(tok == ';'){
-			     
+
 			}
 
 			if(tok == '='){
