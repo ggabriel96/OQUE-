@@ -6,7 +6,7 @@ class Tokem{
 
 // Construtor (instancia objetos da classe) =====
 	public Tokem(){
-		tokens = new String("={([+-*/@!%<>]});");
+		tokens = new String("={([+-*/@!%<>]});&");
 	}
 
 // Operações da Classe ==========================

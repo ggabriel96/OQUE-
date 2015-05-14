@@ -72,7 +72,7 @@ class Interpretador{
 		String achouInteiro = new String("");
 		String achouDouble = new String("");
 		String achouString = new String("");
-		String caracteresEspeciais = new String("={([+-*/@!%<>]});");
+		String caracteresEspeciais = new String("={([+-*/@!%<>]});&");
 	  int aqui = pos, tipo;
 		double int_ou_double;
     char tok, tipoTokem;
