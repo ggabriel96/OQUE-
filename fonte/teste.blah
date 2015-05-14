@@ -1,3 +1,6 @@
-a = 5 & 1;
+a = 5;
 
 IMPRIME(a);
+repetix(a ! 0){
+  a = a - 1;
+};
