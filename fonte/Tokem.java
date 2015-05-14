@@ -26,7 +26,6 @@ class Tokem{
 	}
 
 	public char ehToken(char esse){
-
 		int i = 0;
 
 		for(i = 0; i < this.tokens.length(); i++){

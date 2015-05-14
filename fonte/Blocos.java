@@ -27,7 +27,6 @@ class Blocos
 			}	
 			aux++;
 		}
-		//System.out.println("nova: " + nova);
 		return nova;
 	}
 	
@@ -42,7 +41,6 @@ class Blocos
 		interpretador.interpreta(a);
 		
 		return "0";
-		//return interpretador.controle(linha, 1);
 	}	
 	
 	

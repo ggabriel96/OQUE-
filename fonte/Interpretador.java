@@ -107,7 +107,7 @@ class Interpretador{
 
 		  tok = linha.charAt(aqui);
 			if(tok == ';'){
-			     //System.out.println("\n\n~~~~ Achei um ponto e virgula. ~~~~\n\n");
+			     
 			}
 
 			if(tok == '='){

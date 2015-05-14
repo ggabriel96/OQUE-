@@ -55,7 +55,6 @@ class Aritimeticos
 					}
 					else
 					{
-
 						if(op == '-')
 							sinal = -1;
 
@@ -68,12 +67,10 @@ class Aritimeticos
 							System.out.println("ERRO: Sintaxe invalida.		Número aleatório: " + gerador.nextInt());
 							System.exit(0);
 						}
-
 						continue;
 					}
 				}
 				catch(NumberFormatException nfe){
-					// Colocar aqui a parte que confere no vetor de variaveis.
 					if(op == '-' && palavra1.equals("")){
 						sinal = sinal*-1;
 						continue;
@@ -87,11 +84,8 @@ class Aritimeticos
 			}
 		}
 		sinal = 1;
-		// Arrumar esse for também	OQUEOQUEOQUEOQUEOQUEOQUEOQUEOQUEOQUEOQUEOQUEOQUEOQUEOQUEOQUEOQUEOQUEOQUEOQUEOQUEOQUEOQUEOQUEOQUEOQUEOQUEOQUEOQUE
-
 		if(op != ';')
 		{
-			//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 			for(i = aux + 1; i < linha.length(); i++){
 				if(linha.charAt(i) == '"')
 				{
@@ -108,9 +102,7 @@ class Aritimeticos
 					else
 						 ter = 13;
 				}
-			//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
-
+		
 				if(ter == poder)
 				{
 					op = linha.charAt(i);
@@ -141,7 +133,6 @@ class Aritimeticos
 					}
 					catch(NumberFormatException nfe)
 					{
-						// Colocar aqui a parte que confere no vetor de variaveis.
 						if(op == '-' && palavra2.equals(""))
 						{
 							sinal = sinal*-1;
