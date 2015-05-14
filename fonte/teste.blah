@@ -1,7 +1,118 @@
-IMPRIME("uma\npalavra\nem\ncada\nlinha\n\n");
+num = 4;
+nao_primo=0;
+divisoes=0;
+i = 0;
 
-SE(-1 > -2)
+cond = 0;
+
+		
+SE(num@1)
 {
-	IMPRIME("-1 é maior que -1");
+	cond = 1;
+}
+mod = num%2;
+SE(mod@0)
+{
+	SE(num!2)
+	{
+		cond = 1;
+	}
 }
 
+SE(cond @ 1)
+{
+	nao_primo = 1;
+}
+SENAO
+{
+
+
+cond = 0;
+condii = 0;
+i = 1;
+
+SE(i<num)
+{
+	condii = 1;
+}
+SE(i@num)
+{
+	condii = 1;
+}
+
+SE(condii@1)
+{
+	SE(divisoes@2)
+	{
+		cond = 1;
+	}
+	SE(divisoes<2)
+	{
+		cond = 1;
+	}
+}
+SE(cond@1)
+{
+	repe = cond;
+	i = 1;
+	repetix(repe@1)
+	{	
+		mod = num%i;	
+		SE(mod@0)
+		{
+			divisoes = divisoes + 1;
+		}
+		
+		
+		
+		i = i + 2;
+		
+		cond = 0;
+		condii = 0;
+		SE(i<num)
+		{
+			condii = 1;
+		}
+		SE(i@num)
+		{
+			condii = 1;
+		}
+		SE(condii@1)
+		{
+			SE(divisoes@2)
+			{
+				cond = 1;
+			}
+			SE(divisoes<2)
+			{
+				cond = 1;
+			}
+		}
+		repe = cond;
+	};
+}
+}
+	aj= 0;
+	SE(nao_primo@0)
+	{
+		SE(divisoes < 2)
+		{
+			aj = 1;
+		}
+		SE(divisoes @ 2)
+		{
+			aj = 1;
+		}
+	}	
+	
+	SE(aj@1)
+	{
+		IMPRIME("\nEh primo\n\n");
+	}
+	
+	SENAO
+	{
+		IMPRIME("\nNao eh primo\n\n");
+	}
+	
+	
