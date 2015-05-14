@@ -1,6 +1,0 @@
-a = "abacate";
-b = "mane";
-SE(a@b)
-{
-     IMPRIME("\o/\n");
-}
