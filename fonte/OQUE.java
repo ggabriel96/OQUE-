@@ -27,6 +27,6 @@ class OQUE {
 
         b.interpreta(linhas); // Agora o interpretador que se vire
 
-		System.out.println("\n\nFim de execução.");
+		System.out.println("\n\nFim de execucao.");
     }
 }
