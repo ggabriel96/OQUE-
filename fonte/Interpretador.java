@@ -7,6 +7,7 @@
 
 import java.lang.*;
 import java.util.Random;
+import java.util.Scanner;
 
 class Interpretador{
 
@@ -178,6 +179,97 @@ class Interpretador{
 						}
 				}
 			}
+
+
+//====================================================================================
+
+
+			if(tok == '['){
+
+				achouInteiro = null;
+				achouDouble  = null;
+				achouString  = null;
+
+				int posicaotoken = aqui;
+
+				if(posicaotoken == 0){
+					System.out.println("Voce precisa declarar uma variavel para receber o valor");
+				}
+				else if (posicaotoken != 0) {
+					String variavelDaEntrada = new String("");
+					variavelDaEntrada = estring.NantesTokem(linha, aqui); // passa valores antes do "[" para variavelDaEntrada
+
+					Scanner entrada = new Scanner(System.in);
+					String valorEntrada = entrada.nextLine();
+
+					achouInteiro = lista_int.pesquisa_inteiro(variavelDaEntrada); // verefica se essa variavel ja esta na lista de inteiros
+					achouDouble = lista_double.pesquisa_double(variavelDaEntrada); // verefica se essa variavel ja esta na lista de double
+					achouString = lista_string.pesquisa_string(variavelDaEntrada); // verefica se essa variavel ja esta na lista de strings
+
+					tipo = aritimetico.getTipo(valorEntrada); // verefica o tipo da atribuição se é numero ou string
+					
+
+					if(achouString == null && tipo == 1){// valorVariavel é um numero
+
+						int_ou_double = Double.parseDouble(valorEntrada); // converte a string para numero
+
+						if((int_ou_double % 1) == 0 && achouDouble == null){
+							if(achouInteiro == null){
+								int decimal = (int) int_ou_double;
+								lista_int.insiraNaListaInt(variavelDaEntrada, decimal); // insere na lista int
+							}
+							else{
+								int decimal = (int) int_ou_double;
+								lista_int.insere_ja_existente(variavelDaEntrada, decimal); // insere na lista int em uma variavel ja existente
+							}
+						}
+						else if((int_ou_double % 1) == 0 && achouDouble != null ){
+							System.out.println("A variavel " + "'" + variavelDaEntrada + "'" + " e do tipo double, voce esta tentando atribuir um valor do tipo 'int' para ela");
+						}
+						else if((int_ou_double % 1) != 0 && achouInteiro == null){
+							if(achouDouble == null){
+								double numDouble = int_ou_double;
+								lista_double.insiraNaListaDouble(variavelDaEntrada, numDouble); // insere na lista double
+							}
+							else{
+								double numDouble = int_ou_double;
+								lista_double.insere_ja_existente(variavelDaEntrada, numDouble); // insere na lista double em uma variavel ja existente
+							}
+						}
+						else if((int_ou_double % 1) != 0 && achouInteiro != null){
+							System.out.println("A variavel " + "'" + variavelDaEntrada + "'" + " e do tipo inteiro, voce esta tentando atribuir um valor do tipo 'double' para ela");
+						}
+					}
+					else if(achouString != null && tipo == 1){
+						System.out.println("\nA variavel " + "'" + variavelDaEntrada + "'" + " e uma string nao pode atribuir valor para ela!");
+					}
+					else if(achouInteiro == null && achouDouble != null && tipo == 0){
+						System.out.println("\nA variavel " + "'" + variavelDaEntrada + "'" + " e do tipo double, nao pode atribuir uma palavra a ela");
+					}
+					else if(achouInteiro != null && achouDouble == null && tipo == 0){
+						System.out.println("\nA variavel " + "'" + variavelDaEntrada + "'" + " e do tipo inteira, nao pode atribuir uma palavra a ela");
+					}
+					else if(achouInteiro == null && achouDouble == null && tipo == 0){
+							valorEntrada = "'" + valorEntrada + "'";
+							if(achouString == null){
+								lista_string.insiraNaListaString(variavelDaEntrada, valorEntrada);
+							}
+							else{
+								lista_string.insere_ja_existente(variavelDaEntrada, valorEntrada);
+							}
+					}
+
+				}
+			}
+
+
+
+
+
+//===========================================================================================
+
+
+
 
 			if(tok == '{'){
 				if(Interpretador.farol)
