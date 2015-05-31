@@ -1,0 +1,10 @@
+*.class
+
+*.war
+*.ear
+
+*.out
+*.aux
+*.dvi
+*.log
+*.ps
