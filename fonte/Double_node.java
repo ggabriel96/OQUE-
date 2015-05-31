@@ -1,3 +1,4 @@
+package fonte;
 class Double_node{
   private String nome = new String("");
   private double valor;

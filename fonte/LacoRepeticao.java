@@ -1,3 +1,4 @@
+package fonte;
 class LacoRepeticao{
   // Atributos da classe ==========================
   	public String tokens;

@@ -1,5 +1,6 @@
+package fonte;
 class Blocos
-{	
+{
 	public String achaEscopo(String linha, int pos)
 	{
 		String nova = new String("");
@@ -7,13 +8,13 @@ class Blocos
 		int aux = pos;
 		int flag1 = 0;
 		int Nesc = 0;
-		
+
 		while(aux < linha.length()){
 			if(linha.charAt(aux) == '{'){
 				flag1 = 1;
 				Nesc++;
 			}
-				
+
 			if(linha.charAt(aux) == '}'){
 				Nesc--;
 				if(Nesc == 0){
@@ -21,17 +22,17 @@ class Blocos
 					break;
 				}
 			}
-			
+
 			if(flag1 != 0){
 				nova = nova + linha.charAt(aux);
-			}	
+			}
 			aux++;
 		}
 		return nova;
 	}
-	
-	
-	
+
+
+
 	public String escopo(String linha)
 	{
 		Interpretador interpretador = new Interpretador();
@@ -39,10 +40,10 @@ class Blocos
 		String b = new String("");
 		a[0] = linha.substring(1, linha.length()-1);
 		interpretador.interpreta(a);
-		
+
 		return "0";
-	}	
-	
-	
-	
+	}
+
+
+
 }

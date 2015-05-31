@@ -1,3 +1,4 @@
+package fonte;
 class Double_lista{
   public static int qtd_elementos;
   public static Double_node primeiro;
@@ -77,5 +78,5 @@ class Double_lista{
     }
     return 0;
   }
-  
+
 }

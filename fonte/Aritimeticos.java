@@ -1,3 +1,4 @@
+package fonte;
 import java.util.Random;
 
 class Aritimeticos
@@ -102,7 +103,7 @@ class Aritimeticos
 					else
 						 ter = 13;
 				}
-		
+
 				if(ter == poder)
 				{
 					op = linha.charAt(i);

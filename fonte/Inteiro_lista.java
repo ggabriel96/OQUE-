@@ -1,3 +1,4 @@
+package fonte;
 class Inteiro_lista{
   public static int qtd_elementos;
   public static Inteiro primeiro;

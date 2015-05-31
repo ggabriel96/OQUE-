@@ -1,3 +1,4 @@
+package fonte;
 class Inteiro{
   private String nome = new String("");
   private int valor;

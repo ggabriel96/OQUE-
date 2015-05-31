@@ -1,3 +1,4 @@
+package fonte;
 class String_node{
   private String nome = new String("");
   private String valor = new String("");

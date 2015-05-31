@@ -1,3 +1,4 @@
+package fonte;
 //                             OQUE
 // Trabalho construido com o proposito de desenvolvimento de um interpretador para arquivos de textos .oq
 // Autores: Cleiton A. Ambrosini        E-mail: cleito.am@gmail.com
@@ -207,7 +208,7 @@ class Interpretador{
 					achouString = lista_string.pesquisa_string(variavelDaEntrada); // verefica se essa variavel ja esta na lista de strings
 
 					tipo = aritimetico.getTipo(valorEntrada); // verefica o tipo da atribuição se é numero ou string
-					
+
 
 					if(achouString == null && tipo == 1){// valorVariavel é um numero
 

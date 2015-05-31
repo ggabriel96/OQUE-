@@ -1,3 +1,4 @@
+package fonte;
 class String_lista{
   public static int qtd_elementos;
   public static String_node primeiro;

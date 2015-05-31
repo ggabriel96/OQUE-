@@ -1,3 +1,4 @@
+package fonte;
 import java.util.Random;
 
 class Estring
