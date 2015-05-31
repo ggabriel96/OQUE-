@@ -1,2 +1,3 @@
 # OQUE- A Programming Language
-Interpreter of the language OQUE.
+
+OQUE is an interpreted programming language developed on top of Java for an university assignment
