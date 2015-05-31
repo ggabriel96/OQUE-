@@ -79,7 +79,8 @@ class Estring
 		Tokem tokens = new Tokem();
 
 		// Deixa o vetor do tamanho certo, removendo os NULLs
-		linhas = Vremovenull(l);
+		// linhas = Vremovenull(l); // dá falha de segmentação... o que seria remover os nulls?
+		linhas = l;
 
 		// Transforma o vetor em uma unica string
 		Nlinha = concatenaVetor(linhas);
@@ -453,14 +454,14 @@ class Estring
 
 		else if(nova.equals("repetix"))
 		{
-			
+
 		}
 
 		else if(nova.equals("IMPRIME"))
 		{
 			String maisNova = achaStrParen(linha, pos);
 			String aux;
-			
+
 			for(int i = 0; i < maisNova.length(); i++)
 			{
 				if(maisNova.charAt(i) == '\\' && maisNova.charAt(i + 1) == 'n')

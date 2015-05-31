@@ -2,31 +2,40 @@ import java.util.Scanner;
 import java.io.*;
 
 class OQUE {
-    public static void main(String args[]) throws Exception{
-
+    public static void main(String[] args) throws Exception {
+        File f;
+        Scanner s;
+        int ind = 0;
+        Interpretador oq;
+        boolean hasParam = true, validParam = true;
+        SourceScanner oqScanner = new SourceScanner();
 		Inteiro_lista lista_int = new Inteiro_lista();
 		Double_lista lista_double = new Double_lista();
 		String_lista lista_string = new String_lista();
 
-        File f;
-        Scanner s;
-        Interpretador b;
-
-        String linhas[] = new String[2000];
-        f = new File(args[0]);
-        s = new Scanner(f);
-
-        b = new Interpretador();
-
-        int i = 0;
-        while(s.hasNext())
-        {
-            linhas[i] = s.nextLine();
-            i++;
+        if (args.length > 0) {
+            for (ind = 0; ind < args.length; ind++) {
+                if (args[ind].endsWith(".oq")) {
+                    validParam = true;
+                    break;
+                }
+                else validParam = false;
+            }
+        }
+        else {
+            System.out.println("* No input file detected.\n");
+            hasParam = false;
         }
 
-        b.interpreta(linhas); // Agora o interpretador que se vire
-
-		System.out.println("\n\nFim de execucao.");
+        if (hasParam && validParam) {
+            f = new File(args[ind]);
+            if (f.exists() && !f.isDirectory()) {
+                oq = new Interpretador();
+                oq.interpreta(oqScanner.scanToStringArray(f));
+            }
+        }
+        else if (!validParam) {
+            System.out.println("# Invalid input file.");
+        }
     }
 }
