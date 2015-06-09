@@ -16,11 +16,50 @@ class SourceScanner {
 	}
 	
 	public HashMap<String, ArrayList<Line>> compile(File f) throws IOException, UatException {
+		Line line;
 		int i, max;
+		String command;
 		ArrayList<Line> fullCode = this.scan(f);
 		HashMap<String, ArrayList<Line>> code = new HashMap<>();
+		Matcher wholeDeclM, wholeAtrM, wholePrintM, wholeScanM, wholeScanlnM, wholeIfM, elsifM, elseM, wholeWhileM, wholeForM, forSplitM;
 		
 		for (i = 0, max = fullCode.size(); i < max; i++) {
+			line = fullCode.get(i);
+			command = line.toString();
+			
+			wholeIfM = wholeIfP.matcher(command);
+			wholeAtrM = wholeAtrP.matcher(command);
+			wholeForM = wholeForP.matcher(command);
+			wholeDeclM = wholeDeclP.matcher(command);
+			wholeScanM = wholeScanP.matcher(command);
+			wholeWhileM = wholeWhileP.matcher(command);
+			wholePrintM = wholePrintP.matcher(command);
+			wholeScanlnM = wholeScanlnP.matcher(command);
+			
+			if (wholeDeclM.matches()) {
+				this.let(command);
+			}
+			else if (wholeAtrM.matches()) {
+				this.assign(command);
+			}
+			else if (wholePrintM.matches()) {
+				this.print(command);
+			}
+			else if (wholeScanM.matches()) {
+				this.scan(command);
+			}
+			else if (wholeScanlnM.matches()) {
+				this.scanln(command);
+			}
+			else if (wholeIfM.matches()) {
+			}
+			else if (wholeWhileM.matches()) {
+			}
+			else if (wholeForM.matches()) {
+			}
+			else {
+				throw new UatException("syntaxError", command);
+			}
 		}
 		
 		return code;
