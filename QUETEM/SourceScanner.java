@@ -18,10 +18,10 @@ class SourceScanner {
 	public HashMap<String, ArrayList<Line>> compile(File f) throws IOException, UatException {
 		Line line;
 		int i, max;
+		Matcher fnM;
 		String command;
-		ArrayList<Line> fullCode = this.scan(f);
+		ArrayList<Line> fullCode = this.scan(f), codeBlock;
 		HashMap<String, ArrayList<Line>> code = new HashMap<>();
-		Matcher fnM, wholeDeclM, wholeAtrM, wholePrintM, wholeScanM, wholeScanlnM, wholeIfM, elsifM, elseM, wholeWhileM, wholeForM, forSplitM;
 		
 		for (i = 0, max = fullCode.size(); i < max; i++) {
 			line = fullCode.get(i);
@@ -30,35 +30,7 @@ class SourceScanner {
 			fnM = fnP.matcher(command);
 			
 			if (fnM.matches()) {
-			}
-			else {
-				throw new UatException("syntaxError", command);
-			}
-			
-			wholeIfM = wholeIfP.matcher(command);
-			wholeAtrM = wholeAtrP.matcher(command);
-			wholeForM = wholeForP.matcher(command);
-			wholeDeclM = wholeDeclP.matcher(command);
-			wholeScanM = wholeScanP.matcher(command);
-			wholeWhileM = wholeWhileP.matcher(command);
-			wholePrintM = wholePrintP.matcher(command);
-			wholeScanlnM = wholeScanlnP.matcher(command);
-			
-			if (wholeDeclM.matches()) {
-			}
-			else if (wholeAtrM.matches()) {
-			}
-			else if (wholePrintM.matches()) {
-			}
-			else if (wholeScanM.matches()) {
-			}
-			else if (wholeScanlnM.matches()) {
-			}
-			else if (wholeIfM.matches()) {
-			}
-			else if (wholeWhileM.matches()) {
-			}
-			else if (wholeForM.matches()) {
+				codeBlock = this.buildBlock(fullCode, i);
 			}
 			else {
 				throw new UatException("syntaxError", command);
@@ -106,18 +78,45 @@ class SourceScanner {
 		while (i < max && !endOfBlock) {
 			line = code.get(i);
 			command = line.toString();
-
+			
 			fnM = fnP.matcher(command);
-			ifM = wholeIfP.matcher(command);
-			forM = wholeForP.matcher(command);
 			elseM = wholeElseP.matcher(command);
-			elsifM = wholeElsifP.matcher(command);
-			whileM = wholeWhileP.matcher(command);
-
+			wholeIfM = wholeIfP.matcher(command);
+			elsifM = wholeElsifP.matcher(command);			
+			wholeAtrM = wholeAtrP.matcher(command);
+			wholeForM = wholeForP.matcher(command);
+			wholeDeclM = wholeDeclP.matcher(command);
+			wholeScanM = wholeScanP.matcher(command);
+			wholeWhileM = wholeWhileP.matcher(command);
+			wholePrintM = wholePrintP.matcher(command);
+			wholeScanlnM = wholeScanlnP.matcher(command);
+			
 			clBracket = command.lastIndexOf("}");
 			if (clBracket >= 0) {
 				bracketCount--;
 			}
+			
+			if (wholeDeclM.matches()) {
+			}
+			else if (wholeAtrM.matches()) {
+			}
+			else if (wholePrintM.matches()) {
+			}
+			else if (wholeScanM.matches()) {
+			}
+			else if (wholeScanlnM.matches()) {
+			}
+			else if (wholeIfM.matches()) {
+			}
+			else if (wholeWhileM.matches()) {
+			}
+			else if (wholeForM.matches()) {
+			}
+			else {
+				throw new UatException("syntaxError", command);
+			}
+
+			
 			else if (fnM.matches() || ifM.matches() || elsifM.matches() || elseM.matches() || whileM.matches() || forM.matches()) {
 				bracketCount++;
 			}
