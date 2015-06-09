@@ -7,7 +7,7 @@ import java.util.regex.*;
 class SourceScanner {
 	private static boolean patternsInitd = false;
 	private static final Map<String, Boolean> reservedWords = mapReservedWords();
-	public static Pattern typeP, wholeDeclP, varNameP, atrP, wholeAtrP, semicP, wholePrintP, wholeScanP, wholeScanlnP, wholeOpP, signP, intP, fpP, charP, strP, strAssignP, quotMarkP, strBackP, parenP, numBuildP, boolP, upperCaseP, strNotEmptyP, opGroupP, ufpP, jufpP, jfpP, quotInStrP, invalidFpP, wholeIfP, wholeElsifP, wholeElseP, ifP, elsifP, ifEndingP, wholeWhileP, wholeForP, forSplitP, anyP, fixAtrP, fixAtrTypeP;
+	public static Pattern typeP, wholeDeclP, varNameP, atrP, wholeAtrP, semicP, wholePrintP, wholeScanP, wholeScanlnP, wholeOpP, signP, intP, fpP, charP, strP, strAssignP, quotMarkP, strBackP, parenP, numBuildP, boolP, upperCaseP, strNotEmptyP, opGroupP, ufpP, jufpP, jfpP, quotInStrP, invalidFpP, wholeIfP, wholeElsifP, wholeElseP, ifP, elsifP, ifEndingP, wholeWhileP, wholeForP, forSplitP, anyP, fixAtrP, fixAtrTypeP, fnP;
 	
 	public SourceScanner() {
 		if (!patternsInitd) {
@@ -21,11 +21,19 @@ class SourceScanner {
 		String command;
 		ArrayList<Line> fullCode = this.scan(f);
 		HashMap<String, ArrayList<Line>> code = new HashMap<>();
-		Matcher wholeDeclM, wholeAtrM, wholePrintM, wholeScanM, wholeScanlnM, wholeIfM, elsifM, elseM, wholeWhileM, wholeForM, forSplitM;
+		Matcher fnM, wholeDeclM, wholeAtrM, wholePrintM, wholeScanM, wholeScanlnM, wholeIfM, elsifM, elseM, wholeWhileM, wholeForM, forSplitM;
 		
 		for (i = 0, max = fullCode.size(); i < max; i++) {
 			line = fullCode.get(i);
 			command = line.toString();
+			
+			fnM = fnP.matcher(command);
+			
+			if (fnM.matches()) {
+			}
+			else {
+				throw new UatException("syntaxError", command);
+			}
 			
 			wholeIfM = wholeIfP.matcher(command);
 			wholeAtrM = wholeAtrP.matcher(command);
@@ -37,19 +45,14 @@ class SourceScanner {
 			wholeScanlnM = wholeScanlnP.matcher(command);
 			
 			if (wholeDeclM.matches()) {
-				this.let(command);
 			}
 			else if (wholeAtrM.matches()) {
-				this.assign(command);
 			}
 			else if (wholePrintM.matches()) {
-				this.print(command);
 			}
 			else if (wholeScanM.matches()) {
-				this.scan(command);
 			}
 			else if (wholeScanlnM.matches()) {
-				this.scanln(command);
 			}
 			else if (wholeIfM.matches()) {
 			}
@@ -90,6 +93,52 @@ class SourceScanner {
 
         return input;
     }
+    
+    private ArrayList<Line> buildBlock(ArrayList<Line> code, int index) throws UatException {
+		ArrayList<Line> block = new ArrayList<Line>();
+		int i = index, max = code.size(), bracketCount = 0;
+		Matcher ifM, elsifM, elseM, whileM, forM, fnM;
+		boolean endOfBlock = false;
+		String command, lineEnding;
+		Line line = null;
+		int clBracket;
+
+		while (i < max && !endOfBlock) {
+			line = code.get(i);
+			command = line.toString();
+
+			fnM = fnP.matcher(command);
+			ifM = wholeIfP.matcher(command);
+			forM = wholeForP.matcher(command);
+			elseM = wholeElseP.matcher(command);
+			elsifM = wholeElsifP.matcher(command);
+			whileM = wholeWhileP.matcher(command);
+
+			clBracket = command.lastIndexOf("}");
+			if (clBracket >= 0) {
+				bracketCount--;
+			}
+			else if (fnM.matches() || ifM.matches() || elsifM.matches() || elseM.matches() || whileM.matches() || forM.matches()) {
+				bracketCount++;
+			}
+
+			if (!endOfBlock) {
+				block.add(line);
+				i++;
+			}
+
+			if (bracketCount == 0) {
+				endOfBlock = true;
+			}
+		}
+
+		if (!endOfBlock) {
+			// verify this:
+			throw new UatException("bracketNotFound", code.get(index).toString());
+		}
+
+		return block;
+	}
 
     public void printBlock(ArrayList<Line> block) {
         int i, max = block.size();
@@ -146,6 +195,8 @@ class SourceScanner {
 	public static final String wholeAtrR = atrR + semicR;
 	public static final String fixAtrR = ".+[,:]";
 	public static final String stripAtrR = "( )*=( )*";
+	
+	public static final String fnR = "(fn)( )+(" + varNameR + ")( )*\\(.*\\)( )*\\{";
 
 	public static final String fnParenR = "( )*\\(.*\\)" + semicR;
 	public static final String printR = "(print|println)";
@@ -227,6 +278,8 @@ class SourceScanner {
 		typeP = Pattern.compile(typeR);
 		fixAtrTypeP = Pattern.compile(fixAtrTypeR);
 		atrP = Pattern.compile(atrR);
+
+		fnP = Pattern.compile(fnR);
 
 		wholeOpP = Pattern.compile(wholeOpR);
 		signP = Pattern.compile(signR);
