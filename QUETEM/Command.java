@@ -1,40 +1,68 @@
 package QUETEM;
 
-/*
-Command types:
+/* Command types:
+
+- int code
+- String [fields]
+- int lineNumber
 
 VARIABLE DECLARATION:
 let <vars>: <type> // do we still need to assign a type?
-[code|var1|var2|...|type|lineNumber]
+[var1|var2|...|type]
 
 VARIABLE ASSIGNMENT
 <var> = <expression|function call>
-[code|varToAssign|expression|lineNumber] // function call?
+[varToAssign|expression] // function call?
 
 PRINT(ln)
 print(<text|$<vars>$>)
-[code|text|var1|text|var2|...|lineNumber]
+[text|var1|text|var2|...]
 
 SCAN(ln)
 scan(<vars>);
-[code|var1|var2|var3|...|lineNumber]
+[var1|var2|var3|...]
 
 IF/ELSIF/ELSE
 if/elsif (<condition>) {
-[code|condition|sizeUntilEnd|thisSize|lineNumber]
+[condition|sizeUntilEnd|thisSize]
 else
-[code|sizeUntilEnd|thisSize|lineNumber]
+[sizeUntilEnd|thisSize]
 
 WHILE
 while (<condition>) {
-[code|condition|size|lineNumber]
+[condition|size]
 
 FOR
 for (<init>; <condition>; <increment>) {
-[code|init|condition|increment|size|lineNumber]
+[init|condition|increment|size]
 
+BREAK/CONTINUE
+[] // ?
 */
 
 class Command {
+    private int code, lineNumber;
+    private String[] command;
 
+    public Command(int code, String[] command, int lineNumber) {
+        this.code = code;
+        this.command = command;
+        this.lineNumber = lineNumber;
+    }
+
+    public String get(int index) {
+        return this.command[index];
+    }
+
+    public int length() {
+        return this.command.length;
+    }
+
+    public int code() {
+        return this.code;
+    }
+
+    public int lineNumber() {
+        return this.lineNumber;
+    }
 }
