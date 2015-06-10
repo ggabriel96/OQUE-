@@ -29,11 +29,11 @@ class OQUE {
 
         if (hasParam && validParam) {
             f = new File(args[ind]);
-            
+
             if (f.exists() && !f.isDirectory()) {
-				
+
 				try {
-					input = scanner.scan(f);
+					input = scanner.read(f);
                     interpreter.execute(input);
                 }
                 catch (IOException ioe) {
@@ -44,7 +44,7 @@ class OQUE {
                     System.out.println(ue.getLine());
                     System.exit(1);
                 }
-                
+
             }
             else {
                 System.out.println("# File \"" + args[ind] + "\" not found.");
@@ -55,4 +55,3 @@ class OQUE {
         }
     }
 }
-
