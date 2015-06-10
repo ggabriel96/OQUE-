@@ -15,13 +15,14 @@ class SourceScanner {
 		}
 	}
 
-	public HashMap<String, ArrayList<Line>> compile(File f) throws IOException, UatException {
+	public HashMap<String, ArrayList<Command>> compile(File f) throws IOException, UatException {
 		Line line;
 		int i, max;
 		Matcher fnM;
 		String command;
-		ArrayList<Line> fullCode = this.scan(f), codeBlock;
-		HashMap<String, ArrayList<Line>> code = new HashMap<>();
+		ArrayList<Command> codeBlock;
+		ArrayList<Line> fullCode = this.read(f);
+		HashMap<String, ArrayList<Command>> code = new HashMap<>();
 
 		for (i = 0, max = fullCode.size(); i < max; i++) {
 			line = fullCode.get(i);
@@ -41,7 +42,7 @@ class SourceScanner {
 		return code;
 	}
 
-    public ArrayList<Line> scan(File f) throws IOException {
+    public ArrayList<Line> read(File f) throws IOException {
         int i, comm;
         String line;
         Scanner sc = new Scanner(f);
@@ -67,16 +68,16 @@ class SourceScanner {
         return input;
     }
 
-    private ArrayList<Line> buildBlock(ArrayList<Line> code, int index) throws UatException {
-		ArrayList<Line> block = new ArrayList<Line>();
-		int i = index, max = code.size(), bracketCount = 0;
-		Matcher ifM, elsifM, elseM, whileM, forM, fnM;
+    private ArrayList<Command> buildBlock(ArrayList<Line> code, int index) throws UatException {
+		int clBracket;
+		Line line = null;
 		boolean endOfBlock = false;
 		String command, lineEnding;
-		Line line = null;
-		int clBracket;
+		int i, max, bracketCount = 0;
+		ArrayList<Command> block = new ArrayList<>();
+		Matcher elseM, wholeIfM, elsifM, wholeAtrM, wholeForM, wholeDeclM, wholeScanM, wholeWhileM, wholePrintM, wholeScanlnM;
 
-		while (i < max && !endOfBlock) {
+		for (i = index, max = code.size(); i < max && !endOfBlock; i++) {
 			line = code.get(i);
 			command = line.toString();
 
@@ -94,38 +95,53 @@ class SourceScanner {
 			clBracket = command.lastIndexOf("}");
 			if (clBracket >= 0) {
 				bracketCount--;
-			}
-
-			if (wholeDeclM.matches()) {
-			}
-			else if (wholeAtrM.matches()) {
-			}
-			else if (wholePrintM.matches()) {
-			}
-			else if (wholeScanM.matches()) {
-			}
-			else if (wholeScanlnM.matches()) {
-			}
-			else if (wholeIfM.matches()) {
-			}
-			else if (wholeWhileM.matches()) {
-			}
-			else if (wholeForM.matches()) {
-			}
-			else if (command.equals("break;") || command.equals("continue;")) {
+				// add '}'
 			}
 			else {
-				throw new UatException("syntaxError", command);
-			}
-
-
-			else if (fnM.matches() || ifM.matches() || elsifM.matches() || elseM.matches() || whileM.matches() || forM.matches()) {
-				bracketCount++;
-			}
-
-			if (!endOfBlock) {
-				block.add(line);
-				i++;
+				if (wholeDeclM.matches()) {
+					block.add(this.varDecl(command));
+				}
+				else if (wholeAtrM.matches()) {
+					block.add(this.varAtr(command));
+				}
+				else if (wholePrintM.matches()) {
+					block.add(this.print(command));
+				}
+				else if (wholeScanM.matches()) {
+					block.add(this.scan(command));
+				}
+				else if (wholeScanlnM.matches()) {
+					block.add(this.scanln(command));
+				}
+				else if (wholeIfM.matches()) {
+					block.add(this.ifBr(command));
+					bracketCount++;
+				}
+				else if (elsifM.matches()) {
+					block.add(this.elsifBr(command));
+					bracketCount++;
+				}
+				else if (elseM.matches()) {
+					block.add(this.elseBr(command));
+					bracketCount++;
+				}
+				else if (wholeWhileM.matches()) {
+					block.add(this.whileLoop(command));
+					bracketCount++;
+				}
+				else if (wholeForM.matches()) {
+					block.add(this.forLoop(command));
+					bracketCount++;
+				}
+				else if (command.equals("break;")) {
+					block.add(this.breakLoop(command));
+				}
+				else if (command.equals("continue;")) {
+					block.add(this.continueLoop(command));
+				}
+				else {
+					throw new UatException("syntaxError", command);
+				}
 			}
 
 			if (bracketCount == 0) {
@@ -139,6 +155,55 @@ class SourceScanner {
 
 		return block;
 	}
+
+	private Command varDecl(String line) {
+		return null;
+	}
+
+	private Command varAtr(String line) {
+		return null;
+	}
+
+	private Command print(String line) {
+		return null;
+	}
+
+	private Command scan(String line) {
+		return null;
+	}
+
+	private Command scanln(String line) {
+		return null;
+	}
+
+	private Command ifBr(String line) {
+		return null;
+	}
+
+	private Command elsifBr(String line) {
+		return null;
+	}
+
+	private Command elseBr(String line) {
+		return null;
+	}
+
+	private Command whileLoop(String line) {
+		return null;
+	}
+
+	private Command forLoop(String line) {
+		return null;
+	}
+
+	private Command breakLoop(String line) {
+		return null;
+	}
+
+	private Command continueLoop(String line) {
+		return null;
+	}
+
 
     public void printBlock(ArrayList<Line> block) {
         int i, max = block.size();
