@@ -8,13 +8,13 @@ class SourceScanner {
 	private static boolean patternsInitd = false;
 	private static final Map<String, Boolean> reservedWords = mapReservedWords();
 	public static Pattern typeP, wholeDeclP, varNameP, atrP, wholeAtrP, semicP, wholePrintP, wholeScanP, wholeScanlnP, wholeOpP, signP, intP, fpP, charP, strP, strAssignP, quotMarkP, strBackP, parenP, numBuildP, boolP, upperCaseP, strNotEmptyP, opGroupP, ufpP, jufpP, jfpP, quotInStrP, invalidFpP, wholeIfP, wholeElsifP, wholeElseP, ifP, elsifP, ifEndingP, wholeWhileP, wholeForP, forSplitP, anyP, fixAtrP, fixAtrTypeP, fnP;
-	
+
 	public SourceScanner() {
 		if (!patternsInitd) {
 			initPatterns();
 		}
 	}
-	
+
 	public HashMap<String, ArrayList<Line>> compile(File f) throws IOException, UatException {
 		Line line;
 		int i, max;
@@ -22,24 +22,25 @@ class SourceScanner {
 		String command;
 		ArrayList<Line> fullCode = this.scan(f), codeBlock;
 		HashMap<String, ArrayList<Line>> code = new HashMap<>();
-		
+
 		for (i = 0, max = fullCode.size(); i < max; i++) {
 			line = fullCode.get(i);
 			command = line.toString();
-			
+
 			fnM = fnP.matcher(command);
-			
+
 			if (fnM.matches()) {
 				codeBlock = this.buildBlock(fullCode, i);
+				// add to HashMap with fn name
 			}
 			else {
 				throw new UatException("syntaxError", command);
 			}
 		}
-		
+
 		return code;
 	}
-	
+
     public ArrayList<Line> scan(File f) throws IOException {
         int i, comm;
         String line;
@@ -65,7 +66,7 @@ class SourceScanner {
 
         return input;
     }
-    
+
     private ArrayList<Line> buildBlock(ArrayList<Line> code, int index) throws UatException {
 		ArrayList<Line> block = new ArrayList<Line>();
 		int i = index, max = code.size(), bracketCount = 0;
@@ -78,11 +79,10 @@ class SourceScanner {
 		while (i < max && !endOfBlock) {
 			line = code.get(i);
 			command = line.toString();
-			
-			fnM = fnP.matcher(command);
+
 			elseM = wholeElseP.matcher(command);
 			wholeIfM = wholeIfP.matcher(command);
-			elsifM = wholeElsifP.matcher(command);			
+			elsifM = wholeElsifP.matcher(command);
 			wholeAtrM = wholeAtrP.matcher(command);
 			wholeForM = wholeForP.matcher(command);
 			wholeDeclM = wholeDeclP.matcher(command);
@@ -90,12 +90,12 @@ class SourceScanner {
 			wholeWhileM = wholeWhileP.matcher(command);
 			wholePrintM = wholePrintP.matcher(command);
 			wholeScanlnM = wholeScanlnP.matcher(command);
-			
+
 			clBracket = command.lastIndexOf("}");
 			if (clBracket >= 0) {
 				bracketCount--;
 			}
-			
+
 			if (wholeDeclM.matches()) {
 			}
 			else if (wholeAtrM.matches()) {
@@ -112,11 +112,13 @@ class SourceScanner {
 			}
 			else if (wholeForM.matches()) {
 			}
+			else if (command.equals("break;") || command.equals("continue;")) {
+			}
 			else {
 				throw new UatException("syntaxError", command);
 			}
 
-			
+
 			else if (fnM.matches() || ifM.matches() || elsifM.matches() || elseM.matches() || whileM.matches() || forM.matches()) {
 				bracketCount++;
 			}
@@ -132,7 +134,6 @@ class SourceScanner {
 		}
 
 		if (!endOfBlock) {
-			// verify this:
 			throw new UatException("bracketNotFound", code.get(index).toString());
 		}
 
@@ -141,12 +142,12 @@ class SourceScanner {
 
     public void printBlock(ArrayList<Line> block) {
         int i, max = block.size();
-        
+
         for (i = 0; i < max; i++) {
             System.out.println(block.get(i));
         }
     }
-    
+
     private static Map<String, Boolean> mapReservedWords() {
         Map<String, Boolean> result = new HashMap<String, Boolean>();
         result.put("let", true);
@@ -194,7 +195,7 @@ class SourceScanner {
 	public static final String wholeAtrR = atrR + semicR;
 	public static final String fixAtrR = ".+[,:]";
 	public static final String stripAtrR = "( )*=( )*";
-	
+
 	public static final String fnR = "(fn)( )+(" + varNameR + ")( )*\\(.*\\)( )*\\{";
 
 	public static final String fnParenR = "( )*\\(.*\\)" + semicR;
