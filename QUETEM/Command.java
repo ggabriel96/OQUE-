@@ -40,7 +40,8 @@ FOR
 for (<init>; <condition>; <increment>) {
 [init|condition|increment|size]
 
-BREAK/CONTINUE
+BREAK/CONTINUE/}
+These only have the code and lineNumber set
 [] // ?
 */
 
@@ -73,8 +74,10 @@ class Command {
     public String toString() {
         String toString = "[" + this.code + "|";
 
-        for (String s: this.command) {
-            toString += s + "|";
+        if (this.command != null) {
+            for (String s: this.command) {
+                toString += s + "|";
+            }
         }
 
         toString += this.lineNumber + "]";

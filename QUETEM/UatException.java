@@ -4,6 +4,7 @@ class UatException extends Exception {
     private String message, line;
     private int number;
 
+    // should we pass line number as argument? I think it's possible
     public UatException(String code, String line) {
         this.setLine(line);
 

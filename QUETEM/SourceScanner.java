@@ -5,7 +5,7 @@ import java.util.*;
 import java.util.regex.*;
 
 class SourceScanner {
-	public static int DECL = 0;
+	public static int BRACKET = -1, FN = 0, DECL = 1;
 	private static boolean patternsInitd = false;
 	private static final Map<String, Boolean> reservedWords = mapReservedWords();
 	public static Pattern typeP, wholeDeclP, varNameP, atrP, wholeAtrP, semicP, wholePrintP, wholeScanP, wholeScanlnP, wholeOpP, signP, intP, fpP, charP, strP, strAssignP, quotMarkP, strBackP, parenP, numBuildP, boolP, upperCaseP, strNotEmptyP, opGroupP, ufpP, jufpP, jfpP, quotInStrP, invalidFpP, wholeIfP, wholeElsifP, wholeElseP, ifP, elsifP, ifEndingP, wholeWhileP, wholeForP, forSplitP, anyP, fixAtrP, fixAtrTypeP, fnP;
@@ -29,10 +29,12 @@ class SourceScanner {
 			line = fullCode.get(i);
 			command = line.toString();
 
-			fnM = fnP.matcher(command);
+			// System.out.println("\n" + i + ": " + command + "\n");
 
+			fnM = fnP.matcher(command);
 			if (fnM.matches()) {
 				codeBlock = this.buildBlock(fullCode, i);
+				i += codeBlock.size() - 1;
 				// add to HashMap with fn name
 			}
 			else {
@@ -83,6 +85,8 @@ class SourceScanner {
 			line = code.get(i);
 			command = line.toString();
 
+			// System.out.println("*** " + command);
+
 			fnM = fnP.matcher(command);
 			elseM = wholeElseP.matcher(command);
 			wholeIfM = wholeIfP.matcher(command);
@@ -95,57 +99,62 @@ class SourceScanner {
 			wholePrintM = wholePrintP.matcher(command);
 			wholeScanlnM = wholeScanlnP.matcher(command);
 
-			clBracket = command.lastIndexOf("}");
-			if (clBracket >= 0) {
+			// clBracket = command.lastIndexOf("}");
+			// if (clBracket >= 0) {
+			// 	bracketCount--;
+			// 	// add '}'
+			// }
+			if (command.startsWith("}")) {
+				block.add(new Command(BRACKET, null, line.getNumber()));
 				bracketCount--;
 				// add '}'
 			}
 			else {
 				if (fnM.matches()) {
-					this.fn(command);
+					// gotta add the name!
+					block.add(this.fn(line));
 					bracketCount++;
 				}
 				else if (wholeDeclM.matches()) {
-					System.out.println(this.varDecl(line));
 					block.add(this.varDecl(line));
 				}
 				else if (wholeAtrM.matches()) {
-					block.add(this.varAtr(command));
+					block.add(this.varAtr(line));
 				}
 				else if (wholePrintM.matches()) {
-					block.add(this.print(command));
+					block.add(this.print(line));
 				}
 				else if (wholeScanM.matches()) {
-					block.add(this.scan(command));
+					block.add(this.scan(line));
 				}
 				else if (wholeScanlnM.matches()) {
-					block.add(this.scanln(command));
+					block.add(this.scanln(line));
 				}
 				else if (wholeIfM.matches()) {
-					block.add(this.ifBr(command));
+					block.add(this.ifBr(line));
 					bracketCount++;
 				}
 				else if (elsifM.matches()) {
-					block.add(this.elsifBr(command));
+					block.add(this.elsifBr(line));
 					bracketCount++;
 				}
 				else if (elseM.matches()) {
-					block.add(this.elseBr(command));
+					block.add(this.elseBr(line));
 					bracketCount++;
 				}
 				else if (wholeWhileM.matches()) {
-					block.add(this.whileLoop(command));
+					block.add(this.whileLoop(line));
 					bracketCount++;
 				}
 				else if (wholeForM.matches()) {
-					block.add(this.forLoop(command));
+					block.add(this.forLoop(line));
 					bracketCount++;
 				}
 				else if (command.equals("break;")) {
-					block.add(this.breakLoop(command));
+					block.add(this.breakLoop(line));
 				}
 				else if (command.equals("continue;")) {
-					block.add(this.continueLoop(command));
+					block.add(this.continueLoop(line));
 				}
 				else {
 					System.out.println("SYNTAX 2");
@@ -162,11 +171,14 @@ class SourceScanner {
 			throw new UatException("bracketNotFound", code.get(index).toString());
 		}
 
+		System.out.println("Compiled block:");
+		System.out.println(block);
+
 		return block;
 	}
 
-	private Command fn(String line) {
-		return null;
+	private Command fn(Line line) {
+		return new Command(FN, new String[0], line.getNumber());
 	}
 
 	private Command varDecl(Line line) {
@@ -212,47 +224,47 @@ class SourceScanner {
 		return new Command(DECL, output, line.getNumber());
 	}
 
-	private Command varAtr(String line) {
+	private Command varAtr(Line line) {
 		return null;
 	}
 
-	private Command print(String line) {
+	private Command print(Line line) {
 		return null;
 	}
 
-	private Command scan(String line) {
+	private Command scan(Line line) {
 		return null;
 	}
 
-	private Command scanln(String line) {
+	private Command scanln(Line line) {
 		return null;
 	}
 
-	private Command ifBr(String line) {
+	private Command ifBr(Line line) {
 		return null;
 	}
 
-	private Command elsifBr(String line) {
+	private Command elsifBr(Line line) {
 		return null;
 	}
 
-	private Command elseBr(String line) {
+	private Command elseBr(Line line) {
 		return null;
 	}
 
-	private Command whileLoop(String line) {
+	private Command whileLoop(Line line) {
 		return null;
 	}
 
-	private Command forLoop(String line) {
+	private Command forLoop(Line line) {
 		return null;
 	}
 
-	private Command breakLoop(String line) {
+	private Command breakLoop(Line line) {
 		return null;
 	}
 
-	private Command continueLoop(String line) {
+	private Command continueLoop(Line line) {
 		return null;
 	}
 
