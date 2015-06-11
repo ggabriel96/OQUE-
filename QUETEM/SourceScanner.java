@@ -171,14 +171,34 @@ class SourceScanner {
 			throw new UatException("bracketNotFound", code.get(index).toString());
 		}
 
-		System.out.println("Compiled block:");
-		System.out.println(block);
+		System.out.println("\nCompiled block:");
+		this.printCommandBlock(block);
 
 		return block;
 	}
 
 	private Command fn(Line line) {
-		return new Command(FN, new String[0], line.getNumber());
+		String[] args;
+		int opBr, clBr;
+		String lineString = line.toString(), name;
+		ArrayList<String> arguments = new ArrayList<>();
+
+		opBr = lineString.indexOf("(");
+		clBr = lineString.lastIndexOf(")");
+		// from "fn" until '('
+		name = lineString.substring(2, opBr).trim();
+		// arguments
+		lineString = lineString.substring(opBr + 1, clBr).trim();
+
+		arguments.add(name);
+		if (!lineString.isEmpty()) {
+			arguments.addAll(Arrays.asList(lineString.split("( )*,( )*")));
+		}
+
+		args = new String[arguments.size()];
+		arguments.toArray(args);
+
+		return new Command(FN, args, line.getNumber());
 	}
 
 	private Command varDecl(Line line) {
@@ -188,7 +208,7 @@ class SourceScanner {
 		String lineString = line.toString(), tmp = "";
 		TreeMap<Integer, String> tokens = new TreeMap<Integer, String>();
 
-		// from right after "let" until end of lineString
+		// from right after "let" until end of line
 		lineString = lineString.substring(3);
 		// type
 		i = lineString.lastIndexOf(":");
@@ -268,6 +288,11 @@ class SourceScanner {
 		return null;
 	}
 
+	public void printCommandBlock(ArrayList<Command> block) {
+		for (int i = 0, max = block.size(); i < max; i++) {
+			System.out.println(block.get(i));
+		}
+	}
 
     public void printBlock(ArrayList<Line> block) {
         int i, max = block.size();
