@@ -5,6 +5,7 @@ import java.util.*;
 import java.util.regex.*;
 
 class SourceScanner {
+	public static int DECL = 0;
 	private static boolean patternsInitd = false;
 	private static final Map<String, Boolean> reservedWords = mapReservedWords();
 	public static Pattern typeP, wholeDeclP, varNameP, atrP, wholeAtrP, semicP, wholePrintP, wholeScanP, wholeScanlnP, wholeOpP, signP, intP, fpP, charP, strP, strAssignP, quotMarkP, strBackP, parenP, numBuildP, boolP, upperCaseP, strNotEmptyP, opGroupP, ufpP, jufpP, jfpP, quotInStrP, invalidFpP, wholeIfP, wholeElsifP, wholeElseP, ifP, elsifP, ifEndingP, wholeWhileP, wholeForP, forSplitP, anyP, fixAtrP, fixAtrTypeP, fnP;
@@ -35,6 +36,7 @@ class SourceScanner {
 				// add to HashMap with fn name
 			}
 			else {
+				System.out.println("SYNTAX 1");
 				throw new UatException("syntaxError", command);
 			}
 		}
@@ -75,12 +77,13 @@ class SourceScanner {
 		String command, lineEnding;
 		int i, max, bracketCount = 0;
 		ArrayList<Command> block = new ArrayList<>();
-		Matcher elseM, wholeIfM, elsifM, wholeAtrM, wholeForM, wholeDeclM, wholeScanM, wholeWhileM, wholePrintM, wholeScanlnM;
+		Matcher fnM, elseM, wholeIfM, elsifM, wholeAtrM, wholeForM, wholeDeclM, wholeScanM, wholeWhileM, wholePrintM, wholeScanlnM;
 
 		for (i = index, max = code.size(); i < max && !endOfBlock; i++) {
 			line = code.get(i);
 			command = line.toString();
 
+			fnM = fnP.matcher(command);
 			elseM = wholeElseP.matcher(command);
 			wholeIfM = wholeIfP.matcher(command);
 			elsifM = wholeElsifP.matcher(command);
@@ -98,8 +101,13 @@ class SourceScanner {
 				// add '}'
 			}
 			else {
-				if (wholeDeclM.matches()) {
-					block.add(this.varDecl(command));
+				if (fnM.matches()) {
+					this.fn(command);
+					bracketCount++;
+				}
+				else if (wholeDeclM.matches()) {
+					System.out.println(this.varDecl(line));
+					block.add(this.varDecl(line));
 				}
 				else if (wholeAtrM.matches()) {
 					block.add(this.varAtr(command));
@@ -140,6 +148,7 @@ class SourceScanner {
 					block.add(this.continueLoop(command));
 				}
 				else {
+					System.out.println("SYNTAX 2");
 					throw new UatException("syntaxError", command);
 				}
 			}
@@ -156,8 +165,51 @@ class SourceScanner {
 		return block;
 	}
 
-	private Command varDecl(String line) {
+	private Command fn(String line) {
 		return null;
+	}
+
+	private Command varDecl(Line line) {
+		int i, j;
+		Matcher strM;
+		String[] aux, output = null;
+		String lineString = line.toString(), tmp = "";
+		TreeMap<Integer, String> tokens = new TreeMap<Integer, String>();
+
+		// from right after "let" until end of lineString
+		lineString = lineString.substring(3);
+		// type
+		i = lineString.lastIndexOf(":");
+		tokens.put(i + 1, lineString.substring(i + 1, lineString.length()).trim());
+		lineString = lineString.substring(0, i);
+
+		aux = lineString.split(",");
+		for (i = 0; i < aux.length; i++) {
+
+			strM = strP.matcher(aux[i].trim());
+			if (aux[i].contains("\"") && !strM.find()) {
+				tmp = aux[i];
+
+				for (j = i + 1; j < aux.length; j++) {
+					tmp += "," + aux[j];
+
+					strM = strP.matcher(tmp.trim());
+					if (strM.find()) {
+						break;
+					}
+				}
+				i = j;
+				tokens.put(i, tmp.trim());
+			}
+			else {
+				tokens.put(i, aux[i].trim());
+			}
+		}
+
+		output = new String[tokens.size()];
+		tokens.values().toArray(output);
+
+		return new Command(DECL, output, line.getNumber());
 	}
 
 	private Command varAtr(String line) {
@@ -242,11 +294,13 @@ class SourceScanner {
         return Collections.unmodifiableMap(result);
     }
 
-	public static final String semicR = "( )*;";
+	// public static final String semicR = "( )*;";
 	public static final String typeR = "int|double|string|bool";
-	public static final String fixAtrTypeR = ":( )*(" + typeR + ")" + semicR;
+	// public static final String fixAtrTypeR = ":( )*(" + typeR + ")" + semicR;
+	public static final String fixAtrTypeR = ":( )*(" + typeR + ")";
 	public static final String varNameR = "[A-Za-z_][A-Za-z_0-9]*";
-	public static final String wholeDeclR = "(let)( )+(.+)( )*:( )*(\\w)+" + semicR;
+	// public static final String wholeDeclR = "(let)( )+(.+)( )*:( )*(\\w)+" + semicR;
+	public static final String wholeDeclR = "(let)( )+(.+)( )*:( )*(\\w)+";
 
 	public static final String parenR = "\\(|\\)";
 	public static final String boolOpR = "\\!|\\&\\&|\\|\\|";
@@ -257,18 +311,22 @@ class SourceScanner {
 	public static final String wholeOpR = parenR + "|" + mathOpR + "|" + compOpR + "|" + boolOpR;
 
 	public static final String atrR = varNameR + "( )*=( )*.+";
-	public static final String wholeAtrR = atrR + semicR;
+	// public static final String wholeAtrR = atrR + semicR;
+	public static final String wholeAtrR = atrR;
 	public static final String fixAtrR = ".+[,:]";
 	public static final String stripAtrR = "( )*=( )*";
 
 	public static final String fnR = "(fn)( )+(" + varNameR + ")( )*\\(.*\\)( )*\\{";
 
-	public static final String fnParenR = "( )*\\(.*\\)" + semicR;
+	// public static final String fnParenR = "( )*\\(.*\\)" + semicR;
+	public static final String fnParenR = "( )*\\(.*\\)";
 	public static final String printR = "(print|println)";
 	public static final String wholePrintR = printR + fnParenR;
 	public static final String scanContentR = "(" + varNameR + ")(( )*,( )*(" + varNameR + "))*";
-	public static final String wholeScanR = "(scan)( )*\\(( )*" + scanContentR + "( )*\\)" + semicR;
-	public static final String wholeScanlnR = "(scanln)( )*\\(( )*" + scanContentR + "( )*\\)" + semicR;
+	// public static final String wholeScanR = "(scan)( )*\\(( )*" + scanContentR + "( )*\\)" + semicR;
+	public static final String wholeScanR = "(scan)( )*\\(( )*" + scanContentR + "( )*\\)";
+	// public static final String wholeScanlnR = "(scanln)( )*\\(( )*" + scanContentR + "( )*\\)" + semicR;
+	public static final String wholeScanlnR = "(scanln)( )*\\(( )*" + scanContentR + "( )*\\)";
 
 	public static final String ifR = "(if)( )*\\(( )*";
 	public static final String ifEndR = "( )*\\)( )*\\{";
@@ -280,7 +338,8 @@ class SourceScanner {
 
 	public static final String quotMarkR = "\\\"";
 	public static final String quotInStrR = "\\\\" + quotMarkR;
-	public static final String strBackR = quotMarkR + semicR;
+	// public static final String strBackR = quotMarkR + semicR;
+	public static final String strBackR = quotMarkR;
 
 	// strings with any character enclosed with "". Supports escaped " too.
 	public static final String strR = quotMarkR + "(?:\\\\.|[^" + quotMarkR + "\\\\])*" + quotMarkR;
@@ -364,14 +423,15 @@ class SourceScanner {
 		opGroupP = Pattern.compile(signR + "(( )*" + signR + ")+");
 		// "((" + signR + "+)(( )*(" + signR + "+))*)+"
 
-		strAssignP = Pattern.compile(strR + semicR);
+		// strAssignP = Pattern.compile(strR + semicR);
+		strAssignP = Pattern.compile(strR);
 		upperCaseP = Pattern.compile("[A-Z]+");
 
 		wholeDeclP = Pattern.compile(wholeDeclR);
 		wholeAtrP = Pattern.compile(wholeAtrR);
 		fixAtrP = Pattern.compile(fixAtrR);
 
-		semicP = Pattern.compile(semicR);
+		// semicP = Pattern.compile(semicR);
 		wholePrintP = Pattern.compile(wholePrintR);
 		wholeScanP = Pattern.compile(wholeScanR);
 		wholeScanlnP = Pattern.compile(wholeScanlnR);

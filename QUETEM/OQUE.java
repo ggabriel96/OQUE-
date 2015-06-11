@@ -33,6 +33,7 @@ class OQUE {
             if (f.exists() && !f.isDirectory()) {
 
 				try {
+                    scanner.compile(f); // for testing
 					input = scanner.read(f);
                     interpreter.execute(input);
                 }
