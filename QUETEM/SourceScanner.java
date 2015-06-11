@@ -5,7 +5,7 @@ import java.util.*;
 import java.util.regex.*;
 
 class SourceScanner {
-	public static int BRACKET = -1, FN = 0, DECL = 1;
+	public static int BRACKET = -1, FN = 0, DECL = 1, ATR = 2;
 	private static boolean patternsInitd = false;
 	private static final Map<String, Boolean> reservedWords = mapReservedWords();
 	public static Pattern typeP, wholeDeclP, varNameP, atrP, wholeAtrP, semicP, wholePrintP, wholeScanP, wholeScanlnP, wholeOpP, signP, intP, fpP, charP, strP, strAssignP, quotMarkP, strBackP, parenP, numBuildP, boolP, upperCaseP, strNotEmptyP, opGroupP, ufpP, jufpP, jfpP, quotInStrP, invalidFpP, wholeIfP, wholeElsifP, wholeElseP, ifP, elsifP, ifEndingP, wholeWhileP, wholeForP, forSplitP, anyP, fixAtrP, fixAtrTypeP, fnP;
@@ -35,7 +35,7 @@ class SourceScanner {
 			if (fnM.matches()) {
 				codeBlock = this.buildBlock(fullCode, i);
 				i += codeBlock.size() - 1;
-				// add to HashMap with fn name
+				code.put(codeBlock.get(0).get(0), codeBlock); // adding to HashMap with fn name
 			}
 			else {
 				System.out.println("SYNTAX 1");
@@ -107,11 +107,9 @@ class SourceScanner {
 			if (command.startsWith("}")) {
 				block.add(new Command(BRACKET, null, line.getNumber()));
 				bracketCount--;
-				// add '}'
 			}
 			else {
 				if (fnM.matches()) {
-					// gotta add the name!
 					block.add(this.fn(line));
 					bracketCount++;
 				}
@@ -243,9 +241,40 @@ class SourceScanner {
 
 		return new Command(DECL, output, line.getNumber());
 	}
-
+	
 	private Command varAtr(Line line) {
-		return null;
+		int equalsIndex;
+		String[] atr = new String[2];
+		String lineString = line.toString();
+		ArrayList<String> assignment = new ArrayList<>();
+		Matcher quotMarkM, strBackM, strAssignM, quotInStrM;
+
+		equalsIndex = lineString.indexOf("=");
+		atr[0] = lineString.substring(0, equalsIndex).trim();
+		atr[1] = lineString.substring(equalsIndex + 1).trim();
+		
+		// if it's a string (enclosed with "");
+		strAssignM = strAssignP.matcher(atr[1]);
+
+        if (strAssignM.matches()) {
+			// removing first "
+			quotMarkM = quotMarkP.matcher(atr[1]);
+			atr[1] = quotMarkM.replaceFirst("");
+
+			// removing ";
+			strBackM = strBackP.matcher(atr[1]);
+			atr[1] = strBackM.replaceFirst("");
+
+			// replacing all \" for an actual "
+			quotInStrM = quotInStrP.matcher(atr[1]);
+	        atr[1] = quotInStrM.replaceAll("\"");
+        }
+        
+        assignment.add(atr[0]);
+        assignment.add(atr[1]);
+        assignment.toArray(atr);
+        
+		return new Command(ATR, atr, line.getNumber());
 	}
 
 	private Command print(Line line) {
