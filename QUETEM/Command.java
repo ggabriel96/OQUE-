@@ -6,7 +6,11 @@ package QUETEM;
 - String [fields]
 - int lineNumber
 
-VARIABLE DECLARATION:
+FUNCTIONS
+fn <name>(<params>) {
+[name|param1|param2|...|return] // and if it doesn't return anything?
+
+VARIABLE DECLARATION
 let <vars>: <type> // do we still need to assign a type?
 [var1|var2|...|type]
 
@@ -64,5 +68,17 @@ class Command {
 
     public int lineNumber() {
         return this.lineNumber;
+    }
+
+    public String toString() {
+        String toString = "[" + this.code + "|";
+
+        for (String s: this.command) {
+            toString += s + "|";
+        }
+
+        toString += this.lineNumber + "]";
+
+        return toString;
     }
 }
