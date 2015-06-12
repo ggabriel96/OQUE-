@@ -5,7 +5,7 @@ import java.util.*;
 import java.util.regex.*;
 
 class SourceScanner {
-	public static int BRACKET = -1, FN = 0, DECL = 1, ATR = 2;
+	public static int BRACKET = -1, FN = 0, DECL = 1, ATR = 2, PRINT = 3, PRINTLN = 4;
 	private static boolean patternsInitd = false;
 	private static final Map<String, Boolean> reservedWords = mapReservedWords();
 	public static Pattern typeP, wholeDeclP, varNameP, atrP, wholeAtrP, semicP, wholePrintP, wholeScanP, wholeScanlnP, wholeOpP, signP, intP, fpP, charP, strP, strAssignP, quotMarkP, strBackP, parenP, numBuildP, boolP, upperCaseP, strNotEmptyP, opGroupP, ufpP, jufpP, jfpP, quotInStrP, invalidFpP, wholeIfP, wholeElsifP, wholeElseP, ifP, elsifP, ifEndingP, wholeWhileP, wholeForP, forSplitP, anyP, fixAtrP, fixAtrTypeP, fnP;
@@ -241,7 +241,7 @@ class SourceScanner {
 
 		return new Command(DECL, output, line.getNumber());
 	}
-	
+
 	private Command varAtr(Line line) {
 		int equalsIndex;
 		String[] atr = new String[2];
@@ -252,7 +252,7 @@ class SourceScanner {
 		equalsIndex = lineString.indexOf("=");
 		atr[0] = lineString.substring(0, equalsIndex).trim();
 		atr[1] = lineString.substring(equalsIndex + 1).trim();
-		
+
 		// if it's a string (enclosed with "");
 		strAssignM = strAssignP.matcher(atr[1]);
 
@@ -269,16 +269,103 @@ class SourceScanner {
 			quotInStrM = quotInStrP.matcher(atr[1]);
 	        atr[1] = quotInStrM.replaceAll("\"");
         }
-        
+
         assignment.add(atr[0]);
         assignment.add(atr[1]);
         assignment.toArray(atr);
-        
+
 		return new Command(ATR, atr, line.getNumber());
 	}
 
-	private Command print(Line line) {
-		return null;
+	private Command print(Line line) throws UatException {
+		int i, offset;
+		String[] content;
+		boolean breakLine = false;
+		ArrayList<String> words = new ArrayList<>();
+		String lineEnding, exp, text = "", lineString = line.toString();
+
+		if (lineString.startsWith("println")) {
+			breakLine = true;
+		}
+
+		lineString = lineString.substring(lineString.indexOf("(") + 1, lineString.lastIndexOf(")"));
+		content = lineString.split("");
+		for (i = 0; i < content.length; i++) {
+			// \t 	Insert a tab in the text at this point.
+			// \n 	Insert a newline in the text at this point.
+			// \$ 	Insert a '$' character in the text at this point.
+			// \- 	Insert a hyphen character in the text at this point.
+			// \\ 	Insert a backslash character in the text at this point.
+			if (content[i].equals("\\") && i + 1 < content.length) {
+
+				if (content[i + 1].equals("t")) {
+					text += "\t";
+				}
+				else if (content[i + 1].equals("n")) {
+					text += "\n";
+				}
+				else if (content[i + 1].equals("$")) {
+					text += "$";
+				}
+				else if (content[i + 1].equals("-")) {
+					text += "-";
+				}
+				else if (content[i + 1].equals("\\")) {
+					if (i + 2 < content.length && content[i + 2].equals("n")) {
+						text += "\\n";
+						i++;
+					}
+					else text += "\\";
+				}
+				else {
+					throw new UatException("unknownEscape", content[i] + content[i + 1] + ", from \"" + lineString + "\"");
+				}
+
+				i++;
+			}
+			// content.length - 2 because it's the maximum index in the
+			// string for a variable or expression to exist, for example: $x$
+			else if (content[i].equals("$")) {
+				if (!text.isEmpty()) {
+					words.add(text);
+					text = "";
+				}
+
+				// i is the index of the first '$'
+				exp = this.getExp(lineString, i);
+
+				if (!exp.isEmpty()) {
+					words.add(exp);
+					i = lineString.indexOf("$", i + 1);
+				}
+				else {
+					throw new UatException("invalidExp", lineString);
+				}
+			}
+			else {
+				text += content[i];
+			}
+		}
+
+		if (!text.isEmpty()) {
+			words.add(text);
+		}
+
+		content = new String[words.size()];
+		words.toArray(content);
+
+		if (breakLine) return new Command(PRINTLN, content, line.getNumber());
+		else return new Command(PRINT, content, line.getNumber());
+	}
+
+	private String getExp(String content, int fromIndex) {
+		int offset = content.indexOf("$", fromIndex + 1);
+
+		if (offset > fromIndex) {
+			return content.substring(fromIndex, offset + 1);
+		}
+
+		return "";
 	}
 
 	private Command scan(Line line) {
