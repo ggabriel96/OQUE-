@@ -176,7 +176,6 @@ class SourceScanner {
 	}
 
 	private Command fn(Line line) {
-		String[] args;
 		int opBr, clBr;
 		String lineString = line.toString(), name;
 		ArrayList<String> arguments = new ArrayList<>();
@@ -193,26 +192,23 @@ class SourceScanner {
 			arguments.addAll(Arrays.asList(lineString.split("( )*,( )*")));
 		}
 
-		args = new String[arguments.size()];
-		arguments.toArray(args);
-
-		return new Command(FN, args, line.getNumber());
+		return new Command(FN, arguments, line.getNumber());
 	}
 
 	private Command varDecl(Line line) {
 		int i, j;
 		Matcher strM;
-		String[] aux, output = null;
-		String lineString = line.toString(), tmp = "";
-		TreeMap<Integer, String> tokens = new TreeMap<Integer, String>();
+		String[] aux;
+		String type, lineString = line.toString(), tmp = "";
+		ArrayList<String> tokens = new ArrayList<String>();
 
 		// from right after "let" until end of line
 		lineString = lineString.substring(3);
 		// type
 		i = lineString.lastIndexOf(":");
-		tokens.put(i + 1, lineString.substring(i + 1, lineString.length()).trim());
-		lineString = lineString.substring(0, i);
+		tokens.add(lineString.substring(i + 1, lineString.length()).trim());
 
+		lineString = lineString.substring(0, i);
 		aux = lineString.split(",");
 		for (i = 0; i < aux.length; i++) {
 
@@ -229,17 +225,14 @@ class SourceScanner {
 					}
 				}
 				i = j;
-				tokens.put(i, tmp.trim());
+				tokens.add(tmp.trim());
 			}
 			else {
-				tokens.put(i, aux[i].trim());
+				tokens.add(aux[i].trim());
 			}
 		}
 
-		output = new String[tokens.size()];
-		tokens.values().toArray(output);
-
-		return new Command(DECL, output, line.getNumber());
+		return new Command(DECL, tokens, line.getNumber());
 	}
 
 	private Command varAtr(Line line) {
@@ -272,9 +265,8 @@ class SourceScanner {
 
         assignment.add(atr[0]);
         assignment.add(atr[1]);
-        assignment.toArray(atr);
 
-		return new Command(ATR, atr, line.getNumber());
+		return new Command(ATR, assignment, line.getNumber());
 	}
 
 	private Command print(Line line) throws UatException {
@@ -351,11 +343,8 @@ class SourceScanner {
 			words.add(text);
 		}
 
-		content = new String[words.size()];
-		words.toArray(content);
-
-		if (breakLine) return new Command(PRINTLN, content, line.getNumber());
-		else return new Command(PRINT, content, line.getNumber());
+		if (breakLine) return new Command(PRINTLN, words, line.getNumber());
+		else return new Command(PRINT, words, line.getNumber());
 	}
 
 	private String getExp(String content, int fromIndex) {

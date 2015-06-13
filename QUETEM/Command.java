@@ -1,5 +1,7 @@
 package QUETEM;
 
+import java.util.*;
+
 /* Command types:
 
 - int code
@@ -8,11 +10,11 @@ package QUETEM;
 
 FUNCTIONS
 fn <name>(<params>) {
-[name|param1|param2|...|return] // and if it doesn't return anything?
+[name|param1|param2|...|return|size]
 
 VARIABLE DECLARATION
 let <vars>: <type> // do we still need to assign a type?
-[var1|var2|...|type]
+[type|var1|var2|...]
 
 VARIABLE ASSIGNMENT
 <var> = <expression|function call>
@@ -47,20 +49,20 @@ These only have the code and lineNumber set
 
 class Command {
     private int code, lineNumber;
-    private String[] command;
+    private ArrayList<String> fields;
 
-    public Command(int code, String[] command, int lineNumber) {
+    public Command(int code, ArrayList<String> fields, int lineNumber) {
         this.code = code;
-        this.command = command;
+        this.fields = fields;
         this.lineNumber = lineNumber;
     }
 
     public String get(int index) {
-        return this.command[index];
+        return this.fields.get(index);
     }
 
-    public int length() {
-        return this.command.length;
+    public int size() {
+        return this.fields.size();
     }
 
     public int code() {
@@ -74,8 +76,8 @@ class Command {
     public String toString() {
         String toString = "[" + this.code + "|";
 
-        if (this.command != null) {
-            for (String s: this.command) {
+        if (this.fields != null) {
+            for (String s: this.fields) {
                 toString += s + "|";
             }
         }
