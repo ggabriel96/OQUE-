@@ -1,4 +1,16 @@
 package QUETEM;
+/*******************************************************************************
+Name: SourceScanner.java
+Authors: Acácia dos Campos da Terra - terra.acacia@gmail.com
+         Gabriel Batista Galli - g7.galli96@gmail.com
+         Vladimir Belinski - vlbelinski@gmail.com
+
+Description: Class SourceScanner of OQUE, a programming language based on Java.
+             Responsible for reading the source code, put it into an ArrayList
+			 of Lines and after change each line to a specific codification that
+			 will be utilized for the compiller. Regexes and matchers are found
+			 in this class.
+*******************************************************************************/
 
 import java.io.*;
 import java.util.*;
@@ -403,13 +415,14 @@ class SourceScanner {
 		return null;
 	}
 
+/* --Are these command essential? We need to focus in the things required in the description part 2!
 	private Command breakLoop(Line line) {
 		return null;
 	}
 
 	private Command continueLoop(Line line) {
 		return null;
-	}
+	}*/
 
 	public void printCommandBlock(ArrayList<Command> block) {
 		for (int i = 0, max = block.size(); i < max; i++) {

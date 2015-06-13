@@ -1,5 +1,14 @@
 package QUETEM;
+/*******************************************************************************
+Name: UatException.java
+Authors: Acácia dos Campos da Terra - terra.acacia@gmail.com
+         Gabriel Batista Galli - g7.galli96@gmail.com
+         Vladimir Belinski - vlbelinski@gmail.com
 
+Description: Class UatException of OQUE, a programming language based on Java.
+             Contains the messages that will be shown to the programmer when an
+             exception occurs.
+*******************************************************************************/
 class UatException extends Exception {
     private String message, line;
     private int number;

@@ -1,4 +1,13 @@
 package QUETEM;
+/*******************************************************************************
+Name: OQUE.java
+Authors: Acácia dos Campos da Terra - terra.acacia@gmail.com
+         Gabriel Batista Galli - g7.galli96@gmail.com
+         Vladimir Belinski - vlbelinski@gmail.com
+
+Description: Main class of a second version of OQUE, a programming language
+             based on Java.
+*******************************************************************************/
 
 import java.io.*;
 import java.util.*;
