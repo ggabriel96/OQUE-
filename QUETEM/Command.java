@@ -1,4 +1,14 @@
 package QUETEM;
+/*******************************************************************************
+Name: Command.java
+Authors: Acácia dos Campos da Terra - terra.acacia@gmail.com
+         Gabriel Batista Galli - g7.galli96@gmail.com
+         Vladimir Belinski - vlbelinski@gmail.com
+
+Description: Class Command of a fork of OQUE, a programming language based on
+             Java. Contains implementation about the commands that can be found
+             in the language.
+*******************************************************************************/
 
 import java.util.*;
 
