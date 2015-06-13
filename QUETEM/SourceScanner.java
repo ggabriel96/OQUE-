@@ -5,7 +5,7 @@ import java.util.*;
 import java.util.regex.*;
 
 class SourceScanner {
-	public static int BRACKET = -1, FN = 0, DECL = 1, ATR = 2, PRINT = 3, PRINTLN = 4;
+	public static int BRACKET = -1, FN = 0, DECL = 1, ATR = 2, PRINT = 3, PRINTLN = 4, SCAN = 5, SCANLN = 6;
 	private static boolean patternsInitd = false;
 	private static final Map<String, Boolean> reservedWords = mapReservedWords();
 	public static Pattern typeP, wholeDeclP, varNameP, atrP, wholeAtrP, semicP, wholePrintP, wholeScanP, wholeScanlnP, wholeOpP, signP, intP, fpP, charP, strP, strAssignP, quotMarkP, strBackP, parenP, numBuildP, boolP, upperCaseP, strNotEmptyP, opGroupP, ufpP, jufpP, jfpP, quotInStrP, invalidFpP, wholeIfP, wholeElsifP, wholeElseP, ifP, elsifP, ifEndingP, wholeWhileP, wholeForP, forSplitP, anyP, fixAtrP, fixAtrTypeP, fnP;
@@ -29,12 +29,15 @@ class SourceScanner {
 			line = fullCode.get(i);
 			command = line.toString();
 
-			// System.out.println("\n" + i + ": " + command + "\n");
-
 			fnM = fnP.matcher(command);
 			if (fnM.matches()) {
 				codeBlock = this.buildBlock(fullCode, i);
+				codeBlock.get(0).add((new Integer(codeBlock.size())).toString());
 				i += codeBlock.size() - 1;
+
+				System.out.println("\nCompiled block:");
+				this.printCommandBlock(codeBlock);
+
 				code.put(codeBlock.get(0).get(0), codeBlock); // adding to HashMap with fn name
 			}
 			else {
@@ -105,7 +108,7 @@ class SourceScanner {
 			// 	// add '}'
 			// }
 			if (command.startsWith("}")) {
-				block.add(new Command(BRACKET, null, line.getNumber()));
+				block.add(new Command(BRACKET, new ArrayList<String>(), line.getNumber()));
 				bracketCount--;
 			}
 			else {
@@ -122,12 +125,12 @@ class SourceScanner {
 				else if (wholePrintM.matches()) {
 					block.add(this.print(line));
 				}
-				else if (wholeScanM.matches()) {
+				else if (wholeScanM.matches() || wholeScanlnM.matches()) {
 					block.add(this.scan(line));
 				}
-				else if (wholeScanlnM.matches()) {
-					block.add(this.scanln(line));
-				}
+				// else if (wholeScanlnM.matches()) {
+				// 	block.add(this.scanln(line));
+				// }
 				else if (wholeIfM.matches()) {
 					block.add(this.ifBr(line));
 					bracketCount++;
@@ -168,9 +171,6 @@ class SourceScanner {
 		if (!endOfBlock) {
 			throw new UatException("bracketNotFound", code.get(index).toString());
 		}
-
-		System.out.println("\nCompiled block:");
-		this.printCommandBlock(block);
 
 		return block;
 	}
@@ -358,7 +358,18 @@ class SourceScanner {
 	}
 
 	private Command scan(Line line) {
-		return null;
+		boolean ln = false;
+		String lineString = line.toString();
+		ArrayList<String> vars = new ArrayList<>();
+
+		if (lineString.startsWith("scanln")) {
+			ln = true;
+		}
+
+		lineString = lineString.substring(lineString.indexOf("(") + 1, lineString.indexOf(")")).replaceAll(" ", "");
+
+		if (ln) return new Command(SCANLN, lineString.split(","), line.getNumber());
+		else return new Command(SCAN, lineString.split(","), line.getNumber());
 	}
 
 	private Command scanln(Line line) {

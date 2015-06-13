@@ -10,7 +10,7 @@ import java.util.*;
 
 FUNCTIONS
 fn <name>(<params>) {
-[name|param1|param2|...|return|size]
+[name|param1|param2|...|size]
 
 VARIABLE DECLARATION
 let <vars>: <type> // do we still need to assign a type?
@@ -55,6 +55,19 @@ class Command {
         this.code = code;
         this.fields = fields;
         this.lineNumber = lineNumber;
+    }
+
+    public Command(int code, String[] fields, int lineNumber) {
+        this.code = code;
+        this.fields = new ArrayList<String>();
+        for (String f: fields) {
+            this.fields.add(f);
+        }
+        this.lineNumber = lineNumber;
+    }
+
+    public void add(String s) {
+        this.fields.add(s);
     }
 
     public String get(int index) {

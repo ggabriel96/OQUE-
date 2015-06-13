@@ -2,4 +2,9 @@ fn main() {
     let i, j, k: string
     i = 1 + 1/2 + 1/4
     println(oi voce $square(2)$ :P)
+    scanln(x, y, z)
+}
+
+fn teste() {
+    let x: int
 }
