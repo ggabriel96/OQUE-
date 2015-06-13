@@ -108,6 +108,7 @@ class SourceScanner {
 			// 	// add '}'
 			// }
 			if (command.startsWith("}")) {
+				// Command stack to add the size?
 				block.add(new Command(BRACKET, new ArrayList<String>(), line.getNumber()));
 				bracketCount--;
 			}
@@ -372,11 +373,17 @@ class SourceScanner {
 		else return new Command(SCAN, lineString.split(","), line.getNumber());
 	}
 
-	private Command scanln(Line line) {
-		return null;
-	}
+	// private Command scanln(Line line) {
+	// 	return null;
+	// }
 
 	private Command ifBr(Line line) {
+		String lineString = line.toString();
+
+		lineString = lineString.substring(lineString.indexOf("(") + 1, lineString.lastIndexOf(")")).trim();
+
+		System.out.println("{" + lineString + "}");
+
 		return null;
 	}
 
