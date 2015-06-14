@@ -17,7 +17,7 @@ import java.util.*;
 import java.util.regex.*;
 
 class SourceScanner {
-	public static int BRACKET = -1, FN = 0, DECL = 1, ATR = 2, PRINT = 3, PRINTLN = 4, SCAN = 5, SCANLN = 6;
+	public static int BRACKET = -1, FN = 0, DECL = 1, ATR = 2, PRINT = 3, PRINTLN = 4, SCAN = 5, SCANLN = 6, IF = 7;
 	private static boolean patternsInitd = false;
 	private static final Map<String, Boolean> reservedWords = mapReservedWords();
 	public static Pattern typeP, wholeDeclP, varNameP, atrP, wholeAtrP, semicP, wholePrintP, wholeScanP, wholeScanlnP, wholeOpP, signP, intP, fpP, charP, strP, strAssignP, quotMarkP, strBackP, parenP, numBuildP, boolP, upperCaseP, strNotEmptyP, opGroupP, ufpP, jufpP, jfpP, quotInStrP, invalidFpP, wholeIfP, wholeElsifP, wholeElseP, ifP, elsifP, ifEndingP, wholeWhileP, wholeForP, forSplitP, anyP, fixAtrP, fixAtrTypeP, fnP;
@@ -44,7 +44,6 @@ class SourceScanner {
 			fnM = fnP.matcher(command);
 			if (fnM.matches()) {
 				codeBlock = this.buildBlock(fullCode, i);
-				codeBlock.get(0).add((new Integer(codeBlock.size())).toString());
 				i += codeBlock.size() - 1;
 
 				System.out.println("\nCompiled block:");
@@ -88,95 +87,29 @@ class SourceScanner {
     }
 
     private ArrayList<Command> buildBlock(ArrayList<Line> code, int index) throws UatException {
-		int clBracket;
+		int i, max;
 		Line line = null;
 		boolean endOfBlock = false;
-		String command, lineEnding;
-		int i, max, bracketCount = 0;
+		Command compiledLine, poppedLine;
 		ArrayList<Command> block = new ArrayList<>();
-		Matcher fnM, elseM, wholeIfM, elsifM, wholeAtrM, wholeForM, wholeDeclM, wholeScanM, wholeWhileM, wholePrintM, wholeScanlnM;
+		Stack<Command> blockStack = new Stack<Command>();
 
 		for (i = index, max = code.size(); i < max && !endOfBlock; i++) {
 			line = code.get(i);
-			command = line.toString();
+			compiledLine = this.buildCommand(line);
+			block.add(compiledLine);
 
-			// System.out.println("*** " + command);
+			// System.out.println("> compiledLine: " + compiledLine);
 
-			fnM = fnP.matcher(command);
-			elseM = wholeElseP.matcher(command);
-			wholeIfM = wholeIfP.matcher(command);
-			elsifM = wholeElsifP.matcher(command);
-			wholeAtrM = wholeAtrP.matcher(command);
-			wholeForM = wholeForP.matcher(command);
-			wholeDeclM = wholeDeclP.matcher(command);
-			wholeScanM = wholeScanP.matcher(command);
-			wholeWhileM = wholeWhileP.matcher(command);
-			wholePrintM = wholePrintP.matcher(command);
-			wholeScanlnM = wholeScanlnP.matcher(command);
-
-			// clBracket = command.lastIndexOf("}");
-			// if (clBracket >= 0) {
-			// 	bracketCount--;
-			// 	// add '}'
-			// }
-			if (command.startsWith("}")) {
-				// Command stack to add the size?
-				block.add(new Command(BRACKET, new ArrayList<String>(), line.getNumber()));
-				bracketCount--;
+			if (compiledLine.code() == FN || compiledLine.code() == IF) {
+				blockStack.push(compiledLine);
 			}
-			else {
-				if (fnM.matches()) {
-					block.add(this.fn(line));
-					bracketCount++;
-				}
-				else if (wholeDeclM.matches()) {
-					block.add(this.varDecl(line));
-				}
-				else if (wholeAtrM.matches()) {
-					block.add(this.varAtr(line));
-				}
-				else if (wholePrintM.matches()) {
-					block.add(this.print(line));
-				}
-				else if (wholeScanM.matches() || wholeScanlnM.matches()) {
-					block.add(this.scan(line));
-				}
-				// else if (wholeScanlnM.matches()) {
-				// 	block.add(this.scanln(line));
-				// }
-				else if (wholeIfM.matches()) {
-					block.add(this.ifBr(line));
-					bracketCount++;
-				}
-				else if (elsifM.matches()) {
-					block.add(this.elsifBr(line));
-					bracketCount++;
-				}
-				else if (elseM.matches()) {
-					block.add(this.elseBr(line));
-					bracketCount++;
-				}
-				else if (wholeWhileM.matches()) {
-					block.add(this.whileLoop(line));
-					bracketCount++;
-				}
-				else if (wholeForM.matches()) {
-					block.add(this.forLoop(line));
-					bracketCount++;
-				}
-				else if (command.equals("break;")) {
-					block.add(this.breakLoop(line));
-				}
-				else if (command.equals("continue;")) {
-					block.add(this.continueLoop(line));
-				}
-				else {
-					System.out.println("SYNTAX 2");
-					throw new UatException("syntaxError", command);
-				}
+			else if (compiledLine.code() == BRACKET) {
+				poppedLine = blockStack.pop();
+				poppedLine.add(new Integer(compiledLine.lineNumber() - poppedLine.lineNumber() + 1).toString());
 			}
 
-			if (bracketCount == 0) {
+			if (blockStack.isEmpty()) {
 				endOfBlock = true;
 			}
 		}
@@ -186,6 +119,67 @@ class SourceScanner {
 		}
 
 		return block;
+	}
+
+	private Command buildCommand(Line line) throws UatException {
+		String command = line.toString();
+		Matcher fnM = fnP.matcher(command);
+		Matcher elseM = wholeElseP.matcher(command);
+		Matcher wholeIfM = wholeIfP.matcher(command);
+		Matcher elsifM = wholeElsifP.matcher(command);
+		Matcher wholeAtrM = wholeAtrP.matcher(command);
+		Matcher wholeForM = wholeForP.matcher(command);
+		Matcher wholeDeclM = wholeDeclP.matcher(command);
+		Matcher wholeScanM = wholeScanP.matcher(command);
+		Matcher wholeWhileM = wholeWhileP.matcher(command);
+		Matcher wholePrintM = wholePrintP.matcher(command);
+		Matcher wholeScanlnM = wholeScanlnP.matcher(command);
+
+		if (command.startsWith("}")) {
+			return new Command(BRACKET, new ArrayList<String>(), line.getNumber());
+		}
+		else {
+			if (fnM.matches()) {
+				return this.fn(line);
+			}
+			else if (wholeDeclM.matches()) {
+				return this.varDecl(line);
+			}
+			else if (wholeAtrM.matches()) {
+				return this.varAtr(line);
+			}
+			else if (wholePrintM.matches()) {
+				return this.print(line);
+			}
+			else if (wholeScanM.matches() || wholeScanlnM.matches()) {
+				return this.scan(line);
+			}
+			else if (wholeIfM.matches()) {
+				return this.ifBr(line);
+			}
+			else if (elsifM.matches()) {
+				return this.elsifBr(line);
+			}
+			else if (elseM.matches()) {
+				return this.elseBr(line);
+			}
+			else if (wholeWhileM.matches()) {
+				return this.whileLoop(line);
+			}
+			else if (wholeForM.matches()) {
+				return this.forLoop(line);
+			}
+			else if (command.equals("break;")) {
+				return this.breakLoop(line);
+			}
+			else if (command.equals("continue;")) {
+				return this.continueLoop(line);
+			}
+			else {
+				System.out.println("SYNTAX 2");
+				throw new UatException("syntaxError", command);
+			}
+		}
 	}
 
 	private Command fn(Line line) {
@@ -415,14 +409,13 @@ class SourceScanner {
 		return null;
 	}
 
-/* --Are these command essential? We need to focus in the things required in the description part 2!
 	private Command breakLoop(Line line) {
 		return null;
 	}
 
 	private Command continueLoop(Line line) {
 		return null;
-	}*/
+	}
 
 	public void printCommandBlock(ArrayList<Command> block) {
 		for (int i = 0, max = block.size(); i < max; i++) {
