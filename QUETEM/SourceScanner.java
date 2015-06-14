@@ -20,7 +20,7 @@ class SourceScanner {
 	public static int FN = 10, BRACKET = 11, DECL = 20, ATR = 30, PRINT = 40, PRINTLN = 41, SCAN = 50, SCANLN = 51, IF = 60, ELSIF = 61, ELSE = 62, WHILE = 70, FOR = 71, BREAK = 72, CONTINUE = 73;
 	private static boolean patternsInitd = false;
 	private static final Map<String, Boolean> reservedWords = mapReservedWords();
-	public static Pattern typeP, wholeDeclP, varNameP, atrP, wholeAtrP, semicP, wholePrintP, wholeScanP, wholeScanlnP, wholeOpP, signP, intP, fpP, charP, strP, strAssignP, quotMarkP, strBackP, parenP, numBuildP, boolP, upperCaseP, strNotEmptyP, opGroupP, ufpP, jufpP, jfpP, quotInStrP, invalidFpP, wholeIfP, wholeElsifP, wholeElseP, ifP, elsifP, ifEndingP, wholeWhileP, wholeForP, forSplitP, anyP, fixAtrP, fixAtrTypeP, fnP;
+	public static Pattern typeP, wholeDeclP, varNameP, atrP, wholeAtrP, semicP, wholePrintP, wholeScanP, wholeScanlnP, wholeOpP, signP, intP, fpP, charP, strP, strAssignP, quotMarkP, strBackP, parenP, numBuildP, boolP, upperCaseP, strNotEmptyP, opGroupP, ufpP, jufpP, jfpP, quotInStrP, invalidFpP, wholeIfP, wholeElsifP, wholeElseP, ifP, elsifP, ifEndingP, wholeWhileP, wholeForP, forSplitP, anyP, fixAtrP, fixAtrTypeP, fnP, structP, fnCallP;
 
 	public SourceScanner() {
 		if (!patternsInitd) {
@@ -226,7 +226,7 @@ class SourceScanner {
 		return new Command(FN, arguments, line.getNumber());
 	}
 
-	private Command varDecl(Line line) {
+	private Command varDecl(Line line) throws UatException {
 		int i, j;
 		Matcher strM;
 		String[] aux;
@@ -256,17 +256,33 @@ class SourceScanner {
 					}
 				}
 				i = j;
-				tokens.add(tmp.trim());
+				tmp = this.fixVarDecl(tmp);
+				tokens.add(tmp);
 			}
 			else {
-				tokens.add(aux[i].trim());
+				aux[i] = this.fixVarDecl(aux[i]);
+				tokens.add(aux[i]);
 			}
 		}
 
 		return new Command(DECL, tokens, line.getNumber());
 	}
 
-	private Command varAtr(Line line) {
+	private String fixVarDecl(String line) throws UatException {
+		String fixedLine;
+		int eqIndex = line.indexOf("=");
+
+		if (eqIndex > 0) {
+			fixedLine = line.substring(eqIndex + 1).trim();
+			fixedLine = new Expression(fixedLine).toPostfix();
+			fixedLine = line.substring(0, eqIndex).trim() + Expression.SEP.toString() + fixedLine;
+
+			return fixedLine; // trim?
+		}
+		else return line.trim();
+	}
+
+	private Command varAtr(Line line) throws UatException {
 		int equalsIndex;
 		String[] atr = new String[2];
 		String lineString = line.toString();
@@ -295,7 +311,7 @@ class SourceScanner {
         }
 
         assignment.add(atr[0]);
-        assignment.add(atr[1]);
+        assignment.add(new Expression(atr[1]).toPostfix());
 
 		return new Command(ATR, assignment, line.getNumber());
 	}
@@ -358,7 +374,7 @@ class SourceScanner {
 				exp = this.getExp(lineString, i);
 
 				if (!exp.isEmpty()) {
-					words.add(exp);
+					words.add(Expression.SEP.toString() + new Expression(exp).toPostfix() + Expression.SEP.toString());
 					i = lineString.indexOf("$", i + 1);
 				}
 				else {
@@ -378,11 +394,12 @@ class SourceScanner {
 		else return new Command(PRINT, words, line.getNumber());
 	}
 
+	// returns what was between '$'
 	private String getExp(String content, int fromIndex) {
 		int offset = content.indexOf("$", fromIndex + 1);
 
 		if (offset > fromIndex) {
-			return content.substring(fromIndex, offset + 1);
+			return content.substring(fromIndex + 1, offset);
 		}
 
 		return "";
@@ -403,7 +420,7 @@ class SourceScanner {
 		else return new Command(SCAN, lineString.split(","), line.getNumber());
 	}
 
-	private Command ifBr(Line line) {
+	private Command ifBr(Line line) throws UatException {
 		boolean elsif = false;
 		String lineString = line.toString();
 		ArrayList<String> fields = new ArrayList<>();
@@ -414,24 +431,25 @@ class SourceScanner {
 
 		lineString = lineString.substring(lineString.indexOf("(") + 1, lineString.lastIndexOf(")")).trim();
 
-		fields.add(lineString);
+		fields.add(new Expression(lineString).toPostfix());
 
 		if (elsif) return new Command(ELSIF, fields, line.getNumber());
 		else return new Command(IF, fields, line.getNumber());
 	}
 
-	private Command whileLoop(Line line) {
+	private Command whileLoop(Line line) throws UatException {
 		String lineString = line.toString();
 		ArrayList<String> condition = new ArrayList<>();
 
 		lineString = lineString.substring(lineString.indexOf("(") + 1, lineString.lastIndexOf(")")).trim();
 
-		condition.add(lineString);
+		condition.add(new Expression(lineString).toPostfix());
 
 		return new Command(WHILE, condition, line.getNumber());
 	}
 
 	private Command forLoop(Line line) throws UatException {
+		Command comInit, comInc;
 		int firstSemic, lastSemic;
 		ArrayList<String> fields = new ArrayList<>();
 		String lineString = line.toString(), forInit, forCond, forInc;
@@ -441,18 +459,31 @@ class SourceScanner {
 		if (forInit.equals("break") || forInit.equals("continue")) {
 			throw new UatException("invalidLoopComm", line.toString());
 		}
+		comInit = this.buildCommand(new Line(forInit, line.getNumber()));
 
 		lastSemic = lineString.lastIndexOf(";");
 		forInc = lineString.substring(lastSemic + 1, lineString.lastIndexOf(")")).trim();
 		if (forInc.equals("break") || forInc.equals("continue")) {
 			throw new UatException("invalidLoopComm", line.toString());
 		}
+		comInc = this.buildCommand(new Line(forInc, line.getNumber()));
 
 		forCond = lineString.substring(firstSemic + 1, lastSemic).trim();
+		forCond = new Expression(forCond).toPostfix();
 
-		fields.add(forInit);
+		// System.out.println("-------------");
+		// System.out.println(comInit);
+		// System.out.println(forCond);
+		// System.out.println(comInc);
+		// System.out.println("-------------");
+
+		fields.add(new Integer(comInit.code()).toString());
+		fields.addAll(comInit.fields());
+
 		fields.add(forCond);
-		fields.add(forInc);
+
+		fields.add(new Integer(comInc.code()).toString());
+		fields.addAll(comInc.fields());
 
 		return new Command(FOR, fields, line.getNumber());
 	}
@@ -513,6 +544,7 @@ class SourceScanner {
 	// public static final String fixAtrTypeR = ":( )*(" + typeR + ")" + semicR;
 	public static final String fixAtrTypeR = ":( )*(" + typeR + ")";
 	public static final String varNameR = "[A-Za-z_][A-Za-z_0-9]*";
+	public static final String structR = varNameR + "\\.([0-9]+|" + varNameR + ")";
 	// public static final String wholeDeclR = "(let)( )+(.+)( )*:( )*(\\w)+" + semicR;
 	public static final String wholeDeclR = "(let)( )+(.+)( )*:( )*(\\w)+";
 
@@ -561,6 +593,9 @@ class SourceScanner {
 	// matches 0 or more of the following, enclosed with "
 	// matches a \ followed by any character, or...
 	// doesn't match a " or a \
+
+	// [A-Za-z_][A-Za-z_0-9]*( )*\((?:"(?:\\.|[^"\\])*"|[^\)])*\)
+	public static final String fnCallR = varNameR + "( )*\\((?:" + strR + "|[^\\)])*\\)";
 
 	public static final String signR = "[+-]";
 	public static final String intR = signR + "?[0-9]+";
@@ -613,6 +648,8 @@ class SourceScanner {
 		anyP = Pattern.compile(".+");
 
 		varNameP = Pattern.compile(varNameR);
+		structP = Pattern.compile(structR);
+		fnCallP = Pattern.compile(fnCallR);
 		typeP = Pattern.compile(typeR);
 		fixAtrTypeP = Pattern.compile(fixAtrTypeR);
 		atrP = Pattern.compile(atrR);

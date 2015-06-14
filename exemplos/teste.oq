@@ -1,14 +1,18 @@
 fn main() {
+    let gabriel = -3 +4 *2 / ( 1 - 5)^ 2 ^ 3, i = 7.11: string
     let i, j, k: string
+    let putz = square(2): int
+    let funciona = square(2) - (putz.2 + putz.idade) / ((7.11 + 11.7 ^ square(fu.jin)) ^ putz.uat): int
     i = 1 + 1/2 + 1/4
+    i = (putz.2 + putz.idade) / ((7.11 + 11.7) ^ putz.uat)
     println(Hey you $square(2)$ :P)
     scanln(x, y, z)
 
-    if (IF CONDITION) {
+    if (putz < funciona) {
         println(println inside if)
     }
-    elsif (ELSIF CONDITION) {
-        println(println inside elsif)
+    elsif (square(2) * putz.vish > 11.7 || raiden == ElderGod) {
+        println(println $inside$ $elsif$)
     }
     else {
         println(println inside else)
@@ -18,6 +22,8 @@ fn main() {
 fn teste() {
     let x: int
 
+    println($-3 +4 *2 / ( 1 - 5)^ 2 ^ 3$)
+
     while (WHILE CONDITION) {
         continue
         break
@@ -26,7 +32,7 @@ fn teste() {
         break
         println(println inside while)
         if (PQP VAI BUGAR TUDO) {
-            for (SERA; QUE; FUCIONA) {
+            for (x = 1 + 1/2 + 1/4; x < square(2) * fu.jin; println(oi)) {
                 break
                 continue
                 if (E AGORA) {

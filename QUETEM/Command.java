@@ -25,8 +25,8 @@ fn <name>(<params>) {
 [initialLineOfBlock]
 
 VARIABLE DECLARATION
-let <vars>: <type> // do we still need to assign a type?
-[type|var1|var2|...]
+let <vars>: <type>
+[type|var1`atr1|var2`atr2|...]
 
 VARIABLE ASSIGNMENT
 <var> = <expression|function call>
@@ -52,7 +52,7 @@ while (<condition>) {
 
 FOR
 for (<init>; <condition>; <increment>) {
-[init|condition|increment|linesToJump]
+[initCode|initCommand|condition|incrementCode|incrementCommand|linesToJump]
 
 BREAK
 [linesToJump]
@@ -98,6 +98,10 @@ class Command {
 
     public int lineNumber() {
         return this.lineNumber;
+    }
+
+    public ArrayList<String> fields() {
+        return this.fields;
     }
 
     public String toString() {
