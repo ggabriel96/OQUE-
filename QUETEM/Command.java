@@ -15,7 +15,7 @@ import java.util.*;
 /* Command types:
 
 - int code
-- String [fields]
+- String[] fields
 - int lineNumber
 
 FUNCTIONS
@@ -39,11 +39,10 @@ scan(<vars>);
 [var1|var2|var3|...]
 
 IF/ELSIF/ELSE
-// do we need this sizeUntilEnd?
 if/elsif (<condition>) {
-[condition|sizeUntilEnd|thisSize]
-else
-[sizeUntilEnd|thisSize]
+[condition|size]
+else {
+[size]
 
 WHILE
 while (<condition>) {
@@ -55,7 +54,7 @@ for (<init>; <condition>; <increment>) {
 
 BREAK/CONTINUE/}
 These only have the code and lineNumber set
-[] // ?
+[initialLineOfBlock] // ?
 */
 
 class Command {

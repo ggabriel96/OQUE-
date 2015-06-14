@@ -17,7 +17,7 @@ import java.util.*;
 import java.util.regex.*;
 
 class SourceScanner {
-	public static int FN = 10, BRACKET = 11, DECL = 20, ATR = 30, PRINT = 40, PRINTLN = 41, SCAN = 50, SCANLN = 51, IF = 60, ELSIF = 61, ELSE = 62;
+	public static int FN = 10, BRACKET = 11, DECL = 20, ATR = 30, PRINT = 40, PRINTLN = 41, SCAN = 50, SCANLN = 51, IF = 60, ELSIF = 61, ELSE = 62, WHILE = 70, FOR = 71, BREAK = 72, CONTINUE = 73;
 	private static boolean patternsInitd = false;
 	private static final Map<String, Boolean> reservedWords = mapReservedWords();
 	public static Pattern typeP, wholeDeclP, varNameP, atrP, wholeAtrP, semicP, wholePrintP, wholeScanP, wholeScanlnP, wholeOpP, signP, intP, fpP, charP, strP, strAssignP, quotMarkP, strBackP, parenP, numBuildP, boolP, upperCaseP, strNotEmptyP, opGroupP, ufpP, jufpP, jfpP, quotInStrP, invalidFpP, wholeIfP, wholeElsifP, wholeElseP, ifP, elsifP, ifEndingP, wholeWhileP, wholeForP, forSplitP, anyP, fixAtrP, fixAtrTypeP, fnP;
@@ -101,11 +101,12 @@ class SourceScanner {
 
 			// System.out.println("> compiledLine: " + compiledLine);
 
-			if (compiledLine.code() == FN || compiledLine.code() == IF || compiledLine.code() == ELSIF || compiledLine.code() == ELSE) {
+			if (compiledLine.code() == FN || compiledLine.code() == IF || compiledLine.code() == ELSIF || compiledLine.code() == ELSE || compiledLine.code() == WHILE || compiledLine.code() == FOR) {
 				blockStack.push(compiledLine);
 			}
 			else if (compiledLine.code() == BRACKET) {
 				poppedLine = blockStack.pop();
+				compiledLine.add(new Integer(poppedLine.lineNumber()).toString());
 				poppedLine.add(new Integer(compiledLine.lineNumber() - poppedLine.lineNumber() + 1).toString());
 			}
 
@@ -394,8 +395,6 @@ class SourceScanner {
 
 		lineString = lineString.substring(lineString.indexOf("(") + 1, lineString.lastIndexOf(")")).trim();
 
-		System.out.println("{" + lineString + "}");
-
 		fields.add(lineString);
 
 		if (elsif) return new Command(ELSIF, fields, line.getNumber());
@@ -407,7 +406,14 @@ class SourceScanner {
 	// }
 
 	private Command whileLoop(Line line) {
-		return null;
+		String lineString = line.toString();
+		ArrayList<String> condition = new ArrayList<>();
+
+		lineString = lineString.substring(lineString.indexOf("(") + 1, lineString.lastIndexOf(")")).trim();
+
+		condition.add(lineString);
+
+		return new Command(WHILE, condition, line.getNumber());
 	}
 
 	private Command forLoop(Line line) {
