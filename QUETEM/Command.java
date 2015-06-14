@@ -58,7 +58,7 @@ BREAK
 [linesToJump]
 
 CONTINUE
-[parentLine]
+[initialLineOfLoop]
 */
 
 class Command {

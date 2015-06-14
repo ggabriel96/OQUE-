@@ -25,6 +25,25 @@ fn teste() {
         continue
         break
         println(println inside while)
+        if (PQP VAI BUGAR TUDO) {
+            for (SERA; QUE; FUCIONA) {
+                break
+                continue
+                if (E AGORA) {
+                    break
+                    continue
+                }
+                else {
+                    break
+                }
+                continue
+                break
+            }
+            break
+            continue
+            continue
+            break
+        }
         continue
         break
     }

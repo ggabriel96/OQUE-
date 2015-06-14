@@ -89,7 +89,7 @@ class SourceScanner {
 		boolean endOfBlock = false;
 		Command compiledLine, poppedLine, loopLine;
 		ArrayList<Command> block = new ArrayList<>();
-		Stack<Command> blockStack = new Stack<Command>(), loopStack = new Stack<Command>();
+		Stack<Command> blStack = new Stack<Command>(), loopStack = new Stack<Command>(), jStack = new Stack<Command>();
 
 		for (i = index, max = code.size(); i < max && !endOfBlock; i++) {
 			line = code.get(i);
@@ -99,10 +99,13 @@ class SourceScanner {
 			// System.out.println("> compiledLine: " + compiledLine);
 
 			if (compiledLine.code() == FN || compiledLine.code() == IF || compiledLine.code() == ELSIF || compiledLine.code() == ELSE || compiledLine.code() == WHILE || compiledLine.code() == FOR) {
-				blockStack.push(compiledLine);
+				if (compiledLine.code() == WHILE || compiledLine.code() == FOR) {
+					loopStack.push(compiledLine);
+				}
+				blStack.push(compiledLine);
 			}
 			else if (compiledLine.code() == BRACKET) {
-				poppedLine = blockStack.pop();
+				poppedLine = blStack.pop();
 
 				// # of line to reference the start of the block
 				compiledLine.add(new Integer(poppedLine.lineNumber()).toString());
@@ -110,8 +113,8 @@ class SourceScanner {
 				poppedLine.add(new Integer(compiledLine.lineNumber() - poppedLine.lineNumber()).toString());
 
 				if (poppedLine.code() == WHILE || poppedLine.code() == FOR) {
-					while (!loopStack.empty()) {
-						loopLine = loopStack.pop();
+					while (!jStack.empty()) {
+						loopLine = jStack.pop();
 						if (loopLine.code() == BREAK) {
 							// linesToJump
 							loopLine.add(new Integer(poppedLine.lineNumber() + Integer.parseInt(poppedLine.get(poppedLine.size() - 1)) - loopLine.lineNumber()).toString());
@@ -121,17 +124,19 @@ class SourceScanner {
 							loopLine.add(new Integer(poppedLine.lineNumber()).toString());
 						}
 					}
+
+					loopStack.pop();
 				}
 			}
 			else if (compiledLine.code() == BREAK || compiledLine.code() == CONTINUE) {
-				poppedLine = blockStack.peek();
+				poppedLine = loopStack.peek();
 				if (poppedLine.code() == WHILE || poppedLine.code() == FOR) {
-					loopStack.push(compiledLine);
+					jStack.push(compiledLine);
 				}
 				else throw new UatException("notLooping", line.toString());
 			}
 
-			if (blockStack.isEmpty()) {
+			if (blStack.isEmpty()) {
 				endOfBlock = true;
 			}
 		}
