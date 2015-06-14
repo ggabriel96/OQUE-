@@ -17,6 +17,7 @@ class OQUE {
     public static void main(String[] args) {
         File f;
         int ind = 0;
+        HashMap<String, ArrayList<Command>> code;
         boolean hasParam = true, validParam = true;
         Interpreter interpreter = new Interpreter();
         SourceScanner scanner = new SourceScanner();
@@ -42,7 +43,17 @@ class OQUE {
             if (f.exists() && !f.isDirectory()) {
 
 				try {
-                    scanner.compile(f); // for testing
+                    code = scanner.compile(f);
+
+                    for(Map.Entry<String, ArrayList<Command>> entry: code.entrySet()) {
+                        String name = entry.getKey();
+                        ArrayList<Command> block = entry.getValue();
+
+                        System.out.println("fn " + name);
+                        scanner.printCommandBlock(block);
+                        System.out.println();
+                    }
+
 					input = scanner.read(f);
                     interpreter.execute(input);
                 }

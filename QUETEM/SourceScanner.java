@@ -46,9 +46,6 @@ class SourceScanner {
 				codeBlock = this.buildBlock(fullCode, i);
 				i += codeBlock.size() - 1;
 
-				System.out.println("\nCompiled block:");
-				this.printCommandBlock(codeBlock);
-
 				code.put(codeBlock.get(0).get(0), codeBlock); // adding to HashMap with fn name
 			}
 			else {
@@ -158,9 +155,6 @@ class SourceScanner {
 			else if (wholeIfM.matches() || elsifM.matches()) {
 				return this.ifBr(line);
 			}
-			// else if (elsifM.matches()) {
-			// 	return this.elsifBr(line);
-			// }
 			else if (elseM.matches()) {
 				return new Command(ELSE, new ArrayList<String>(), line.getNumber());
 			}
@@ -170,10 +164,10 @@ class SourceScanner {
 			else if (wholeForM.matches()) {
 				return this.forLoop(line);
 			}
-			else if (command.equals("break;")) {
+			else if (command.equals("break")) {
 				return this.breakLoop(line);
 			}
-			else if (command.equals("continue;")) {
+			else if (command.equals("continue")) {
 				return this.continueLoop(line);
 			}
 			else {
@@ -380,10 +374,6 @@ class SourceScanner {
 		else return new Command(SCAN, lineString.split(","), line.getNumber());
 	}
 
-	// private Command scanln(Line line) {
-	// 	return null;
-	// }
-
 	private Command ifBr(Line line) {
 		boolean elsif = false;
 		String lineString = line.toString();
@@ -401,10 +391,6 @@ class SourceScanner {
 		else return new Command(IF, fields, line.getNumber());
 	}
 
-	// private Command elsifBr(Line line) {
-	// 	return null;
-	// }
-
 	private Command whileLoop(Line line) {
 		String lineString = line.toString();
 		ArrayList<String> condition = new ArrayList<>();
@@ -416,8 +402,30 @@ class SourceScanner {
 		return new Command(WHILE, condition, line.getNumber());
 	}
 
-	private Command forLoop(Line line) {
-		return null;
+	private Command forLoop(Line line) throws UatException {
+		int firstSemic, lastSemic;
+		ArrayList<String> fields = new ArrayList<>();
+		String lineString = line.toString(), forInit, forCond, forInc;
+
+		firstSemic = lineString.indexOf(";");
+		forInit = lineString.substring(lineString.indexOf("(") + 1, firstSemic).trim();
+		if (forInit.equals("break") || forInit.equals("continue")) {
+			throw new UatException("invalidLoopComm", line.toString());
+		}
+
+		lastSemic = lineString.lastIndexOf(";");
+		forInc = lineString.substring(lastSemic + 1, lineString.lastIndexOf(")")).trim();
+		if (forInc.equals("break") || forInc.equals("continue")) {
+			throw new UatException("invalidLoopComm", line.toString());
+		}
+
+		forCond = lineString.substring(firstSemic + 1, lastSemic).trim();
+
+		fields.add(forInit);
+		fields.add(forCond);
+		fields.add(forInc);
+
+		return new Command(FOR, fields, line.getNumber());
 	}
 
 	private Command breakLoop(Line line) {

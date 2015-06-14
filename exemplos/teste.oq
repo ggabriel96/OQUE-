@@ -21,4 +21,10 @@ fn teste() {
     while (WHILE CONDITION) {
         println(println inside while)
     }
+
+    for (i = 0; i < max; i = i + 1) {
+        println(1st println inside for)
+        println(2nd println inside for)
+        println(3rd println inside for)
+    }
 }
