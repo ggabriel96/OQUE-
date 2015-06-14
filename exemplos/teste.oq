@@ -19,12 +19,24 @@ fn teste() {
     let x: int
 
     while (WHILE CONDITION) {
+        continue
+        break
+        continue
+        continue
+        break
         println(println inside while)
+        continue
+        break
     }
 
     for (i = 0; i < max; i = i + 1) {
+        break
         println(1st println inside for)
+        continue
+        continue
+        break
         println(2nd println inside for)
+        break
         println(3rd println inside for)
     }
 }

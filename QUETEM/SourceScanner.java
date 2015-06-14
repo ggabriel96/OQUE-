@@ -87,9 +87,9 @@ class SourceScanner {
 		int i, max;
 		Line line = null;
 		boolean endOfBlock = false;
-		Command compiledLine, poppedLine;
+		Command compiledLine, poppedLine, loopLine;
 		ArrayList<Command> block = new ArrayList<>();
-		Stack<Command> blockStack = new Stack<Command>();
+		Stack<Command> blockStack = new Stack<Command>(), loopStack = new Stack<Command>();
 
 		for (i = index, max = code.size(); i < max && !endOfBlock; i++) {
 			line = code.get(i);
@@ -103,8 +103,32 @@ class SourceScanner {
 			}
 			else if (compiledLine.code() == BRACKET) {
 				poppedLine = blockStack.pop();
+
+				// # of line to reference the start of the block
 				compiledLine.add(new Integer(poppedLine.lineNumber()).toString());
-				poppedLine.add(new Integer(compiledLine.lineNumber() - poppedLine.lineNumber() + 1).toString());
+				// linesToJump
+				poppedLine.add(new Integer(compiledLine.lineNumber() - poppedLine.lineNumber()).toString());
+
+				if (poppedLine.code() == WHILE || poppedLine.code() == FOR) {
+					while (!loopStack.empty()) {
+						loopLine = loopStack.pop();
+						if (loopLine.code() == BREAK) {
+							// linesToJump
+							loopLine.add(new Integer(poppedLine.lineNumber() + Integer.parseInt(poppedLine.get(poppedLine.size() - 1)) - loopLine.lineNumber()).toString());
+						}
+						else {
+							// parentLine
+							loopLine.add(new Integer(poppedLine.lineNumber()).toString());
+						}
+					}
+				}
+			}
+			else if (compiledLine.code() == BREAK || compiledLine.code() == CONTINUE) {
+				poppedLine = blockStack.peek();
+				if (poppedLine.code() == WHILE || poppedLine.code() == FOR) {
+					loopStack.push(compiledLine);
+				}
+				else throw new UatException("notLooping", line.toString());
 			}
 
 			if (blockStack.isEmpty()) {
@@ -429,11 +453,11 @@ class SourceScanner {
 	}
 
 	private Command breakLoop(Line line) {
-		return null;
+		return new Command(BREAK, new ArrayList<String>(), line.getNumber());
 	}
 
 	private Command continueLoop(Line line) {
-		return null;
+		return new Command(CONTINUE, new ArrayList<String>(), line.getNumber());
 	}
 
 	public void printCommandBlock(ArrayList<Command> block) {

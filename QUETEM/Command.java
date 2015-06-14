@@ -20,7 +20,9 @@ import java.util.*;
 
 FUNCTIONS
 fn <name>(<params>) {
-[name|param1|param2|...|size]
+[name|param1|param2|...|linesToJump]
+'}'
+[initialLineOfBlock]
 
 VARIABLE DECLARATION
 let <vars>: <type> // do we still need to assign a type?
@@ -40,21 +42,23 @@ scan(<vars>);
 
 IF/ELSIF/ELSE
 if/elsif (<condition>) {
-[condition|size]
+[condition|linesToJump]
 else {
-[size]
+[linesToJump]
 
 WHILE
 while (<condition>) {
-[condition|size]
+[condition|linesToJump]
 
 FOR
 for (<init>; <condition>; <increment>) {
-[init|condition|increment|size]
+[init|condition|increment|linesToJump]
 
-BREAK/CONTINUE/}
-These only have the code and lineNumber set
-[initialLineOfBlock] // ?
+BREAK
+[linesToJump]
+
+CONTINUE
+[parentLine]
 */
 
 class Command {
