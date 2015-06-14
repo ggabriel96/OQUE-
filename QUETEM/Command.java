@@ -39,6 +39,7 @@ scan(<vars>);
 [var1|var2|var3|...]
 
 IF/ELSIF/ELSE
+// do we need this sizeUntilEnd?
 if/elsif (<condition>) {
 [condition|sizeUntilEnd|thisSize]
 else

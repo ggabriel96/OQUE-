@@ -1,8 +1,18 @@
 fn main() {
     let i, j, k: string
     i = 1 + 1/2 + 1/4
-    println(oi voce $square(2)$ :P)
+    println(Hey you $square(2)$ :P)
     scanln(x, y, z)
+
+    if (IF CONDITION) {
+        println(println inside if)
+    }
+    elsif (ELSIF CONDITION) {
+        println(println inside elsif)
+    }
+    else {
+        println(println inside else)
+    }
 }
 
 fn teste() {

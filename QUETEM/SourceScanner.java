@@ -17,7 +17,7 @@ import java.util.*;
 import java.util.regex.*;
 
 class SourceScanner {
-	public static int BRACKET = -1, FN = 0, DECL = 1, ATR = 2, PRINT = 3, PRINTLN = 4, SCAN = 5, SCANLN = 6, IF = 7;
+	public static int FN = 10, BRACKET = 11, DECL = 20, ATR = 30, PRINT = 40, PRINTLN = 41, SCAN = 50, SCANLN = 51, IF = 60, ELSIF = 61, ELSE = 62;
 	private static boolean patternsInitd = false;
 	private static final Map<String, Boolean> reservedWords = mapReservedWords();
 	public static Pattern typeP, wholeDeclP, varNameP, atrP, wholeAtrP, semicP, wholePrintP, wholeScanP, wholeScanlnP, wholeOpP, signP, intP, fpP, charP, strP, strAssignP, quotMarkP, strBackP, parenP, numBuildP, boolP, upperCaseP, strNotEmptyP, opGroupP, ufpP, jufpP, jfpP, quotInStrP, invalidFpP, wholeIfP, wholeElsifP, wholeElseP, ifP, elsifP, ifEndingP, wholeWhileP, wholeForP, forSplitP, anyP, fixAtrP, fixAtrTypeP, fnP;
@@ -101,7 +101,7 @@ class SourceScanner {
 
 			// System.out.println("> compiledLine: " + compiledLine);
 
-			if (compiledLine.code() == FN || compiledLine.code() == IF) {
+			if (compiledLine.code() == FN || compiledLine.code() == IF || compiledLine.code() == ELSIF || compiledLine.code() == ELSE) {
 				blockStack.push(compiledLine);
 			}
 			else if (compiledLine.code() == BRACKET) {
@@ -154,14 +154,14 @@ class SourceScanner {
 			else if (wholeScanM.matches() || wholeScanlnM.matches()) {
 				return this.scan(line);
 			}
-			else if (wholeIfM.matches()) {
+			else if (wholeIfM.matches() || elsifM.matches()) {
 				return this.ifBr(line);
 			}
-			else if (elsifM.matches()) {
-				return this.elsifBr(line);
-			}
+			// else if (elsifM.matches()) {
+			// 	return this.elsifBr(line);
+			// }
 			else if (elseM.matches()) {
-				return this.elseBr(line);
+				return new Command(ELSE, new ArrayList<String>(), line.getNumber());
 			}
 			else if (wholeWhileM.matches()) {
 				return this.whileLoop(line);
@@ -384,22 +384,27 @@ class SourceScanner {
 	// }
 
 	private Command ifBr(Line line) {
+		boolean elsif = false;
 		String lineString = line.toString();
+		ArrayList<String> fields = new ArrayList<>();
+
+		if (lineString.startsWith("elsif")) {
+			elsif = true;
+		}
 
 		lineString = lineString.substring(lineString.indexOf("(") + 1, lineString.lastIndexOf(")")).trim();
 
 		System.out.println("{" + lineString + "}");
 
-		return null;
+		fields.add(lineString);
+
+		if (elsif) return new Command(ELSIF, fields, line.getNumber());
+		else return new Command(IF, fields, line.getNumber());
 	}
 
-	private Command elsifBr(Line line) {
-		return null;
-	}
-
-	private Command elseBr(Line line) {
-		return null;
-	}
+	// private Command elsifBr(Line line) {
+	// 	return null;
+	// }
 
 	private Command whileLoop(Line line) {
 		return null;
