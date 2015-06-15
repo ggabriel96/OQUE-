@@ -1,5 +1,6 @@
 fn main() {
     x = square(2) - (putz.2 + putz.idade) / ((7.11 + 11.7 ^ square(fu.jin)) ^ putz.uat)
     x = square(fu.jin.oi) + fu.jin - square(2)
-    x = fu.(square(fu.jin * square(2)))
+    x = fu.(square(fu.jin * sq))
+    x = square(fu.jin)
 }
