@@ -544,7 +544,8 @@ class SourceScanner {
 	// public static final String fixAtrTypeR = ":( )*(" + typeR + ")" + semicR;
 	public static final String fixAtrTypeR = ":( )*(" + typeR + ")";
 	public static final String varNameR = "[A-Za-z_][A-Za-z_0-9]*";
-	public static final String structR = varNameR + "\\.([0-9]+|" + varNameR + ")";
+	// public static final String structR = varNameR + "\\.([0-9]+|" + varNameR + ")";
+	public static final String structR = varNameR + "(\\.(\\(.+\\)|([0-9]+|" + varNameR + ")))+";
 	// public static final String wholeDeclR = "(let)( )+(.+)( )*:( )*(\\w)+" + semicR;
 	public static final String wholeDeclR = "(let)( )+(.+)( )*:( )*(\\w)+";
 
@@ -596,6 +597,8 @@ class SourceScanner {
 
 	// [A-Za-z_][A-Za-z_0-9]*( )*\((?:"(?:\\.|[^"\\])*"|[^\)])*\)
 	public static final String fnCallR = varNameR + "( )*\\((?:" + strR + "|[^\\)])*\\)";
+	// o mais perto que cheguei:
+	// ([A-Za-z_][A-Za-z_0-9]*(?:\([^()]*\))+)
 
 	public static final String signR = "[+-]";
 	public static final String intR = signR + "?[0-9]+";

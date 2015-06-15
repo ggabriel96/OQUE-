@@ -11,9 +11,9 @@ class Expression {
 	public Expression(String value) throws UatException {
 		this.original = this.value = value.trim();
 		// System.out.println("Expression 1: " + this.value);
-		this.fixSpaces();
+		this.value = this.fixSpaces(this.value);
 		// System.out.println("Expression 2: " + this.value);
-		this.fixSignals();
+		this.value = this.fixSignals(this.value);
 		// System.out.println("Expression 3: " + this.value);
     }
 
@@ -21,15 +21,17 @@ class Expression {
         return this.value;
     }
 
-	private void fixSpaces() throws UatException {
-		int index = 0;
+	private String fixSpaces(String value) throws UatException {
 		String[] output;
-		String aux = this.value, tmp = "", fixed = "", inv;
+        boolean foundFn, foundStr;
+		int index = 0, index1, index2, j, k;
 		TreeMap<Integer, String> tokens = new TreeMap<Integer, String>();
+		String aux = value, tmp = "", tmp1 = "", tmp2 = "", fixed = "", inv;
 		Matcher notEmptyM, opGroupM, wholeOpM, ufpM, strM, varNameM, structM, fnCallM, invalidFpM;
 
 		invalidFpM = SourceScanner.invalidFpP.matcher(aux);
 		if (invalidFpM.find()) {
+            System.out.println("AQUI 1");
 			throw new UatException("invalidExp", aux);
 		}
 
@@ -37,6 +39,7 @@ class Expression {
 		inv = aux.substring(aux.length() - 1);
 		wholeOpM = SourceScanner.wholeOpP.matcher(inv);
 		if (wholeOpM.find() && !inv.equals(")")) {
+            System.out.println("AQUI 2");
 			throw new UatException("invalidExp", aux);
 		}
 
@@ -57,25 +60,61 @@ class Expression {
 		}
 
         fnCallM = SourceScanner.fnCallP.matcher(aux);
-        while (fnCallM.find()) {
-            tmp = fnCallM.group();
-            index = fnCallM.start();
+        structM = SourceScanner.structP.matcher(aux);
 
-            tokens.put(index, tmp);
-            aux = fnCallM.replaceFirst(this.spacenize(tmp));
+        foundFn = fnCallM.find();
+        foundStr = structM.find();
+        while (foundFn || foundStr) {
+            index1 = index2 = -1;
+
+            if (foundFn) {
+                tmp1 = fnCallM.group();
+                index1 = fnCallM.start();
+            }
+            if (foundStr) {
+                tmp2 = structM.group();
+                index2 = structM.start();
+            }
+
+            if ((index1 >= 0 && index2 >= 0 && index1 < index2) || (index1 >= 0 && index2 < 0)) {
+                j = tmp1.indexOf("(");
+                k = tmp1.lastIndexOf(")");
+                if (j > 0 && k > 0) {
+                    inv = tmp1.substring(j + 1, k);
+                    tmp1 = tmp1.substring(0, j + 1) + new Expression(inv).toPostfix() + ")";
+                }
+
+                tokens.put(index1, tmp1);
+                aux = fnCallM.replaceFirst(this.spacenize(tmp1));
+            }
+            else if (index2 >= 0) {
+                j = tmp2.indexOf("(");
+                k = tmp2.lastIndexOf(")");
+                if (j > 0 && k > 0) {
+                    inv = tmp2.substring(j + 1, k);
+                    tmp2 = tmp2.substring(0, j + 1) + new Expression(inv).toPostfix() + ")";
+                }
+
+                tokens.put(index2, tmp2);
+                aux = structM.replaceFirst(this.spacenize(tmp2));
+            }
 
             fnCallM = SourceScanner.fnCallP.matcher(aux);
+            structM = SourceScanner.structP.matcher(aux);
+
+            foundFn = fnCallM.find();
+            foundStr = structM.find();
         }
 
         strM = SourceScanner.strP.matcher(aux);
 		ufpM = SourceScanner.jufpP.matcher(aux);
-        structM = SourceScanner.structP.matcher(aux);
-        fnCallM = SourceScanner.fnCallP.matcher(aux);
 		wholeOpM = SourceScanner.wholeOpP.matcher(aux);
 		varNameM = SourceScanner.varNameP.matcher(aux);
 		notEmptyM = SourceScanner.strNotEmptyP.matcher(aux);
 
 		while (notEmptyM.find()) {
+
+            // System.out.println(aux);
 
 			if (strM.find()) {
 				tmp = strM.group();
@@ -91,13 +130,6 @@ class Expression {
 				tokens.put(index, tmp);
 				aux = wholeOpM.replaceFirst(this.spacenize(tmp));
 			}
-            else if (structM.find()) {
-                tmp = structM.group();
-				index = structM.start();
-
-				tokens.put(index, tmp);
-				aux = structM.replaceFirst(this.spacenize(tmp));
-            }
 			else if (varNameM.find()) {
 				tmp = varNameM.group();
 				index = varNameM.start();
@@ -113,12 +145,12 @@ class Expression {
 				aux = ufpM.replaceFirst(this.spacenize(tmp));
 			}
 			else {
+                System.out.println("AQUI 3");
 				throw new UatException("invalidExp", this.value);
 			}
 
 			strM = SourceScanner.strP.matcher(aux);
 			ufpM = SourceScanner.jufpP.matcher(aux);
-            structM = SourceScanner.structP.matcher(aux);
 			wholeOpM = SourceScanner.wholeOpP.matcher(aux);
 			varNameM = SourceScanner.varNameP.matcher(aux);
 			notEmptyM = SourceScanner.strNotEmptyP.matcher(aux);
@@ -131,7 +163,7 @@ class Expression {
 			fixed += s + SEP;
 		}
 
-		this.value = fixed;
+		return fixed;
 	}
 
 	public String spacenize(String token) {
@@ -159,13 +191,13 @@ class Expression {
 		return value;
     }
 
-	private void fixSignals() {
+	private String fixSignals(String value) {
         int i, max;
         boolean next;
         String t = new String("");
         Matcher wholeOpM, numBuildM;
         ArrayList<String> ts = new ArrayList<String>();
-        String[] tokens = this.value.split(SEP.toString());
+        String[] tokens = value.split(SEP.toString());
 
         for (i = 0; i < tokens.length; i++) {
             wholeOpM = SourceScanner.wholeOpP.matcher(tokens[i]);
@@ -187,7 +219,7 @@ class Expression {
             if (i < max - 1) t += SEP;
         }
 
-        this.value = t;
+        return t;
     }
 
 	private boolean isSignal(String[] tokens, int i) {
