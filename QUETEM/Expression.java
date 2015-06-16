@@ -6,6 +6,7 @@ import java.util.regex.*;
 class Expression {
 	public String original, value;
 	public static final Character SEP = 96; // 31, 96 to test
+	public static final Character VSEP = 39; // 29, 39 to test
     private static final Map<String, Integer> precedence = mapPrecedence();
 
 	public Expression(String value) throws UatException {
@@ -23,11 +24,11 @@ class Expression {
 
 	private String fixSpaces(String value) throws UatException {
 		String[] output;
-        boolean foundFn, foundStr;
+        boolean foundFn, foundArr;
 		int index = 0, index1, index2, j, k;
 		TreeMap<Integer, String> tokens = new TreeMap<Integer, String>();
 		String aux = value, tmp = "", tmp1 = "", tmp2 = "", fixed = "", inv;
-		Matcher notEmptyM, opGroupM, wholeOpM, ufpM, strM, varNameM, structM, fnCallM, invalidFpM;
+		Matcher notEmptyM, opGroupM, wholeOpM, ufpM, strM, varNameM, structM, arrayM, fnCallM, invalidFpM;
 
 		invalidFpM = SourceScanner.invalidFpP.matcher(aux);
 		if (invalidFpM.find()) {
@@ -59,24 +60,25 @@ class Expression {
 			}
 		}
 
+		arrayM = SourceScanner.arrayP.matcher(aux);
         fnCallM = SourceScanner.fnCallP.matcher(aux);
-        structM = SourceScanner.structP.matcher(aux);
 
-        foundFn = fnCallM.find();
-        foundStr = structM.find();
-        while (foundFn || foundStr) {
-            index1 = index2 = -1;
+		index1 = index2 = -1;
+		foundFn = fnCallM.find();
+        foundArr = arrayM.find();
+        while (foundFn || foundArr) {
+			index1 = index2 = -1;
 
             if (foundFn) {
                 tmp1 = fnCallM.group();
                 index1 = fnCallM.start();
             }
-            if (foundStr) {
-                tmp2 = structM.group();
-                index2 = structM.start();
-            }
+			if (foundArr) {
+				tmp2 = arrayM.group();
+				index2 = arrayM.start();
+			}
 
-            if ((index1 >= 0 && index2 >= 0 && index1 < index2) || (index1 >= 0 && index2 < 0)) {
+            if ((index1 >= 0 && index2 >= 0 && index1 <= index2) || (index1 >= 0 && index2 < 0)) {
                 j = tmp1.indexOf("(");
                 k = tmp1.lastIndexOf(")");
                 if (j > 0 && k > 0) {
@@ -84,37 +86,40 @@ class Expression {
                     tmp1 = tmp1.substring(0, j + 1) + new Expression(inv).toPostfix() + ")";
                 }
 
+				tmp1 = tmp1.replaceAll(SEP.toString(), VSEP.toString());
+
                 tokens.put(index1, tmp1);
                 aux = fnCallM.replaceFirst(this.spacenize(tmp1));
             }
             else if (index2 >= 0) {
-                j = tmp2.indexOf("(");
-                k = tmp2.lastIndexOf(")");
+                j = tmp2.indexOf("[");
+                k = tmp2.lastIndexOf("]");
                 if (j > 0 && k > 0) {
                     inv = tmp2.substring(j + 1, k);
-                    tmp2 = tmp2.substring(0, j + 1) + new Expression(inv).toPostfix() + ")";
+                    tmp2 = tmp2.substring(0, j + 1) + new Expression(inv).toPostfix() + "]";
                 }
 
+				tmp2 = tmp2.replaceAll(SEP.toString(), VSEP.toString());
+
                 tokens.put(index2, tmp2);
-                aux = structM.replaceFirst(this.spacenize(tmp2));
+                aux = arrayM.replaceFirst(this.spacenize(tmp2));
             }
 
+			arrayM = SourceScanner.arrayP.matcher(aux);
             fnCallM = SourceScanner.fnCallP.matcher(aux);
-            structM = SourceScanner.structP.matcher(aux);
 
             foundFn = fnCallM.find();
-            foundStr = structM.find();
+			foundArr = arrayM.find();
         }
 
         strM = SourceScanner.strP.matcher(aux);
 		ufpM = SourceScanner.jufpP.matcher(aux);
+		structM = SourceScanner.structP.matcher(aux);
 		wholeOpM = SourceScanner.wholeOpP.matcher(aux);
 		varNameM = SourceScanner.varNameP.matcher(aux);
 		notEmptyM = SourceScanner.strNotEmptyP.matcher(aux);
 
 		while (notEmptyM.find()) {
-
-            // System.out.println(aux);
 
 			if (strM.find()) {
 				tmp = strM.group();
@@ -129,6 +134,13 @@ class Expression {
 
 				tokens.put(index, tmp);
 				aux = wholeOpM.replaceFirst(this.spacenize(tmp));
+			}
+			else if (structM.find()) {
+				tmp = structM.group();
+				index = structM.start();
+
+				tokens.put(index, tmp);
+				aux = structM.replaceFirst(this.spacenize(tmp));
 			}
 			else if (varNameM.find()) {
 				tmp = varNameM.group();
@@ -151,6 +163,7 @@ class Expression {
 
 			strM = SourceScanner.strP.matcher(aux);
 			ufpM = SourceScanner.jufpP.matcher(aux);
+			structM = SourceScanner.structP.matcher(aux);
 			wholeOpM = SourceScanner.wholeOpP.matcher(aux);
 			varNameM = SourceScanner.varNameP.matcher(aux);
 			notEmptyM = SourceScanner.strNotEmptyP.matcher(aux);

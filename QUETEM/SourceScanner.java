@@ -20,7 +20,7 @@ class SourceScanner {
 	public static int FN = 10, BRACKET = 11, DECL = 20, ATR = 30, PRINT = 40, PRINTLN = 41, SCAN = 50, SCANLN = 51, IF = 60, ELSIF = 61, ELSE = 62, WHILE = 70, FOR = 71, BREAK = 72, CONTINUE = 73;
 	private static boolean patternsInitd = false;
 	private static final Map<String, Boolean> reservedWords = mapReservedWords();
-	public static Pattern typeP, wholeDeclP, varNameP, atrP, wholeAtrP, semicP, wholePrintP, wholeScanP, wholeScanlnP, wholeOpP, signP, intP, fpP, charP, strP, strAssignP, quotMarkP, strBackP, parenP, numBuildP, boolP, upperCaseP, strNotEmptyP, opGroupP, ufpP, jufpP, jfpP, quotInStrP, invalidFpP, wholeIfP, wholeElsifP, wholeElseP, ifP, elsifP, ifEndingP, wholeWhileP, wholeForP, forSplitP, anyP, fixAtrP, fixAtrTypeP, fnP, structP, fnCallP;
+	public static Pattern typeP, wholeDeclP, varNameP, atrP, wholeAtrP, semicP, wholePrintP, wholeScanP, wholeScanlnP, wholeOpP, signP, intP, fpP, charP, strP, strAssignP, quotMarkP, strBackP, parenP, numBuildP, boolP, upperCaseP, strNotEmptyP, opGroupP, ufpP, jufpP, jfpP, quotInStrP, invalidFpP, wholeIfP, wholeElsifP, wholeElseP, ifP, elsifP, ifEndingP, wholeWhileP, wholeForP, forSplitP, anyP, fixAtrP, fixAtrTypeP, fnP, structP, fnCallP, arrayP;
 
 	public SourceScanner() {
 		if (!patternsInitd) {
@@ -471,12 +471,6 @@ class SourceScanner {
 		forCond = lineString.substring(firstSemic + 1, lastSemic).trim();
 		forCond = new Expression(forCond).toPostfix();
 
-		// System.out.println("-------------");
-		// System.out.println(comInit);
-		// System.out.println(forCond);
-		// System.out.println(comInc);
-		// System.out.println("-------------");
-
 		fields.add(new Integer(comInit.code()).toString());
 		fields.addAll(comInit.fields());
 
@@ -544,8 +538,8 @@ class SourceScanner {
 	// public static final String fixAtrTypeR = ":( )*(" + typeR + ")" + semicR;
 	public static final String fixAtrTypeR = ":( )*(" + typeR + ")";
 	public static final String varNameR = "[A-Za-z_][A-Za-z_0-9]*";
-	// public static final String structR = varNameR + "\\.([0-9]+|" + varNameR + ")";
-	public static final String structR = varNameR + "(\\.(\\(.+\\)|([0-9]+|" + varNameR + ")))+";
+	public static final String arrayR = varNameR + "(\\[.*\\])";
+	public static final String structR = varNameR + "(\\.(" + varNameR + "))+";
 	// public static final String wholeDeclR = "(let)( )+(.+)( )*:( )*(\\w)+" + semicR;
 	public static final String wholeDeclR = "(let)( )+(.+)( )*:( )*(\\w)+";
 
@@ -652,6 +646,7 @@ class SourceScanner {
 
 		varNameP = Pattern.compile(varNameR);
 		structP = Pattern.compile(structR);
+		arrayP = Pattern.compile(arrayR);
 		fnCallP = Pattern.compile(fnCallR);
 		typeP = Pattern.compile(typeR);
 		fixAtrTypeP = Pattern.compile(fixAtrTypeR);
