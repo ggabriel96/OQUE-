@@ -14,6 +14,11 @@ import java.util.*;
 import java.util.regex.*;
 
 class Interpreter {
+	private HashMap<String, Variable> vars;
+
+	public Interpreter() {
+		this.vars = new HashMap<String, Variable>();
+	}
 
 	public void execute(ArrayList<Line> code) throws UatException {
 	}

@@ -17,11 +17,10 @@ class OQUE {
     public static void main(String[] args) {
         File f;
         int ind = 0;
+        OVM ovm = new OVM();
         HashMap<String, ArrayList<Command>> code;
         boolean hasParam = true, validParam = true;
-        Interpreter interpreter = new Interpreter();
         SourceScanner scanner = new SourceScanner();
-        ArrayList<Line> input = new ArrayList<Line>();
 
         if (args.length > 0) {
             for (ind = 0; ind < args.length; ind++) {
@@ -45,7 +44,7 @@ class OQUE {
 				try {
                     code = scanner.compile(f);
 
-                    for(Map.Entry<String, ArrayList<Command>> entry: code.entrySet()) {
+                    for (Map.Entry<String, ArrayList<Command>> entry: code.entrySet()) {
                         String name = entry.getKey();
                         ArrayList<Command> block = entry.getValue();
 
@@ -54,8 +53,7 @@ class OQUE {
                         System.out.println();
                     }
 
-					input = scanner.read(f);
-                    interpreter.execute(input);
+                    ovm.run(code);
                 }
                 catch (IOException ioe) {
 					ioe.toString();

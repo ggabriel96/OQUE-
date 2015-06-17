@@ -45,6 +45,8 @@ class UatException extends Exception {
             this.setMessage("You're not inside a loop"); break;
         case "invalidLoopComm":
             this.setMessage("You cannot use break/continue here"); break;
+        case "mainNotFound":
+            this.setMessage("Could not find any fn main() definition"); break;
         }
     }
 

@@ -32,7 +32,6 @@ class Expression {
 
 		invalidFpM = SourceScanner.invalidFpP.matcher(aux);
 		if (invalidFpM.find()) {
-            System.out.println("AQUI 1");
 			throw new UatException("invalidExp", aux);
 		}
 
@@ -40,7 +39,6 @@ class Expression {
 		inv = aux.substring(aux.length() - 1);
 		wholeOpM = SourceScanner.wholeOpP.matcher(inv);
 		if (wholeOpM.find() && !inv.equals(")")) {
-            System.out.println("AQUI 2");
 			throw new UatException("invalidExp", aux);
 		}
 
@@ -149,7 +147,6 @@ class Expression {
 				aux = ufpM.replaceFirst(this.spacenize(tmp));
 			}
 			else {
-                System.out.println("AQUI 3");
 				throw new UatException("invalidExp", this.value);
 			}
 

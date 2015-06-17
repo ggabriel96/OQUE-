@@ -20,45 +20,46 @@ import java.util.*;
 
 FUNCTIONS
 fn <name>(<params>) {
-[name|param1|param2|...|linesToJump]
-'}'
-[initialLineOfBlock]
+[10|name|param1|param2|...|linesToJump|lineNumber]
 
 VARIABLE DECLARATION
-let <vars>: <type>
-[type|var1`atr1|var2`atr2|...]
+let <vars>
+[20|var1`atr1|var2`atr2|...|lineNumber]
 
 VARIABLE ASSIGNMENT
 <var> = <expression|function call>
-[varToAssign|expression] // function call?
+[30|varToAssign|expression|lineNumber]
 
 PRINT(ln)
 print(<text|$<vars>$>)
-[text|var1|text|var2|...]
+[41/41|text|`var1`|text|`var2`|...|lineNumber]
 
 SCAN(ln)
 scan(<vars>);
-[var1|var2|var3|...]
+[50/51|var1|var2|var3|...|lineNumber]
 
 IF/ELSIF/ELSE
 if/elsif (<condition>) {
-[condition|linesToJump]
+[60/61|condition|linesToJump|lineNumber]
 else {
-[linesToJump]
+[62|linesToJump|lineNumber]
 
 WHILE
 while (<condition>) {
-[condition|linesToJump]
+[70|condition|linesToJump|lineNumber]
 
 FOR
 for (<init>; <condition>; <increment>) {
-[initCode|initCommand|condition|incrementCode|incrementCommand|linesToJump]
+[71|initCode|initCommand|condition|incrementCode|incrementCommand|linesToJump|lineNumber]
 
 BREAK
-[linesToJump]
+[72|linesToJump|lineNumber]
 
 CONTINUE
-[initialLineOfLoop]
+[73|initialLineOfLoop|lineNumber]
+
+'}'
+[11|initialLineOfBlock|lineNumber]
 */
 
 class Command {

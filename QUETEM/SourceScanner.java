@@ -7,8 +7,8 @@ Authors: Acácia dos Campos da Terra - terra.acacia@gmail.com
 
 Description: Class SourceScanner of OQUE, a programming language based on Java.
              Responsible for reading the source code, put it into an ArrayList
-			 of Lines and after change each line to a specific codification that
-			 will be utilized for the compiller. Regexes and matchers are found
+			 of Lines and then compile each line into a specific codification that
+			 will be used by the Interpreter. Regexes and matchers are found
 			 in this class.
 *******************************************************************************/
 
@@ -29,28 +29,39 @@ class SourceScanner {
 	}
 
 	public HashMap<String, ArrayList<Command>> compile(File f) throws IOException, UatException {
-		Line line;
 		int i, max;
 		Matcher fnM;
 		String command;
+		Line line = null;
+		boolean foundMain = false;
 		ArrayList<Command> codeBlock;
 		ArrayList<Line> fullCode = this.read(f);
 		HashMap<String, ArrayList<Command>> code = new HashMap<>();
 
-		for (i = 0, max = fullCode.size(); i < max; i++) {
-			line = fullCode.get(i);
-			command = line.toString();
+		if (fullCode.size() > 0) {
+			for (i = 0, max = fullCode.size(); i < max; i++) {
+				line = fullCode.get(i);
+				command = line.toString();
 
-			fnM = fnP.matcher(command);
-			if (fnM.matches()) {
-				codeBlock = this.buildBlock(fullCode, i);
-				i += codeBlock.size() - 1;
+				fnM = fnP.matcher(command);
+				if (fnM.matches()) {
 
-				code.put(codeBlock.get(0).get(0), codeBlock); // adding to HashMap with fn name
+					if (!foundMain && command.substring(3, command.indexOf("(")).trim().equals("main")) {
+						foundMain = true;
+					}
+
+					codeBlock = this.buildBlock(fullCode, i);
+					i += codeBlock.size() - 1;
+
+					code.put(codeBlock.get(0).get(0), codeBlock); // adding to HashMap with fn name
+				}
+				else {
+					throw new UatException("syntaxError", line.toString(), line.getNumber());
+				}
 			}
-			else {
-				System.out.println("SYNTAX 1");
-				throw new UatException("syntaxError", line.toString(), line.getNumber());
+
+			if (!foundMain) {
+				throw new UatException("mainNotFound", line.toString(), line.getNumber());
 			}
 		}
 
@@ -105,9 +116,11 @@ class SourceScanner {
 			block.add(compiledLine);
 
 			if (compiledLine.code() == FN || compiledLine.code() == IF || compiledLine.code() == ELSIF || compiledLine.code() == ELSE || compiledLine.code() == WHILE || compiledLine.code() == FOR) {
+
 				if (compiledLine.code() == WHILE || compiledLine.code() == FOR) {
 					loopStack.push(compiledLine);
 				}
+
 				blStack.push(compiledLine);
 			}
 			else if (compiledLine.code() == BRACKET) {
@@ -207,7 +220,6 @@ class SourceScanner {
 				return this.continueLoop(line);
 			}
 			else {
-				System.out.println("SYNTAX 2");
 				throw new UatException("syntaxError", line.toString());
 			}
 		}
@@ -315,7 +327,6 @@ class SourceScanner {
 			// replacing all \" for an actual "
 			quotInStrM = quotInStrP.matcher(atr[1]);
 	        atr[1] = quotInStrM.replaceAll("\"");
-			System.out.println(">>> atr[1]: " + atr[1]);
         }
 
         assignment.add(atr[0]);
