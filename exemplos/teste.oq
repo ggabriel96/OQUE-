@@ -1,17 +1,17 @@
 fn main() {
-    let gabriel = -3 +4 *2 / ( 1 - 5)^ 2 ^ 3, i = 7.11: string
-    let i, j, k: string
-    let putz = square(2): int
-    let funciona = square(2) - (putz.2 + putz.idade) / ((7.11 + 11.7 ^ square(fu.jin)) ^ putz.uat): int
+    let gabriel = -3 +4 *2 / ( 1 - 5)^ 2 ^ 3, i = 7.11
+    let i, j, k
+    let putz = square(2)
+    let funciona = square(2) - (putz[2] + putz[idade]) / ((7.11 + 11.7 ^ square(fu[jin])) ^ putz[uat])
     i = 1 + 1/2 + 1/4
-    i = (putz.2 + putz.idade) / ((7.11 + 11.7) ^ putz.uat)
+    i = (putz[2] + putz[idade]) / ((7.11 + 11.7) ^ putz[uat])
     println(Hey you $square(2)$ :P)
     scanln(x, y, z)
 
     if (putz < funciona) {
         println(println inside if)
     }
-    elsif (square(2) * putz.vish > 11.7 || raiden == ElderGod) {
+    elsif (square(2) * putz[vish] > 11.7 || raiden == ElderGod) {
         println(println $inside$ $elsif$)
     }
     else {
@@ -20,7 +20,7 @@ fn main() {
 }
 
 fn teste() {
-    let x: int
+    let x
 
     println($-3 +4 *2 / ( 1 - 5)^ 2 ^ 3$)
 
@@ -30,13 +30,13 @@ fn teste() {
         -- ESSE AQUI TA BUGADO:
         x = square(oi[2])
         x = oi[square(2)]
-        x = putz[-3 +4 *square(2) / ( fu.jin - 5)^ 2 ^ 3]
+        x = putz[-3 +4 *square(2) / ( fu - 5)^ 2 ^ 3]
         continue
         continue
         break
         println(println inside while)
         if (PQP VAI BUGAR TUDO) {
-            for (x = 1 + 1/2 + 1/4; x < square(2) * fu.jin; println(oi)) {
+            for (x = 1 + 1/2 + 1/4; x < square(2) * fu[jin]; println(oi)) {
                 break
                 continue
                 if (E AGORA) {

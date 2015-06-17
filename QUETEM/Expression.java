@@ -28,7 +28,7 @@ class Expression {
 		int index = 0, index1, index2, j, k;
 		TreeMap<Integer, String> tokens = new TreeMap<Integer, String>();
 		String aux = value, tmp = "", tmp1 = "", tmp2 = "", fixed = "", inv;
-		Matcher notEmptyM, opGroupM, wholeOpM, ufpM, strM, varNameM, structM, arrayM, fnCallM, invalidFpM;
+		Matcher notEmptyM, opGroupM, wholeOpM, ufpM, strM, varNameM, arrayM, fnCallM, invalidFpM;
 
 		invalidFpM = SourceScanner.invalidFpP.matcher(aux);
 		if (invalidFpM.find()) {
@@ -114,7 +114,6 @@ class Expression {
 
         strM = SourceScanner.strP.matcher(aux);
 		ufpM = SourceScanner.jufpP.matcher(aux);
-		structM = SourceScanner.structP.matcher(aux);
 		wholeOpM = SourceScanner.wholeOpP.matcher(aux);
 		varNameM = SourceScanner.varNameP.matcher(aux);
 		notEmptyM = SourceScanner.strNotEmptyP.matcher(aux);
@@ -134,13 +133,6 @@ class Expression {
 
 				tokens.put(index, tmp);
 				aux = wholeOpM.replaceFirst(this.spacenize(tmp));
-			}
-			else if (structM.find()) {
-				tmp = structM.group();
-				index = structM.start();
-
-				tokens.put(index, tmp);
-				aux = structM.replaceFirst(this.spacenize(tmp));
 			}
 			else if (varNameM.find()) {
 				tmp = varNameM.group();
@@ -163,7 +155,6 @@ class Expression {
 
 			strM = SourceScanner.strP.matcher(aux);
 			ufpM = SourceScanner.jufpP.matcher(aux);
-			structM = SourceScanner.structP.matcher(aux);
 			wholeOpM = SourceScanner.wholeOpP.matcher(aux);
 			varNameM = SourceScanner.varNameP.matcher(aux);
 			notEmptyM = SourceScanner.strNotEmptyP.matcher(aux);

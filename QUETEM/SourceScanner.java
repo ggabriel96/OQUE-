@@ -20,7 +20,7 @@ class SourceScanner {
 	public static int FN = 10, BRACKET = 11, DECL = 20, ATR = 30, PRINT = 40, PRINTLN = 41, SCAN = 50, SCANLN = 51, IF = 60, ELSIF = 61, ELSE = 62, WHILE = 70, FOR = 71, BREAK = 72, CONTINUE = 73;
 	private static boolean patternsInitd = false;
 	private static final Map<String, Boolean> reservedWords = mapReservedWords();
-	public static Pattern typeP, wholeDeclP, varNameP, atrP, wholeAtrP, semicP, wholePrintP, wholeScanP, wholeScanlnP, wholeOpP, signP, intP, fpP, charP, strP, strAssignP, quotMarkP, strBackP, parenP, numBuildP, boolP, upperCaseP, strNotEmptyP, opGroupP, ufpP, jufpP, jfpP, quotInStrP, invalidFpP, wholeIfP, wholeElsifP, wholeElseP, ifP, elsifP, ifEndingP, wholeWhileP, wholeForP, forSplitP, anyP, fixAtrP, fixAtrTypeP, fnP, structP, fnCallP, arrayP;
+	public static Pattern wholeDeclP, varNameP, atrP, wholeAtrP, semicP, wholePrintP, wholeScanP, wholeScanlnP, wholeOpP, signP, intP, fpP, charP, strP, strAssignP, quotMarkP, strBackP, parenP, numBuildP, boolP, upperCaseP, strNotEmptyP, opGroupP, ufpP, jufpP, jfpP, quotInStrP, invalidFpP, wholeIfP, wholeElsifP, wholeElseP, ifP, elsifP, ifEndingP, wholeWhileP, wholeForP, forSplitP, anyP, fixAtrP, fixAtrTypeP, fnP, fnCallP, arrayP;
 
 	public SourceScanner() {
 		if (!patternsInitd) {
@@ -234,12 +234,12 @@ class SourceScanner {
 		ArrayList<String> tokens = new ArrayList<String>();
 
 		// from right after "let" until end of line
-		lineString = lineString.substring(3);
+		lineString = lineString.substring(3).trim();
 		// type
-		i = lineString.lastIndexOf(":");
-		tokens.add(lineString.substring(i + 1, lineString.length()).trim());
+		// i = lineString.lastIndexOf(":");
+		// tokens.add(lineString.substring(i + 1, lineString.length()).trim());
 
-		lineString = lineString.substring(0, i);
+		// lineString = lineString.substring(0, i);
 		aux = lineString.split(",");
 		for (i = 0; i < aux.length; i++) {
 
@@ -507,10 +507,10 @@ class SourceScanner {
     private static Map<String, Boolean> mapReservedWords() {
         Map<String, Boolean> result = new HashMap<String, Boolean>();
         result.put("let", true);
-        result.put("int", true);
-        result.put("double", true);
-        result.put("string", true);
-        result.put("bool", true);
+        // result.put("int", true);
+        // result.put("double", true);
+        // result.put("string", true);
+        // result.put("bool", true);
         result.put("true", true);
         result.put("false", true);
 
@@ -534,14 +534,14 @@ class SourceScanner {
     }
 
 	// public static final String semicR = "( )*;";
-	public static final String typeR = "int|double|string|bool";
+	// public static final String typeR = "int|double|string|bool";
 	// public static final String fixAtrTypeR = ":( )*(" + typeR + ")" + semicR;
-	public static final String fixAtrTypeR = ":( )*(" + typeR + ")";
+	// public static final String fixAtrTypeR = ":( )*(" + typeR + ")";
 	public static final String varNameR = "[A-Za-z_][A-Za-z_0-9]*";
-	public static final String arrayR = varNameR + "(\\[.*\\])";
-	public static final String structR = varNameR + "(\\.(" + varNameR + "))+";
+	public static final String emptyArrR = varNameR + "(\\[\\])";
+	public static final String arrayR = varNameR + "(\\[.*?\\])";
 	// public static final String wholeDeclR = "(let)( )+(.+)( )*:( )*(\\w)+" + semicR;
-	public static final String wholeDeclR = "(let)( )+(.+)( )*:( )*(\\w)+";
+	public static final String wholeDeclR = "(let)( )+(.+?\\[\\]|.+?)(( )*\\,( )*(.+?\\[\\]|.+?))*";
 
 	public static final String parenR = "\\(|\\)";
 	public static final String boolOpR = "\\!|\\&\\&|\\|\\|";
@@ -645,11 +645,10 @@ class SourceScanner {
 		anyP = Pattern.compile(".+");
 
 		varNameP = Pattern.compile(varNameR);
-		structP = Pattern.compile(structR);
 		arrayP = Pattern.compile(arrayR);
 		fnCallP = Pattern.compile(fnCallR);
-		typeP = Pattern.compile(typeR);
-		fixAtrTypeP = Pattern.compile(fixAtrTypeR);
+		// typeP = Pattern.compile(typeR);
+		// fixAtrTypeP = Pattern.compile(fixAtrTypeR);
 		atrP = Pattern.compile(atrR);
 
 		fnP = Pattern.compile(fnR);
