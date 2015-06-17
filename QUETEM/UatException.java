@@ -13,7 +13,6 @@ class UatException extends Exception {
     private String message, line;
     private int number;
 
-    // should we pass line number as argument? I think it's possible
     public UatException(String code, String line) {
         this.setLine(line);
 
@@ -49,6 +48,11 @@ class UatException extends Exception {
         }
     }
 
+    public UatException(String code, String line, int number) {
+        this(code, line);
+        this.setNumber(number);
+    }
+
     private void setMessage(String message) {
         this.message = message;
     }
@@ -64,7 +68,7 @@ class UatException extends Exception {
     }
 
     public void setNumber(int number) {
-        if (this.number == 0) this.number = number;
+        this.number = number;
     }
     public int getNumber() {
         return this.number;

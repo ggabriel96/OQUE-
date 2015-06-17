@@ -270,10 +270,10 @@ class Expression {
     // our implementation of Dijkstra's Shunting Yard algorithm
 	public String toPostfix() throws UatException {
         int i, pt, ps;
-        String rpn = new String("");
         Matcher wholeOpM, parenM;
-        String[] tokens = this.value.split(SEP.toString());
+        String rpn = new String("");
         Stack<String> op = new Stack<String>();
+        String[] tokens = this.value.split(SEP.toString());
 
         for (i = 0; i < tokens.length; i++) {
             wholeOpM = SourceScanner.wholeOpP.matcher(tokens[i]);

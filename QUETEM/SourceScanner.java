@@ -50,7 +50,7 @@ class SourceScanner {
 			}
 			else {
 				System.out.println("SYNTAX 1");
-				throw new UatException("syntaxError", command);
+				throw new UatException("syntaxError", line.toString(), line.getNumber());
 			}
 		}
 
@@ -93,10 +93,16 @@ class SourceScanner {
 
 		for (i = index, max = code.size(); i < max && !endOfBlock; i++) {
 			line = code.get(i);
-			compiledLine = this.buildCommand(line);
-			block.add(compiledLine);
 
-			// System.out.println("> compiledLine: " + compiledLine);
+			try {
+				compiledLine = this.buildCommand(line);
+			}
+			catch (UatException ue) {
+				ue.setNumber(line.getNumber());
+				throw ue;
+			}
+
+			block.add(compiledLine);
 
 			if (compiledLine.code() == FN || compiledLine.code() == IF || compiledLine.code() == ELSIF || compiledLine.code() == ELSE || compiledLine.code() == WHILE || compiledLine.code() == FOR) {
 				if (compiledLine.code() == WHILE || compiledLine.code() == FOR) {
@@ -133,7 +139,7 @@ class SourceScanner {
 				if (poppedLine.code() == WHILE || poppedLine.code() == FOR) {
 					jStack.push(compiledLine);
 				}
-				else throw new UatException("notLooping", line.toString());
+				else throw new UatException("notLooping", line.toString(), line.getNumber());
 			}
 
 			if (blStack.isEmpty()) {
@@ -142,7 +148,8 @@ class SourceScanner {
 		}
 
 		if (!endOfBlock) {
-			throw new UatException("bracketNotFound", code.get(index).toString());
+			line = code.get(index);
+			throw new UatException("bracketNotFound", line.toString(), line.getNumber());
 		}
 
 		return block;
@@ -201,7 +208,7 @@ class SourceScanner {
 			}
 			else {
 				System.out.println("SYNTAX 2");
-				throw new UatException("syntaxError", command);
+				throw new UatException("syntaxError", line.toString());
 			}
 		}
 	}
@@ -297,17 +304,18 @@ class SourceScanner {
 		strAssignM = strAssignP.matcher(atr[1]);
 
         if (strAssignM.matches()) {
-			// removing first "
-			quotMarkM = quotMarkP.matcher(atr[1]);
-			atr[1] = quotMarkM.replaceFirst("");
-
-			// removing ";
-			strBackM = strBackP.matcher(atr[1]);
-			atr[1] = strBackM.replaceFirst("");
+			// // removing first "
+			// quotMarkM = quotMarkP.matcher(atr[1]);
+			// atr[1] = quotMarkM.replaceFirst("");
+			//
+			// // removing ";
+			// strBackM = strBackP.matcher(atr[1]);
+			// atr[1] = strBackM.replaceFirst("");
 
 			// replacing all \" for an actual "
 			quotInStrM = quotInStrP.matcher(atr[1]);
 	        atr[1] = quotInStrM.replaceAll("\"");
+			System.out.println(">>> atr[1]: " + atr[1]);
         }
 
         assignment.add(atr[0]);
@@ -378,7 +386,7 @@ class SourceScanner {
 					i = lineString.indexOf("$", i + 1);
 				}
 				else {
-					throw new UatException("invalidExp", lineString);
+					throw new UatException("invalidExp", line.toString());
 				}
 			}
 			else {
