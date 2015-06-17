@@ -17,7 +17,7 @@ class OQUE {
     public static void main(String[] args) {
         File f;
         int ind = 0;
-        OVM ovm = new OVM();
+        Interpreter ovm = new Interpreter();
         HashMap<String, ArrayList<Command>> code;
         boolean hasParam = true, validParam = true;
         SourceScanner scanner = new SourceScanner();
