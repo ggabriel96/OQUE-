@@ -19,8 +19,14 @@ fn main() {
     }
 }
 
-fn teste() {
-    let x
+fn teste(a, b, c) {
+    let x = 7
+
+    return -3 +4 *2 / ( 1 - 5)^ 2 ^ 3
+    return x
+    return square(2)
+    return teste()
+    return putz[-3 +4 *square(2) / ( fu - 5)^ 2 ^ 3]
 
     println($-3 +4 *2 / ( 1 - 5)^ 2 ^ 3$)
 

@@ -19,10 +19,12 @@ class Interpreter {
 		this.vars = new HashMap<>();
 	}
 
-	public void run(HashMap<String, ArrayList<Command>> code) {
+	public void run(HashMap<String, ArrayList<Command>> code) throws UatException {
+		ArrayList<Command> main = code.get("main");
+		this.execute(main, null);
     }
 
-	public void execute(ArrayList<Command> code) throws UatException {
+	public Struct execute(ArrayList<Command> code, HashMap<String, Struct> args) throws UatException {
 		int i, max;
 		Command command = null;
 
@@ -60,7 +62,11 @@ class Interpreter {
 					break;
 				case SourceScanner.CONTINUE:
 					break;
+				case SourceScanner.RETURN:
+					break;
 			}
 		}
+
+		return null;
 	}
 }

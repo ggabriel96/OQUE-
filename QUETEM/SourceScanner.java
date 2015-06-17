@@ -17,7 +17,7 @@ import java.util.*;
 import java.util.regex.*;
 
 class SourceScanner {
-	public static final int FN = 10, BRACKET = 11, DECL = 20, ATR = 30, PRINT = 40, PRINTLN = 41, SCAN = 50, SCANLN = 51, IF = 60, ELSIF = 61, ELSE = 62, WHILE = 70, FOR = 71, BREAK = 72, CONTINUE = 73;
+	public static final int FN = 10, RETURN = 11, BRACKET = 12, DECL = 20, ATR = 30, PRINT = 40, PRINTLN = 41, SCAN = 50, SCANLN = 51, IF = 60, ELSIF = 61, ELSE = 62, WHILE = 70, FOR = 71, BREAK = 72, CONTINUE = 73;
 	private static boolean patternsInitd = false;
 	private static final Map<String, Boolean> reservedWords = mapReservedWords();
 	public static Pattern wholeDeclP, varNameP, atrP, wholeAtrP, semicP, wholePrintP, wholeScanP, wholeScanlnP, wholeOpP, signP, intP, fpP, charP, strP, strAssignP, quotMarkP, strBackP, parenP, numBuildP, boolP, upperCaseP, strNotEmptyP, opGroupP, ufpP, jufpP, jfpP, quotInStrP, invalidFpP, wholeIfP, wholeElsifP, wholeElseP, ifP, elsifP, ifEndingP, wholeWhileP, wholeForP, forSplitP, anyP, fixAtrP, fixAtrTypeP, fnP, fnCallP, arrayP, opNoParP;
@@ -219,6 +219,9 @@ class SourceScanner {
 			else if (command.equals("continue")) {
 				return this.continueLoop(line);
 			}
+			else if (command.startsWith("return")) {
+				return this.ret(line);
+			}
 			else {
 				throw new UatException("syntaxError", line.toString());
 			}
@@ -243,6 +246,18 @@ class SourceScanner {
 		}
 
 		return new Command(FN, arguments, line.getNumber());
+	}
+
+	private Command ret(Line line) throws UatException {
+		String lineString;
+		ArrayList<String> expression = new ArrayList<>();
+
+		if (!line.toString().equals("return")) {
+			lineString = line.toString().substring(0, 7) + "=" + line.toString().substring(6);
+			expression.add(this.varAtr(new Line(lineString, line.getNumber())).get(1));
+		}
+
+		return new Command(RETURN, expression, line.getNumber());
 	}
 
 	private Command varDecl(Line line) throws UatException {
@@ -549,6 +564,8 @@ class SourceScanner {
 
         result.put("fn", true);
         result.put("main", true);
+        result.put("return", true);
+
         return Collections.unmodifiableMap(result);
     }
 

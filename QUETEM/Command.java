@@ -22,6 +22,11 @@ FUNCTIONS
 fn <name>(<params>) {
 [10|name|param1|param2|...|linesToJump|lineNumber]
 
+return
+[11|lineNumber]
+return <expression>
+[11|expression|lineNumber]
+
 VARIABLE DECLARATION
 let <vars>
 [20|var1`atr1|var2`atr2|...|lineNumber]
@@ -59,7 +64,7 @@ CONTINUE
 [73|initialLineOfLoop|lineNumber]
 
 '}'
-[11|initialLineOfBlock|lineNumber]
+[12|initialLineOfBlock|lineNumber]
 */
 
 class Command {

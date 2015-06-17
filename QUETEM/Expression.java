@@ -81,7 +81,9 @@ class Expression {
                 k = tmp1.lastIndexOf(")");
                 if (j > 0 && k > 0) {
                     inv = tmp1.substring(j + 1, k);
-                    tmp1 = tmp1.substring(0, j + 1) + new Expression(inv).toPostfix() + ")";
+					if (!inv.isEmpty()) {
+						tmp1 = tmp1.substring(0, j + 1) + new Expression(inv).toPostfix() + ")";
+					}
                 }
 
 				tmp1 = tmp1.replaceAll(SEP.toString(), VSEP.toString());
