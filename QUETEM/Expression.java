@@ -269,14 +269,19 @@ class Expression {
 
     // our implementation of Dijkstra's Shunting Yard algorithm
 	public String toPostfix() throws UatException {
-        int i, pt, ps;
-        Matcher wholeOpM, parenM;
         String rpn = new String("");
+        Matcher wholeOpM, parenM, opNoParM;
+        int i, pt, ps, opCount = 0, tCount = 0;
         Stack<String> op = new Stack<String>();
         String[] tokens = this.value.split(SEP.toString());
 
         for (i = 0; i < tokens.length; i++) {
             wholeOpM = SourceScanner.wholeOpP.matcher(tokens[i]);
+			opNoParM = SourceScanner.opNoParP.matcher(tokens[i]);
+
+			if (opNoParM.matches()) {
+				opCount++;
+			}
 
             if (tokens[i].equals("(")) {
                 op.push(tokens[i]);
@@ -304,9 +309,14 @@ class Expression {
                 op.push(tokens[i]);
             }
             else {
+				tCount++;
                 rpn += tokens[i] + SEP;
             }
         }
+
+		if (opCount != tCount - 1) {
+			throw new UatException("invalidExp", this.original);
+		}
 
         while (!op.isEmpty()) {
             parenM = SourceScanner.parenP.matcher(op.peek());

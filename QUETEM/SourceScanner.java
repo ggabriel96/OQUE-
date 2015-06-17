@@ -20,7 +20,7 @@ class SourceScanner {
 	public static int FN = 10, BRACKET = 11, DECL = 20, ATR = 30, PRINT = 40, PRINTLN = 41, SCAN = 50, SCANLN = 51, IF = 60, ELSIF = 61, ELSE = 62, WHILE = 70, FOR = 71, BREAK = 72, CONTINUE = 73;
 	private static boolean patternsInitd = false;
 	private static final Map<String, Boolean> reservedWords = mapReservedWords();
-	public static Pattern wholeDeclP, varNameP, atrP, wholeAtrP, semicP, wholePrintP, wholeScanP, wholeScanlnP, wholeOpP, signP, intP, fpP, charP, strP, strAssignP, quotMarkP, strBackP, parenP, numBuildP, boolP, upperCaseP, strNotEmptyP, opGroupP, ufpP, jufpP, jfpP, quotInStrP, invalidFpP, wholeIfP, wholeElsifP, wholeElseP, ifP, elsifP, ifEndingP, wholeWhileP, wholeForP, forSplitP, anyP, fixAtrP, fixAtrTypeP, fnP, fnCallP, arrayP;
+	public static Pattern wholeDeclP, varNameP, atrP, wholeAtrP, semicP, wholePrintP, wholeScanP, wholeScanlnP, wholeOpP, signP, intP, fpP, charP, strP, strAssignP, quotMarkP, strBackP, parenP, numBuildP, boolP, upperCaseP, strNotEmptyP, opGroupP, ufpP, jufpP, jfpP, quotInStrP, invalidFpP, wholeIfP, wholeElsifP, wholeElseP, ifP, elsifP, ifEndingP, wholeWhileP, wholeForP, forSplitP, anyP, fixAtrP, fixAtrTypeP, fnP, fnCallP, arrayP, opNoParP;
 
 	public SourceScanner() {
 		if (!patternsInitd) {
@@ -556,8 +556,9 @@ class SourceScanner {
 	public static final String compOpR = "\\!\\=|\\<\\=|\\=\\=|\\>\\=|\\<|\\>";
 	public static final String compOrBoolR = compOpR + "|" + boolOpR;
 	public static final String mathOpR = "\\-|\\+|\\/|\\%|\\*|\\^";
+	public static final String opNoParR = mathOpR + "|" + compOpR + "|" + boolOpR;
 
-	public static final String wholeOpR = parenR + "|" + mathOpR + "|" + compOpR + "|" + boolOpR;
+	public static final String wholeOpR = parenR + "|" + opNoParR;
 
 	public static final String atrR = varNameR + "( )*=( )*.+";
 	// public static final String wholeAtrR = atrR + semicR;
@@ -661,6 +662,7 @@ class SourceScanner {
 
 		fnP = Pattern.compile(fnR);
 
+		opNoParP = Pattern.compile(opNoParR);
 		wholeOpP = Pattern.compile(wholeOpR);
 		signP = Pattern.compile(signR);
 		intP = Pattern.compile(intR);
