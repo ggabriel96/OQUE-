@@ -30,6 +30,8 @@ fn teste(a, b, c) {
 
     println($-3 +4 *2 / ( 1 - 5)^ 2 ^ 3$)
 
+    println(testando $putz[-3 +4 *square(2) / ( fu - 5)^ 2 ^ 3] * 2 - 1 + 4 / (3 ^ fu)$ expressoes >_<)
+
     while (WHILE + CONDITION) {
         continue
         break

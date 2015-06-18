@@ -53,7 +53,7 @@ class OQUE {
                         System.out.println();
                     }
 
-                    ovm.run(code);
+                    ovm.run(code, "main", null);
                 }
                 catch (IOException ioe) {
 					ioe.toString();
