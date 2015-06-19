@@ -270,10 +270,10 @@ class SourceScanner {
 		// from right after "let" until end of line
 		lineString = lineString.substring(3).trim();
 		// type
-		// i = lineString.lastIndexOf(":");
-		// tokens.add(lineString.substring(i + 1, lineString.length()).trim());
+		i = lineString.lastIndexOf(":");
+		tokens.add(lineString.substring(i + 1).trim());
 
-		// lineString = lineString.substring(0, i);
+		lineString = lineString.substring(0, i);
 		aux = lineString.split(",");
 		for (i = 0; i < aux.length; i++) {
 
@@ -570,14 +570,14 @@ class SourceScanner {
     }
 
 	// public static final String semicR = "( )*;";
-	// public static final String typeR = "int|double|string|bool";
+	public static final String typeR = "int|double|string|bool";
 	// public static final String fixAtrTypeR = ":( )*(" + typeR + ")" + semicR;
 	// public static final String fixAtrTypeR = ":( )*(" + typeR + ")";
 	public static final String varNameR = "[A-Za-z_][A-Za-z_0-9]*";
 	public static final String emptyArrR = varNameR + "(\\[\\])";
 	public static final String arrayR = varNameR + "(\\[.*?\\])";
 	// public static final String wholeDeclR = "(let)( )+(.+)( )*:( )*(\\w)+" + semicR;
-	public static final String wholeDeclR = "(let)( )+(.+?\\[\\]|.+?)(( )*\\,( )*(.+?\\[\\]|.+?))*";
+	public static final String wholeDeclR = "let +(.+?)( *\\, *(.+?))* *: *(" + typeR + ")";
 
 	public static final String parenR = "\\(|\\)";
 	public static final String boolOpR = "\\!|\\&\\&|\\|\\|";

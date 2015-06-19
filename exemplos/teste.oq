@@ -1,12 +1,12 @@
 fn main() {
-    let gabriel = -3 +4 *2 / ( 1 - 5)^ 2 ^ 3, i = 7.11
-    let i, j, k
-    let putz = square(2)
-    let funciona = square(2) - (putz[2] + putz[idade]) / ((7.11 + 11.7 ^ square(fu[jin])) ^ putz[uat])
+    let gabriel = -3 +4 *2 / ( 1 - 5)^ 2 ^ 3, i = 7.11: double
+    let i, j, k: string
+    let putz = square(2): int
+    let funciona = square(2) - (putz[2] + putz[idade]) / ((7.11 + 11.7 ^ square(fu[jin])) ^ putz[uat]): double
     i = 1 + 1/2 + 1/4
     i = (putz[2] + putz[idade]) / ((7.11 + 11.7) ^ putz[uat])
     println(Hey you $square(2)$ :P)
-    scanln(x, y, z)
+    scanln(i, j, k)
 
     if (putz < funciona) {
         println(println inside if)
@@ -20,7 +20,7 @@ fn main() {
 }
 
 fn teste(a, b, c) {
-    let x = 7
+    let x = 7: int
 
     return -3 +4 *2 / ( 1 - 5)^ 2 ^ 3
     return x

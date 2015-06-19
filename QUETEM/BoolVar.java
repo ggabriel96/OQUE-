@@ -1,6 +1,11 @@
 package QUETEM;
 
 class BoolVar extends Variable<Boolean> {
+    public static final boolean DEFAULT_VALUE = false;
+
+    public BoolVar() {
+        super(DEFAULT_VALUE);
+    }
 
     public BoolVar(Boolean value) {
         super(value);

@@ -3,6 +3,11 @@ package QUETEM;
 import java.util.regex.*;
 
 class StringVar extends Variable<String> {
+    public static final String DEFAULT_VALUE = "";
+
+    public StringVar() {
+        super(DEFAULT_VALUE);
+    }
 
     public StringVar(String value) {
         super(value);

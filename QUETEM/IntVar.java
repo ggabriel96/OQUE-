@@ -1,6 +1,11 @@
 package QUETEM;
 
 class IntVar extends Variable<Integer> {
+    public static final int DEFAULT_VALUE = 0;
+
+    public IntVar() {
+        super(DEFAULT_VALUE);
+    }
 
     public IntVar(Integer value) {
         super(value);

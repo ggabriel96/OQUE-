@@ -3,6 +3,7 @@ package QUETEM;
 import java.util.*;
 
 class Struct {
+    public static final String VAR_FIELD = "nil";
     private HashMap<String, Variable> vars;
 
     public Struct() {
@@ -30,6 +31,6 @@ class Struct {
 	}
 
     public Variable getDefault() {
-        return this.vars.get("nil");
+        return this.vars.get(Struct.VAR_FIELD);
     }
 }

@@ -1,6 +1,11 @@
 package QUETEM;
 
 class DoubleVar extends Variable<Double> {
+    public static final double DEFAULT_VALUE = 0.0;
+
+    public DoubleVar() {
+        super(DEFAULT_VALUE);
+    }
 
     public DoubleVar(Double value) {
         super(value);
