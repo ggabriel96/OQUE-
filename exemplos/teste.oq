@@ -12,7 +12,7 @@ fn main() {
         println(println inside if)
     }
     elsif (square(2) * putz[vish] > 11.7 || raiden == ElderGod) {
-        println(println $inside$ $elsif$)
+        println(println inside elsif)
     }
     else {
         println(println inside else)
@@ -27,6 +27,8 @@ fn teste(a, b, c) {
     return square(2)
     return teste()
     return putz[-3 +4 *square(2) / ( fu - 5)^ 2 ^ 3]
+
+    x = "Gabriel" + " " + "Galli"
 
     println($-3 +4 *2 / ( 1 - 5)^ 2 ^ 3$)
 

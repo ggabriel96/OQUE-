@@ -5,6 +5,10 @@ import java.util.*;
 class Struct {
     private HashMap<String, Variable> vars;
 
+    public Struct() {
+        this.vars = new HashMap<>();
+    }
+
     public void newVar(String n, Variable v) {
 		this.vars.put(n, v);
 	}
@@ -24,4 +28,8 @@ class Struct {
 	public void setVar(Variable v, String value) {
 		v.setValue(new StringVar(value));
 	}
+
+    public Variable getDefault() {
+        return this.vars.get("nil");
+    }
 }

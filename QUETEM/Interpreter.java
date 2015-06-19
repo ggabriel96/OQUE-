@@ -13,20 +13,21 @@ import java.util.*;
 import java.util.regex.*;
 
 class Interpreter {
+	private Stack<String> recursion;
 	private HashMap<String, HashMap<String, Struct>> vars;
 
 	public Interpreter() {
 		this.vars = new HashMap<>();
-	}
-
-	private Variable getVar(String name) {
-		return null;
+		this.recursion = new Stack<>();
 	}
 
 	public void run(HashMap<String, ArrayList<Command>> code, String name, HashMap<String, Struct> args) throws UatException {
 		int i, max;
 		Command command = null;
 		ArrayList<Command> fn = code.get(name);
+
+		this.recursion.push(name);
+		this.vars.put(name, new HashMap<String, Struct>());
 
 		if (args != null && args.size() > 0) {
 			this.vars.put("args", args);
@@ -35,46 +36,74 @@ class Interpreter {
 		for (i = 1, max = fn.size() - 1; i < max; i++) {
 			command = fn.get(i);
 
-			switch (command.code()) {
-				case SourceScanner.BRACKET:
-					break;
-				case SourceScanner.DECL:
-					this.decl(command);
-					break;
-				case SourceScanner.ATR:
-					this.atr(command);
-					break;
-				case SourceScanner.PRINT:
-					this.print(command);
-					break;
-				case SourceScanner.PRINTLN:
-					this.println(command);
-					break;
-				case SourceScanner.SCAN:
-					this.scan(command);
-					break;
-				case SourceScanner.SCANLN:
-					this.scan(command);
-					break;
-				case SourceScanner.IF:
-					break;
-				case SourceScanner.ELSIF:
-					break;
-				case SourceScanner.ELSE:
-					break;
-				case SourceScanner.WHILE:
-					break;
-				case SourceScanner.FOR:
-					break;
-				case SourceScanner.BREAK:
-					break;
-				case SourceScanner.CONTINUE:
-					break;
-				case SourceScanner.RETURN:
-					break;
+			try {
+				switch (command.code()) {
+					case SourceScanner.BRACKET:
+						break;
+					case SourceScanner.DECL:
+						this.decl(command);
+						break;
+					case SourceScanner.ATR:
+						this.atr(command);
+						break;
+					case SourceScanner.PRINT:
+						this.print(command);
+						break;
+					case SourceScanner.PRINTLN:
+						this.println(command);
+						break;
+					case SourceScanner.SCAN:
+						this.scan(command);
+						break;
+					case SourceScanner.SCANLN:
+						this.scan(command);
+						break;
+					case SourceScanner.IF:
+						break;
+					case SourceScanner.ELSIF:
+						break;
+					case SourceScanner.ELSE:
+						break;
+					case SourceScanner.WHILE:
+						break;
+					case SourceScanner.FOR:
+						break;
+					case SourceScanner.BREAK:
+						break;
+					case SourceScanner.CONTINUE:
+						break;
+					case SourceScanner.RETURN:
+						break;
+				}
+			}
+			catch (UatException ue) {
+				ue.setNumber(command.lineNumber());
+				throw ue;
 			}
 		}
+
+		this.recursion.pop();
     }
+
+	private Struct getStruct(String name) {
+		return this.vars.get(this.recursion.peek()).get(name);
+	}
+
+	private Variable getVar(String struct, String field) {
+		Struct s = this.getStruct(struct);
+		if (s != null) {
+			return s.getVar(field);
+		}
+		else return null;
+	}
+
+	private Variable getVar(String name) {
+		Struct s = this.getStruct(name);
+		if (s != null) {
+			return s.getDefault();
+		}
+		else return null;
+	}
 
 	private void decl(Command command) {
 
@@ -85,17 +114,26 @@ class Interpreter {
 	}
 
 	// [41/41|text|`var1`|text|`var2`|...|lineNumber]
-	private void print(Command command) {
+	private void print(Command command) throws UatException {
 		int i, max;
-		String content;
+		String content, toPrint = "";
 		ArrayList<String> fields = command.fields();
 
 		for (i = 0, max = fields.size(); i < max; i++) {
 			content = fields.get(i);
+
+			if (content.startsWith(Expression.SEP.toString())) {
+				toPrint += this.solve(content.substring(1, content.length() - 1));
+			}
+			else {
+				toPrint += content;
+			}
 		}
+
+		System.out.print(toPrint);
 	}
 
-	private void println(Command command) {
+	private void println(Command command) throws UatException {
 		this.print(command);
 		System.out.println();
 	}
@@ -190,7 +228,8 @@ class Interpreter {
 	}
 
     private Variable getOperand(String t) throws UatException {
-        Matcher intM, fpM, boolM, strM, quotInStrM, varNameM, anyM;
+        Matcher intM, fpM, boolM, strM, quotInStrM, varNameM, anyM, arrayM;
+		String field = null;
         Variable v = null;
 		int index;
 
@@ -199,6 +238,7 @@ class Interpreter {
 		strM = SourceScanner.strP.matcher(t);
 		anyM = SourceScanner.anyP.matcher(t);
 		boolM = SourceScanner.boolP.matcher(t);
+		arrayM = SourceScanner.arrayP.matcher(t);
 		varNameM = SourceScanner.varNameP.matcher(t);
 
 		// System.out.println("[INFO_LOG]: GET_OPERAND = {" + t + "}");
@@ -211,12 +251,10 @@ class Interpreter {
         }
         else if (t.startsWith("-")) {
             t = t.replace("-", "");
-
             v = checkAndGetVar(t, true);
         }
         else if (t.startsWith("+")) {
             t = t.replace("+", "");
-
             v = checkAndGetVar(t, false);
         }
 		else if (boolM.matches()) {
@@ -238,6 +276,14 @@ class Interpreter {
 
 			v = new StringVar(t);
 		}
+		else if (arrayM.matches()) {
+			index = t.indexOf("[");
+			field = this.solve(t.substring(index, t.length() - 1)).toString();
+
+			if ((v = this.getVar(t.substring(0, index), field)) == null) {
+				throw new UatException("varNotFound", t);
+			}
+		}
 		else if (varNameM.matches()) {
 			if ((v = this.getVar(t)) == null) {
 				throw new UatException("varNotFound", t);
@@ -256,21 +302,29 @@ class Interpreter {
     }
 
 	private Variable checkAndGetVar(String t, boolean neg) throws UatException {
+		Struct s = null;
 		Variable v = null;
+		int opBr = t.indexOf("[");
+		int clBr = t.length() - 1;
+		Matcher arrayM = SourceScanner.arrayP.matcher(t);
 		Matcher varNameM = SourceScanner.varNameP.matcher(t);
 
-		if (varNameM.matches()) {
+		if (arrayM.matches()) {
+			s = this.getStruct(t.substring(0, opBr));
+			v = s.getVar(this.solve(t.substring(opBr + 1, clBr)).toString());
+		}
+		else if (varNameM.matches()) {
 			v = this.getVar(t);
-
-			if (v != null) {
-				if (neg) v = v.inverted();
-			}
-			else {
-				throw new UatException("varNotFound", t);
-			}
 		}
 		else {
 			throw new UatException("invalidExp", t);
+		}
+
+		if (v != null) {
+			if (neg) v = v.inverted();
+		}
+		else {
+			throw new UatException("varNotFound", t);
 		}
 
 		return v;
