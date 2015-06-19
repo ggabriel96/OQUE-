@@ -1,0 +1,5 @@
+fn main() {
+    let x = 7: int
+
+    println(The value of x is $x$ and x * 11 is $x * 11$)
+}

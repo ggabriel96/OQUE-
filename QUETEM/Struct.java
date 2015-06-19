@@ -3,15 +3,24 @@ package QUETEM;
 import java.util.*;
 
 class Struct {
-    public static final String VAR_FIELD = "nil";
+    public static final String DEFAULT_FIELD = "nil";
     private HashMap<String, Variable> vars;
 
     public Struct() {
         this.vars = new HashMap<>();
     }
 
-    public void newVar(String n, Variable v) {
-		this.vars.put(n, v);
+    public Struct(Variable v) {
+        this();
+        this.newVar(v);
+    }
+
+    public void newVar(Variable v) {
+        this.vars.put(Struct.DEFAULT_FIELD, v);
+    }
+
+    public void newVar(String name, Variable v) {
+		this.vars.put(name, v);
 	}
 
 	public boolean hasVar(String name) {
@@ -31,6 +40,6 @@ class Struct {
 	}
 
     public Variable getDefault() {
-        return this.vars.get(Struct.VAR_FIELD);
+        return this.vars.get(Struct.DEFAULT_FIELD);
     }
 }

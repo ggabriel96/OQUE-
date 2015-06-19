@@ -85,14 +85,15 @@ class Interpreter {
 		this.recursion.pop();
     }
 
-	private void newStruct(String name, HashMap<String, Struct> struct) {
+	private void newStruct(HashMap<String, Struct> struct) {
 		this.vars.put(this.recursion.peek(), struct);
 	}
 
-	private void newVar(String name, Struct var) {
+	private void newVar(String name, Variable v) {
+		Struct struct = new Struct(v);
 		HashMap<String, Struct> variable = new HashMap<>();
-		variable.put(Struct.VAR_FIELD, var);
-		this.newStruct(name, variable);
+		variable.put(name, struct);
+		this.newStruct(variable);
 	}
 
 	private Struct getStruct(String name) {
@@ -115,50 +116,39 @@ class Interpreter {
 		else return null;
 	}
 
-	private Variable applyType(Variable v, String type) {
-		switch (type) {
-			case "bool":
-				if (v == null) v = new BoolVar();
-				else v = v.toBoolVar();
-				break;
-
-			case "int":
-				if (v == null) v = new IntVar();
-				else v = v.toIntVar();
-				break;
-
-			case "double":
-				if (v == null) v = new DoubleVar();
-				else v = v.toDoubleVar();
-				break;
-
-			case "string":
-				if (v == null) v = new StringVar();
-				else v = v.toStringVar();
-				break;
-		}
-
-		return v;
-	}
-
 	private void decl(Command command) throws UatException {
 		int i, max;
 		Variable v = null;
 		String[] atr = null;
-		Struct newStruct = null;
-		String type = command.get(0);
 		ArrayList<String> fields = command.fields();
 
 		for (i = 0, max = fields.size(); i < max; i++) {
-			newStruct = new Struct();
 			atr = fields.get(i).split(Expression.SEP.toString());
 
-			if (atr.length > 1) {
-				v = this.solve(atr[1]);
+			// type is the first field
+			switch (command.get(0)) {
+				case "bool":
+					v = new BoolVar();
+					break;
+
+				case "int":
+					v = new IntVar();
+					break;
+
+				case "double":
+					v = new DoubleVar();
+					break;
+
+				case "string":
+					v = new StringVar();
+					break;
 			}
 
-			v = this.applyType(v, type);
-			newStruct.newVar(atr[0], v);
+			if (atr.length > 1) {
+				v.setValue(this.solve(atr[1]));
+			}
+
+			this.newVar(atr[0], v);
 		}
 	}
 
