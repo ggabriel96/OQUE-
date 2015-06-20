@@ -575,7 +575,7 @@ class SourceScanner {
 	// public static final String fixAtrTypeR = ":( )*(" + typeR + ")";
 	public static final String varNameR = "[A-Za-z_][A-Za-z_0-9]*";
 	public static final String emptyArrR = varNameR + "(\\[\\])";
-	public static final String arrayR = varNameR + "(\\[.*?\\])";
+	public static final String arrayR = varNameR + "(\\[[^\\[\\]]*?\\])";
 	// public static final String wholeDeclR = "(let)( )+(.+)( )*:( )*(\\w)+" + semicR;
 	public static final String wholeDeclR = "let +(.+?)( *\\, *(.+?))* *: *(" + typeR + ")";
 
@@ -588,7 +588,7 @@ class SourceScanner {
 
 	public static final String wholeOpR = parenR + "|" + opNoParR;
 
-	public static final String atrR = varNameR + "( )*=( )*.+";
+	public static final String atrR = "(" + arrayR + "|" + varNameR + ")" + "( )*=( )*.+";
 	// public static final String wholeAtrR = atrR + semicR;
 	public static final String wholeAtrR = atrR;
 	public static final String fixAtrR = ".+[,:]";
@@ -628,8 +628,7 @@ class SourceScanner {
 
 	// [A-Za-z_][A-Za-z_0-9]*( )*\((?:"(?:\\.|[^"\\])*"|[^\)])*\)
 	public static final String fnCallR = varNameR + "( )*\\((?:" + strR + "|[^\\)])*\\)";
-	// o mais perto que cheguei:
-	// ([A-Za-z_][A-Za-z_0-9]*(?:\([^()]*\))+)
+	// public static final String fnCallR = varNameR + "( )*\\((.+?)*\\)";
 
 	public static final String signR = "[+-]";
 	public static final String intR = signR + "?[0-9]+";

@@ -15,10 +15,6 @@ class Struct {
         this.newVar(v);
     }
 
-    public void newVar(Variable v) {
-        this.vars.put(Struct.DEFAULT_FIELD, v);
-    }
-
     public void newVar(String name, Variable v) {
 		this.vars.put(name, v);
 	}
@@ -31,15 +27,17 @@ class Struct {
 		return this.vars.get(name);
 	}
 
-	public void setVar(Variable v, Variable other) {
-		v.setValue(other);
-	}
-
-	public void setVar(Variable v, String value) {
-		v.setValue(new StringVar(value));
-	}
+    // DEFAULT_FIELD
 
     public Variable getDefault() {
         return this.vars.get(Struct.DEFAULT_FIELD);
+    }
+
+    public void setValue(Variable v) {
+        this.getDefault().setValue(v);
+    }
+
+    public void newVar(Variable v) {
+        this.vars.put(Struct.DEFAULT_FIELD, v);
     }
 }

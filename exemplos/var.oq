@@ -1,5 +1,10 @@
 fn main() {
-    let x = 7: int
+    let x = 7: double
+
+    x = 11 / 11 ^ 2
+    println($x$)
+    x = 11 * 11 / 11 ^ 2
+    println($x$)
 
     println(The value of x is $x$ and x * 11 is $x * 11$)
 }

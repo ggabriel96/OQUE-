@@ -36,6 +36,8 @@ class Interpreter {
 		for (i = 1, max = fn.size() - 1; i < max; i++) {
 			command = fn.get(i);
 
+			// System.out.println("run: " + command);
+
 			try {
 				switch (command.code()) {
 					case SourceScanner.BRACKET:
@@ -119,11 +121,11 @@ class Interpreter {
 	private void decl(Command command) throws UatException {
 		int i, max;
 		Variable v = null;
-		String[] atr = null;
+		String[] decl = null;
 		ArrayList<String> fields = command.fields();
 
 		for (i = 0, max = fields.size(); i < max; i++) {
-			atr = fields.get(i).split(Expression.SEP.toString());
+			decl = fields.get(i).split(Expression.SEP.toString());
 
 			// type is the first field
 			switch (command.get(0)) {
@@ -144,16 +146,19 @@ class Interpreter {
 					break;
 			}
 
-			if (atr.length > 1) {
-				v.setValue(this.solve(atr[1]));
+			if (decl.length > 1) {
+				v.setValue(this.solve(decl[1]));
 			}
 
-			this.newVar(atr[0], v);
+			this.newVar(decl[0], v);
 		}
 	}
 
-	private void atr(Command command) {
+	private void atr(Command command) throws UatException {
+		String varName = command.get(0);
+		String expression = command.get(1);
 
+		this.getVar(varName).setValue(this.solve(expression));
 	}
 
 	// [41/41|text|`var1`|text|`var2`|...|lineNumber]
