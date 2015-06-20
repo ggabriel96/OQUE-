@@ -262,10 +262,10 @@ class SourceScanner {
 
 	private Command varDecl(Line line) throws UatException {
 		int i, j;
-		Matcher strM;
 		String[] aux;
-		String type, lineString = line.toString(), tmp = "";
+		Matcher strM;
 		ArrayList<String> tokens = new ArrayList<String>();
+		String type, lineString = line.toString(), tmp = "";
 
 		// from right after "let" until end of line
 		lineString = lineString.substring(3).trim();
@@ -277,7 +277,7 @@ class SourceScanner {
 		aux = lineString.split(",");
 		for (i = 0; i < aux.length; i++) {
 
-			strM = strP.matcher(aux[i].trim());
+			strM = strP.matcher(aux[i]);
 			if (aux[i].contains("\"") && !strM.find()) {
 				tmp = aux[i];
 
@@ -303,17 +303,21 @@ class SourceScanner {
 	}
 
 	private String fixVarDecl(String line) throws UatException {
-		String fixedLine;
+		Matcher varNameM;
+		String varName, fixedLine;
 		int eqIndex = line.indexOf("=");
 
 		if (eqIndex > 0) {
+			varName = line.substring(0, eqIndex).trim();
 			fixedLine = line.substring(eqIndex + 1).trim();
 			fixedLine = new Expression(fixedLine).toPostfix();
-			fixedLine = line.substring(0, eqIndex).trim() + Expression.SEP.toString() + fixedLine;
-
-			return fixedLine; // trim?
+			fixedLine = varName + Expression.SEP.toString() + fixedLine;
 		}
-		else return line.trim();
+		else varName = fixedLine = line.trim();
+
+		varNameM = varNameP.matcher(varName);
+		if (varNameM.matches()) return fixedLine;
+		else throw new UatException("invalidVarName", varName);
 	}
 
 	private Command varAtr(Line line) throws UatException {
@@ -575,7 +579,7 @@ class SourceScanner {
 	// public static final String fixAtrTypeR = ":( )*(" + typeR + ")";
 	public static final String varNameR = "[A-Za-z_][A-Za-z_0-9]*";
 	public static final String emptyArrR = varNameR + "(\\[\\])";
-	public static final String arrayR = varNameR + "(\\[[^\\[\\]]*?\\])";
+	public static final String arrayR = "(" + varNameR + ")\\[([^\\[\\]])*?\\]";
 	// public static final String wholeDeclR = "(let)( )+(.+)( )*:( )*(\\w)+" + semicR;
 	public static final String wholeDeclR = "let +(.+?)( *\\, *(.+?))* *: *(" + typeR + ")";
 

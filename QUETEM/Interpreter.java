@@ -14,6 +14,7 @@ import java.util.regex.*;
 
 class Interpreter {
 	private Stack<String> recursion;
+	private final boolean DEBUG = false;
 	private HashMap<String, HashMap<String, Struct>> vars;
 
 	public Interpreter() {
@@ -36,7 +37,7 @@ class Interpreter {
 		for (i = 1, max = fn.size() - 1; i < max; i++) {
 			command = fn.get(i);
 
-			// System.out.println("run: " + command);
+			if (this.DEBUG) System.out.println("> " + command);
 
 			try {
 				switch (command.code()) {
@@ -92,9 +93,12 @@ class Interpreter {
 	}
 
 	private void newVar(String name, Variable v) {
-		Struct struct = new Struct(v);
 		HashMap<String, Struct> variable = new HashMap<>();
+		Struct struct = new Struct();
+
+		struct.newVar(name, v);
 		variable.put(name, struct);
+
 		this.newStruct(variable);
 	}
 
@@ -113,7 +117,7 @@ class Interpreter {
 	private Variable getVar(String name) {
 		Struct s = this.getStruct(name);
 		if (s != null) {
-			return s.getDefault();
+			return s.getVar(name);
 		}
 		else return null;
 	}
@@ -155,13 +159,66 @@ class Interpreter {
 	}
 
 	private void atr(Command command) throws UatException {
+		Struct s;
+		Variable v;
+		String field;
 		String varName = command.get(0);
 		String expression = command.get(1);
+		Matcher arrayM = SourceScanner.arrayP.matcher(varName);
 
-		this.getVar(varName).setValue(this.solve(expression));
+		if (arrayM.matches()) {
+			varName = arrayM.group(1);
+			field = arrayM.group(2);
+			// field = field.substring(1, field.length() - 1);
+
+			s = this.getStruct(varName);
+			if (s == null) {
+				throw new UatException("varNotFound", varName);
+			}
+
+			v = s.getVar(field);
+			if (v == null) {
+				switch (s.type()) {
+					case "Boolean":
+						v = new BoolVar();
+						break;
+
+					case "Integer":
+						v = new IntVar();
+						break;
+
+					case "Double":
+						v = new DoubleVar();
+						break;
+
+					case "String":
+						v = new StringVar();
+						break;
+				}
+
+				v.setValue(this.solve(expression));
+				s.newVar(field, v);
+				if (this.DEBUG) {
+					System.out.println("\n---------------");
+					s.printVars();
+					System.out.println("---------------\n");
+				}
+			}
+			else {
+				v.setValue(this.solve(expression));
+			}
+		}
+		else {
+			s = this.getStruct(varName);
+			if (s == null) {
+				throw new UatException("varNotFound", varName);
+			}
+
+			v = s.getVar(varName);
+			v.setValue(this.solve(expression));
+		}
 	}
 
-	// [41/41|text|`var1`|text|`var2`|...|lineNumber]
 	private void print(Command command) throws UatException {
 		int i, max;
 		String content, toPrint = "";
@@ -325,10 +382,9 @@ class Interpreter {
 			v = new StringVar(t);
 		}
 		else if (arrayM.matches()) {
-			index = t.indexOf("[");
-			field = this.solve(t.substring(index, t.length() - 1)).toString();
+			field = this.solve(arrayM.group(2)).toString();
 
-			if ((v = this.getVar(t.substring(0, index), field)) == null) {
+			if ((v = this.getVar(arrayM.group(1), field)) == null) {
 				throw new UatException("varNotFound", t);
 			}
 		}

@@ -26,7 +26,7 @@ class UatException extends Exception {
         case "invalidType":
 			this.setMessage("Invalid type"); break;
         case "invalidVarName":
-			this.setMessage("Variable names cannot start with numbers or special characters"); break;
+			this.setMessage("Variable names cannot start with numbers or contain special characters"); break;
         case "invalidExp":
             this.setMessage("Invalid expression"); break;
         case "varNotFound":

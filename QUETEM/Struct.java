@@ -3,16 +3,24 @@ package QUETEM;
 import java.util.*;
 
 class Struct {
-    public static final String DEFAULT_FIELD = "nil";
     private HashMap<String, Variable> vars;
 
     public Struct() {
         this.vars = new HashMap<>();
     }
 
-    public Struct(Variable v) {
-        this();
-        this.newVar(v);
+    public String type() {
+        String className;
+        for (Variable var: vars.values()) {
+            className = var.type().getName();
+            return className.substring(className.lastIndexOf(".") + 1);
+        }
+
+        return "null";
+    }
+
+    public void replaceVars(HashMap<String, Variable> vars) {
+        this.vars = vars;
     }
 
     public void newVar(String name, Variable v) {
@@ -27,17 +35,11 @@ class Struct {
 		return this.vars.get(name);
 	}
 
-    // DEFAULT_FIELD
-
-    public Variable getDefault() {
-        return this.vars.get(Struct.DEFAULT_FIELD);
-    }
-
-    public void setValue(Variable v) {
-        this.getDefault().setValue(v);
-    }
-
-    public void newVar(Variable v) {
-        this.vars.put(Struct.DEFAULT_FIELD, v);
+    public void printVars() {
+        System.out.println(this.type() + " {");
+        for(Map.Entry<String, Variable> entry: vars.entrySet()) {
+            System.out.println("\t" + entry.getKey() + " = " + entry.getValue().toString());
+        }
+        System.out.println("}");
     }
 }

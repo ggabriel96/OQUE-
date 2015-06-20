@@ -11,11 +11,13 @@ class Expression {
 
 	public Expression(String value) throws UatException {
 		this.original = this.value = value.trim();
-		// System.out.println("Expression 1: " + this.value);
-		this.value = this.fixSpaces(this.value);
-		// System.out.println("Expression 2: " + this.value);
-		this.value = this.fixSignals(this.value);
-		// System.out.println("Expression 3: " + this.value);
+		if (!this.value.isEmpty()) {
+			// System.out.println("Expression 1: " + this.value);
+			this.value = this.fixSpaces(this.value);
+			// System.out.println("Expression 2: " + this.value);
+			this.value = this.fixSignals(this.value);
+			// System.out.println("Expression 3: " + this.value);
+		}
     }
 
 	public String toString() {
@@ -169,7 +171,7 @@ class Expression {
 		return fixed;
 	}
 
-	public String spacenize(String token) {
+	private String spacenize(String token) {
 		int i, max = token.length();
 		String repl = "";
 

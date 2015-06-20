@@ -1,10 +1,20 @@
 fn main() {
     let x = 7: double
 
+    x[2] = 2
+    println(x: $x$)
+    println(x[2]: $x[2]$)
+
     x = 11 / 11 ^ 2
-    println($x$)
+    println(x: $x$)
+    println(x[2]: $x[2]$)
+
     x = 11 * 11 / 11 ^ 2
-    println($x$)
+    println(x: $x$)
+    println(x[2]: $x[2]$)
+
+    x = x[]
 
     println(The value of x is $x$ and x * 11 is $x * 11$)
+    println(The value of x[2] is $x[2]$ and x[2] * 11 is $x[2] * 11$)
 }
