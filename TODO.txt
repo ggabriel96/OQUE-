@@ -1,4 +1,0 @@
-* Arrays and structs are the same thing. You declare them with the "[]" appended to the name of the variable and just start using it. You can write to any position (numbers to act like an array) or any field like a struct.
-* No need to say the type of the variable anymore; all variables are structs that change type dynamically. Structs not specifying the field are interpreted as the field '0'. To assign a whole struct, one should use <name>[].
-* What should we do with invalid positions? Don't want the hell of "null" existence
-* Nested commands don't work, for example: square(square(2)) or array[struct[field]]
