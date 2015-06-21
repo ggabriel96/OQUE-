@@ -295,9 +295,8 @@ class Interpreter {
 	// interprets mutiple inputs as separated by spaces or line breaks.
 	// to read a full line, use scanln
 	private void scan(Command command) throws UatException {
-		Variable v;
+		Matcher jfpM;
 		int i, j, max;
-		Matcher varM, intM, jfpM, strM;
 		Scanner sc = new Scanner(System.in);
 		String input[], exp[] = new String[2];
 
@@ -305,37 +304,33 @@ class Interpreter {
 			input = sc.nextLine().split(" ");
 
 			for (j = 0; j < input.length; j++) {
-				exp[0] = command.get(i);
-				exp[1] = input[j];
+				if (i < max) {
+					exp[0] = command.get(i);
 
-				this.atr(new Command(SourceScanner.ATR, exp, command.lineNumber()));
+					jfpM = SourceScanner.jfpP.matcher(input[j]);
+					if (jfpM.matches()) exp[1] = input[j];
+					else exp[1] = "\"" + input[j] + "\"";
 
-				if (j + 1 < input.length) i++;
+					this.atr(new Command(SourceScanner.ATR, exp, command.lineNumber()));
+
+					if (j + 1 < input.length) i++;
+				}
 			}
 		}
 	}
 
-	// private void scanln(String line) throws UatException {
-	// 	Variable v;
-	// 	Matcher varM, strM;
-	// 	String lineEnding, name, input;
-	// 	Scanner sc = new Scanner(System.in);
-	//
-	// 	line = line.substring(line.indexOf("(") + 1, line.indexOf(")")).replaceAll(" ", "");
-	//
-	// 	varM = varNameP.matcher(line);
-	// 	while (varM.find()) {
-	// 		input = sc.nextLine();
-	// 		name = varM.group();
-	//
-	// 		if ((v = this.getVar(name)) != null) {
-	// 			this.setVar(v, input);
-	// 		}
-	// 		else {
-	// 			throw new UatException("varNotFound", name);
-	// 		}
-	// 	}
-	// }
+	private void scanln(Command command) throws UatException {
+		int i, max;
+		String exp[] = new String[2];
+		Scanner sc = new Scanner(System.in);
+
+		for (i = 0, max = command.size(); i < max; i++) {
+			exp[0] = command.get(i);
+			exp[1] = sc.nextLine();
+
+			this.atr(new Command(SourceScanner.ATR, exp, command.lineNumber()));
+		}
+	}
 
 	private int ifBr(ArrayList<Command> fn, int index) throws UatException {
 		Command fi = fn.get(index);
