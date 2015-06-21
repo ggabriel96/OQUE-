@@ -20,7 +20,7 @@ class SourceScanner {
 	public static final int FN = 10, RETURN = 11, BRACKET = 12, DECL = 20, ATR = 30, PRINT = 40, PRINTLN = 41, SCAN = 50, SCANLN = 51, IF = 60, ELSIF = 61, ELSE = 62, WHILE = 70, FOR = 71, BREAK = 72, CONTINUE = 73;
 	private static boolean patternsInitd = false;
 	private static final Map<String, Boolean> reservedWords = mapReservedWords();
-	public static Pattern wholeDeclP, varNameP, atrP, wholeAtrP, semicP, wholePrintP, wholeScanP, wholeScanlnP, wholeOpP, signP, intP, fpP, charP, strP, strAssignP, quotMarkP, strBackP, parenP, numBuildP, boolP, upperCaseP, strNotEmptyP, opGroupP, ufpP, jufpP, jfpP, quotInStrP, invalidFpP, wholeIfP, wholeElsifP, wholeElseP, ifP, elsifP, ifEndingP, wholeWhileP, wholeForP, forSplitP, anyP, fixAtrP, fixAtrTypeP, fnP, fnCallP, arrayP, opNoParP;
+	public static Pattern wholeDeclP, varNameP, atrP, wholeAtrP, semicP, wholePrintP, wholeScanP, wholeScanlnP, wholeOpP, signP, intP, fpP, charP, strP, strAssignP, quotMarkP, strBackP, parenP, numBuildP, boolP, upperCaseP, strNotEmptyP, opGroupP, ufpP, jufpP, jfpP, quotInStrP, invalidFpP, wholeIfP, wholeElsifP, wholeElseP, ifP, elsifP, ifEndingP, wholeWhileP, wholeForP, forSplitP, anyP, fixAtrP, fixAtrTypeP, fnP, fnCallP, arrayP, opNoParP, emptyArrP;
 
 	public SourceScanner() {
 		if (!patternsInitd) {
@@ -545,10 +545,10 @@ class SourceScanner {
     private static Map<String, Boolean> mapReservedWords() {
         Map<String, Boolean> result = new HashMap<String, Boolean>();
         result.put("let", true);
-        // result.put("int", true);
-        // result.put("double", true);
-        // result.put("string", true);
-        // result.put("bool", true);
+        result.put("int", true);
+        result.put("double", true);
+        result.put("string", true);
+        result.put("bool", true);
         result.put("true", true);
         result.put("false", true);
 
@@ -563,6 +563,7 @@ class SourceScanner {
 
         result.put("for", true);
         result.put("while", true);
+        result.put("repetix", true);
         result.put("break", true);
         result.put("continue", true);
 
@@ -578,7 +579,7 @@ class SourceScanner {
 	// public static final String fixAtrTypeR = ":( )*(" + typeR + ")" + semicR;
 	// public static final String fixAtrTypeR = ":( )*(" + typeR + ")";
 	public static final String varNameR = "[A-Za-z_][A-Za-z_0-9]*";
-	public static final String emptyArrR = varNameR + "(\\[\\])";
+	public static final String emptyArrR = "(" + varNameR + ")\\[\\]";
 	public static final String arrayR = "(" + varNameR + ")\\[([^\\[\\]])*?\\]";
 	// public static final String wholeDeclR = "(let)( )+(.+)( )*:( )*(\\w)+" + semicR;
 	public static final String wholeDeclR = "let +(.+?)( *\\, *(.+?))* *: *(" + typeR + ")";
@@ -686,6 +687,7 @@ class SourceScanner {
 
 		varNameP = Pattern.compile(varNameR);
 		arrayP = Pattern.compile(arrayR);
+		emptyArrP = Pattern.compile(emptyArrR);
 		fnCallP = Pattern.compile(fnCallR);
 		// typeP = Pattern.compile(typeR);
 		// fixAtrTypeP = Pattern.compile(fixAtrTypeR);

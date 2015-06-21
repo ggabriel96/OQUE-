@@ -1,5 +1,11 @@
 fn main() {
     let x = 7: double
+    let y = 11: double
+
+    println(1 $x$)
+
+    x = y
+    println(2 $x$)
 
     x[2] = 2
     println(x: $x$)

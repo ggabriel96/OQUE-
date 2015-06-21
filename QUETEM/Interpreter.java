@@ -83,42 +83,52 @@ class Interpreter {
 				ue.setNumber(command.lineNumber());
 				throw ue;
 			}
+
+			// System.out.println("====================");
+			// System.out.println(this.recursion.peek());
+			// for (Map.Entry<String, Struct> entry: this.vars.get(this.recursion.peek()).entrySet()) {
+			// 	System.out.println(entry.getKey());
+			// 	entry.getValue().printVars();
+			// }
+			// System.out.println("====================");
 		}
 
 		this.recursion.pop();
     }
 
 	private void newStruct(HashMap<String, Struct> struct) {
+		// System.out.println(this.recursion.peek());
+		// for (Map.Entry<String, Struct> entry: struct.entrySet()) {
+		// 	System.out.println(entry.getKey());
+		// 	entry.getValue().printVars();
+		// }
 		this.vars.put(this.recursion.peek(), struct);
 	}
 
 	private void newVar(String name, Variable v) {
-		HashMap<String, Struct> variable = new HashMap<>();
 		Struct struct = new Struct();
+		HashMap<String, Struct> variable = this.vars.get(this.recursion.peek());
 
 		struct.newVar(name, v);
 		variable.put(name, struct);
-
-		this.newStruct(variable);
+		// this.newStruct(variable);
 	}
 
 	private Struct getStruct(String name) {
-		return this.vars.get(this.recursion.peek()).get(name);
+		HashMap<String, Struct> struct = this.vars.get(this.recursion.peek());
+		if (struct != null) return struct.get(name);
+		else return null;
 	}
 
 	private Variable getVar(String struct, String field) {
 		Struct s = this.getStruct(struct);
-		if (s != null) {
-			return s.getVar(field);
-		}
+		if (s != null) return s.getVar(field);
 		else return null;
 	}
 
 	private Variable getVar(String name) {
 		Struct s = this.getStruct(name);
-		if (s != null) {
-			return s.getVar(name);
-		}
+		if (s != null) return s.getVar(name);
 		else return null;
 	}
 
@@ -128,7 +138,7 @@ class Interpreter {
 		String[] decl = null;
 		ArrayList<String> fields = command.fields();
 
-		for (i = 0, max = fields.size(); i < max; i++) {
+		for (i = 1, max = fields.size(); i < max; i++) {
 			decl = fields.get(i).split(Expression.SEP.toString());
 
 			// type is the first field
