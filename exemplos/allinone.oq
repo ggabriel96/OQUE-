@@ -1,9 +1,19 @@
 fn main(){
     let i = (3 + 4) - (5 * 2) + 1: int
-    let j = 7 : double
+    let j = 2 : double
 
     repetix(i < (j + 3)){
-        println(Meu i esta valendo $i$)
+        println(Meu i esta valendo $i-1$ somado ao literal '1'.)
+
+        if (i == j/2.0){
+            println (>>> O valor da var i corresponde a metade do valor da var j.)
+        }
+        elsif ( i == j ){
+            println (>>> As variaveis i e j sao iguais.)
+        }
+        else{
+            println (>>> Nada incomum.)
+        }
         i = i + 1
     }
 }
