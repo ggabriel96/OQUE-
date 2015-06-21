@@ -16,6 +16,6 @@ fn main() {
     scan(k)
     println(k: $k$)
 
-    --scanln(r, s, t)
-    --println($r$, $s$, $t$)
+    scanln(r, s, t)
+    println($r$, $s$, $t$)
 }
