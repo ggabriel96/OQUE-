@@ -1,10 +1,26 @@
+fn square(x) {
+    return x * x
+}
+
 fn main() {
     let gabriel = -3 +4 *2 / ( 1 - 5)^ 2 ^ 3, i = 7.11: double
     let i, j, k: string
     let putz = square(2): int
-    let funciona = square(2) - (putz[2] + putz[idade]) / ((7.11 + 11.7 ^ square(fu[jin])) ^ putz[uat]): double
+
+    println(putz: $putz$)
+
+    putz[idade] = 1
+    putz[2] = 1
+    putz[uat] = 0
+    let fu = 5: int
+    fu[jin] = 7
+
+    let funciona = square(2) - (putz[2] + putz[idade]) / ((7.11 + 11.7 ^ square(fu[jin])) ^ putz[uat]): double -- equals 2.0
+    println(funciona: $funciona$)
     i = 1 + 1/2 + 1/4
+    println(i: $i$)
     i = (putz[2] + putz[idade]) / ((7.11 + 11.7) ^ putz[uat])
+    println(i: $i$)
     println(Hey you $square(2)$ :P)
     scanln(i, j, k)
 
@@ -17,30 +33,32 @@ fn main() {
     else {
         println(println inside else)
     }
+
+    i = teste(1, 2, 3)
+    println(i: $i$)
 }
 
 fn teste(a, b, c) {
     let x = 7: int
-
-    return -3 +4 *2 / ( 1 - 5)^ 2 ^ 3
-    return x
-    return square(2)
-    return teste()
-    return putz[-3 +4 *square(2) / ( fu - 5)^ 2 ^ 3]
-
-    x = "Gabriel" + " " + "Galli"
+    let fu = 1.0: double
+    let putz: int
+    let oi: string
+    oi[2] = "oi"
+    oi[square(2)] = "oi2"
 
     println($-3 +4 *2 / ( 1 - 5)^ 2 ^ 3$)
 
+    putz[-3 +4 *square(2) / ( fu - 5)^ 2 ^ 3] = 0
     println(testando $putz[-3 +4 *square(2) / ( fu - 5)^ 2 ^ 3] * 2 - 1 + 4 / (3 ^ fu)$ expressoes >_<)
 
-    while (WHILE + CONDITION) {
+    repetix (WHILE + CONDITION) {
         continue
         break
         -- ESSE AQUI TA BUGADO:
         x = square(oi[2])
         x = oi[square(2)]
         x = putz[-3 +4 *square(2) / ( fu - 5)^ 2 ^ 3]
+        println($x$)
         continue
         continue
         break

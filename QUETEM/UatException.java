@@ -14,6 +14,7 @@ class UatException extends Exception {
     private int number;
 
     public UatException(String code, String line) {
+        this.number = -1;
         this.setLine(line);
 
         switch (code) {
@@ -51,6 +52,8 @@ class UatException extends Exception {
             this.setMessage("A return command must have an expression"); break;
         case "wrongArgs":
             this.setMessage("The arguments of the function call are wrong"); break;
+        case "fnNotFound":
+            this.setMessage("Undefined function call"); break;
         }
     }
 
@@ -74,7 +77,7 @@ class UatException extends Exception {
     }
 
     public void setNumber(int number) {
-        this.number = number;
+        if (this.number == -1) this.number = number;
     }
     public int getNumber() {
         return this.number;

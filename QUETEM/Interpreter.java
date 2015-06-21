@@ -42,7 +42,7 @@ class Interpreter {
 		for (i = 1, max = fn.size() - 1; i < max; i++) {
 			command = fn.get(i);
 
-			// if (this.DEBUG) System.out.println("> " + command);
+			if (this.DEBUG) System.out.println("> " + command);
 
 			try {
 				switch (command.code()) {
@@ -244,14 +244,20 @@ class Interpreter {
 				throw new UatException("varNotFound", varName);
 			}
 
-			arrayM = SourceScanner.arrayP.matcher(expression);
-			if (arrayM.matches() &&
-				expression.substring(expression.indexOf("[") + 1, expression.lastIndexOf("]")).isEmpty()) {
-				throw new UatException("cantAssign", varName + " = " + expression);
-			}
-
 			v = s.getVar(varName);
-			v.setValue(this.solve(expression));
+
+			arrayM = SourceScanner.arrayP.matcher(expression);
+			if (arrayM.matches()) {
+				if (expression.substring(expression.indexOf("[") + 1, expression.lastIndexOf("]")).isEmpty()) {
+					throw new UatException("cantAssign", varName + " = " + expression);
+				}
+				else {
+					v.setValue(this.getOperand(expression));
+				}
+			}
+			else {
+				v.setValue(this.solve(expression));
+			}
 		}
 	}
 
@@ -284,6 +290,11 @@ class Interpreter {
 	}
 
 	private Variable solve(String expression) throws UatException {
+		if (expression.contains(Expression.VSEP.toString()) &&
+			!expression.contains(Expression.SEP.toString())) {
+			expression = expression.replaceAll(Expression.VSEP.toString(), Expression.SEP.toString());
+		}
+
         Variable answ = null, num1 = null, num2 = null;
 		String[] t = expression.split(Expression.SEP.toString());
 		int i = 0, offset = 0;
@@ -299,6 +310,12 @@ class Interpreter {
 
 		while (t.length > 1) {
 
+			// System.out.println();
+			// for (String x: t) {
+			// 	System.out.println(x);
+			// }
+			// System.out.println();
+
 			wholeOpM = SourceScanner.wholeOpP.matcher(t[i]);
 			// advance until you don't find an operation to perform
 			while (i < t.length && !wholeOpM.matches()) {
@@ -307,7 +324,7 @@ class Interpreter {
 			}
 
 			// if (i >= t.length) {
-			// 	throw new UatException("invalidExp", exp.original);
+			// 	throw new UatException("invalidExp", expression);
 			// }
 
 			// then, the operation char is at i's position in the array
@@ -423,8 +440,12 @@ class Interpreter {
 			Struct argValue = new Struct();
 			String fnCall = fnCallM.group();
 			HashMap<String, Struct> args = new HashMap<>();
-			Command fn = this.code.get(fnCallM.group(1)).get(0);
-			String[] usrArgs = fnCall.substring(fnCall.indexOf("(") + 1, fnCall.lastIndexOf(")")).split(SourceScanner.commaR);
+			Command fn = this.code.containsKey(fnCallM.group(1)) ?
+				this.code.get(fnCallM.group(1)).get(0) : null;
+			String[] usrArgs = fnCall.substring(fnCall.indexOf("(") + 1,
+				fnCall.lastIndexOf(")")).split(SourceScanner.commaR);
+
+			if (fn == null) throw new UatException("fnNotFound", fnCallM.group(1));
 
 			// System.out.println("group: " + fnCallM.group());
 			//
@@ -470,9 +491,12 @@ class Interpreter {
 		}
 		else if (arrayM.matches()) {
 			String fieldAux = t.substring(t.indexOf("[") + 1, t.lastIndexOf("]"));
-			field = this.solve(fieldAux).toString();
+			varNameM = SourceScanner.varNameP.matcher(fieldAux);
 
-			// System.out.println("FIELD: " + field);
+			if (varNameM.matches()) {
+				field = fieldAux;
+			}
+			else field = this.solve(fieldAux).toString();
 
 			if ((v = this.getVar(arrayM.group(1), field)) == null) {
 				System.out.println("333333333333333333");

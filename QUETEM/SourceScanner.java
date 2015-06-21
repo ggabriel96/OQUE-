@@ -748,7 +748,7 @@ class SourceScanner {
 		wholeElseP = Pattern.compile(wholeElseR);
 		ifEndingP = Pattern.compile(ifEndR);
 
-		wholeWhileP = Pattern.compile("while( )*\\(.+\\)( )*\\{");
+		wholeWhileP = Pattern.compile("repetix( )*\\(.+\\)( )*\\{");
 		forSplitP = Pattern.compile(forSplitR);
 		wholeForP = Pattern.compile(wholeForR);
 
