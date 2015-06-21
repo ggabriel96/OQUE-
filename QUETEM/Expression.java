@@ -263,13 +263,14 @@ class Expression {
                 }
                 else if (i - 1 >= 0) {
                     // as we treated all the cases with duplicated +/- signs,
-                    // is there's any operation token right before a +/-, it
+                    // if there's any operation token right before a +/-, it
                     // is obviously not a + or - and thus this operator is indeed
                     // a number sign. Because if it was a normal operator, the
                     // previous token would be a number.
                     opBeforeM = SourceScanner.wholeOpP.matcher(tokens[i - 1]);
 
-                    if (opBeforeM.matches()) {
+					// but, the token right before it must not be a ')'
+                    if (opBeforeM.matches() && !tokens[i - 1].equals(")")) {
                         result = true;
                     }
                 }

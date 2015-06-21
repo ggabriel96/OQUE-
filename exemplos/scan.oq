@@ -1,0 +1,8 @@
+fn main() {
+    let i = (3 + 4) - (5 * 2) + 10: int
+    println($i$)
+    
+    let r, s, t: string
+    scan(r, s, t)
+    println($r$, $s$, $t$)
+}

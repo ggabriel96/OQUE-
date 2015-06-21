@@ -291,9 +291,54 @@ class Interpreter {
 		System.out.println();
 	}
 
-	private void scan(Command command) {
+	// directly assigns the input read into the requested variable(s)
+	// interprets mutiple inputs as separated by spaces or line breaks.
+	// to read a full line, use scanln
+	private void scan(Command command) throws UatException {
+		Variable v;
+		int i, j, max;
+		Matcher varM, intM, jfpM, strM;
+		Scanner sc = new Scanner(System.in);
+		String input[], exp[] = new String[2];
 
+		for (i = 0, max = command.size(); i < max; i++) {
+			input = sc.nextLine().split(" ");
+
+			for (j = 0; j < input.length; j++) {
+				exp[0] = command.get(j);
+				exp[1] = input[j];
+
+				System.out.println("name: " + exp[0]);
+				System.out.println("input: " + exp[1]);
+
+				this.atr(new Command(SourceScanner.ATR, exp, command.lineNumber()));
+
+				if (j + 1 < input.length) i++;
+			}
+		}
 	}
+
+	// private void scanln(String line) throws UatException {
+	// 	Variable v;
+	// 	Matcher varM, strM;
+	// 	String lineEnding, name, input;
+	// 	Scanner sc = new Scanner(System.in);
+	//
+	// 	line = line.substring(line.indexOf("(") + 1, line.indexOf(")")).replaceAll(" ", "");
+	//
+	// 	varM = varNameP.matcher(line);
+	// 	while (varM.find()) {
+	// 		input = sc.nextLine();
+	// 		name = varM.group();
+	//
+	// 		if ((v = this.getVar(name)) != null) {
+	// 			this.setVar(v, input);
+	// 		}
+	// 		else {
+	// 			throw new UatException("varNotFound", name);
+	// 		}
+	// 	}
+	// }
 
 	private int ifBr(ArrayList<Command> fn, int index) throws UatException {
 		Command fi = fn.get(index);
