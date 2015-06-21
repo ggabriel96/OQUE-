@@ -54,6 +54,8 @@ class UatException extends Exception {
             this.setMessage("The arguments of the function call are wrong"); break;
         case "fnNotFound":
             this.setMessage("Undefined function call"); break;
+        case "invalidElse":
+            this.setMessage("elsif/else must have a starting if statement"); break;
         }
     }
 

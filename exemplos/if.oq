@@ -4,8 +4,8 @@ fn square(x) {
 
 fn main() {
     let x = 1: bool
-    x[square(2)] = true
-    
+    x[square(2)] = false
+
     if (x[square(2)]) {
         println(IF!)
     }
@@ -22,7 +22,5 @@ fn main() {
         println(ELSE!)
     }
 
-    else {
-        println(ELSE PERDIDO!)
-    }
+    println("IUHEAUIHEUAIE")
 }

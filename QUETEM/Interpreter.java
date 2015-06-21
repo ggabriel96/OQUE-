@@ -74,11 +74,9 @@ class Interpreter {
 						i += this.ifBr(fn, i);
 						break;
 					case SourceScanner.ELSIF:
-						i += Integer.parseInt(command.get(command.size() - 1));
-						break;
+						throw new UatException("invalidElse", "elsif");
 					case SourceScanner.ELSE:
-						i += Integer.parseInt(command.get(command.size() - 1));
-						break;
+						throw new UatException("invalidElse", "else");
 					case SourceScanner.WHILE:
 						break;
 					case SourceScanner.FOR:
@@ -297,33 +295,35 @@ class Interpreter {
 	}
 
 	private int ifBr(ArrayList<Command> fn, int index) throws UatException {
-		boolean done = false;
 		Command fi = fn.get(index);
-		int fiJump = Integer.parseInt(fi.get(fi.size() - 1));
+		boolean done = false, evaluated = false;
+		int fiJump = Integer.parseInt(fi.get(fi.size() - 1)), totalJump = fiJump;
 
 		if (this.solve(fi.get(0)).toBool()) {
 			this.run(this.recursion.peek(), null, index + 1, index + fiJump);
+			evaluated = true;
 		}
-		else {
-			while (!done) {
-				index += fiJump + 1;
-				fi = fn.get(index);
 
-				if (fi.code() == SourceScanner.ELSIF || fi.code() == SourceScanner.ELSE) {
-					fiJump = Integer.parseInt(fi.get(fi.size() - 1));
+		while (!done) {
+			index += fiJump + 1;
+			fi = fn.get(index);
 
-					if (this.solve(fi.get(0)).toBool()) {
-						this.run(this.recursion.peek(), null, index + 1, index + fiJump);
-						done = true;
-					}
+			if (fi.code() == SourceScanner.ELSIF || fi.code() == SourceScanner.ELSE) {
+				fiJump = Integer.parseInt(fi.get(fi.size() - 1));
+				totalJump += fiJump + 1;
+
+				if (!evaluated && this.solve(fi.get(0)).toBool()) {
+					this.run(this.recursion.peek(), null, index + 1, index + fiJump);
+					evaluated = true;
 				}
-				else {
-
-				}
+			}
+			else {
+				totalJump -= 1;
+				done = true;
 			}
 		}
 
-		return fiJump;
+		return totalJump;
 	}
 
 	private Variable solve(String expression) throws UatException {

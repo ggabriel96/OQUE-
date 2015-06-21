@@ -7,6 +7,5 @@
 > fix assignment of whole structures (work in progress)
 
 PRIORITIES:
--> if
 -> repetix (break & continue?)
 -> scan
