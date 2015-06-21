@@ -68,7 +68,7 @@ class Interpreter {
 						this.scan(command);
 						break;
 					case SourceScanner.SCANLN:
-						this.scan(command);
+						this.scanln(command);
 						break;
 					case SourceScanner.IF:
 						i += this.ifBr(fn, i);
@@ -321,12 +321,16 @@ class Interpreter {
 
 	private void scanln(Command command) throws UatException {
 		int i, max;
+		Matcher jfpM;
 		String exp[] = new String[2];
 		Scanner sc = new Scanner(System.in);
 
 		for (i = 0, max = command.size(); i < max; i++) {
 			exp[0] = command.get(i);
 			exp[1] = sc.nextLine();
+
+			jfpM = SourceScanner.jfpP.matcher(exp[1]);
+			if (!jfpM.matches()) exp[1] = "\"" + exp[1] + "\"";
 
 			this.atr(new Command(SourceScanner.ATR, exp, command.lineNumber()));
 		}

@@ -3,19 +3,8 @@ fn main() {
     scan(r, s, t)
     println($r$, $s$, $t$)
 
-    let i: int
-    let j: double
-    let k: bool
+    
 
-    scan(i)
-    println(i: $i$)
-
-    scan(j)
-    println(j: $j$)
-
-    scan(k)
-    println(k: $k$)
-
-    --scanln(r, s, t)
-    --println($r$, $s$, $t$)
+    scanln(r, s, t)
+    println($r$, $s$, $t$)
 }
