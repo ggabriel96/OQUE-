@@ -1,21 +1,5 @@
 fn main() {
     let r, s, t: string
-    scan(r, s, t)
-    println($r$, $s$, $t$)
-
-    let i: int
-    let j: double
-    let k: bool
-
-    scan(i[2])
-    println(i[2]: $i[2]$)
-
-    scan(j)
-    println(j: $j$)
-
-    scan(k)
-    println(k: $k$)
-
     scanln(r, s, t)
     println($r$, $s$, $t$)
 }

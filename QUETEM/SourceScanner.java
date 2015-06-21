@@ -328,8 +328,8 @@ class SourceScanner {
 		int equalsIndex;
 		String[] atr = new String[2];
 		ArrayList<String> assignment = new ArrayList<>();
+		Matcher quotMarkM, strAssignM, quotInStrM, arrayM;
 		String lineString = line.toString(), varName, field;
-		Matcher quotMarkM, strBackM, strAssignM, quotInStrM, arrayM;
 
 		equalsIndex = lineString.indexOf("=");
 		atr[0] = lineString.substring(0, equalsIndex).trim();
@@ -350,9 +350,8 @@ class SourceScanner {
 			// quotMarkM = quotMarkP.matcher(atr[1]);
 			// atr[1] = quotMarkM.replaceFirst("");
 			//
-			// // removing ";
-			// strBackM = strBackP.matcher(atr[1]);
-			// atr[1] = strBackM.replaceFirst("");
+			// // removing last "
+			// atr[1] = atr[1].substring(0, atr[1].length() - 1);
 
 			// replacing all \" for an actual "
 			quotInStrM = quotInStrP.matcher(atr[1]);
@@ -636,7 +635,7 @@ class SourceScanner {
 	public static final String strBackR = quotMarkR;
 
 	// strings with any character enclosed with "". Supports escaped " too.
-	public static final String strR = quotMarkR + "(?:\\\\.|[^" + quotMarkR + "\\\\])*" + quotMarkR;
+	public static final String strR = "(" + quotMarkR + ")(?:\\\\.|[^" + quotMarkR + "\\\\])*(" + quotMarkR + ")";
 	// "(?:\\.|[^"\\])*"
 	// matches 0 or more of the following, enclosed with "
 	// matches a \ followed by any character, or...

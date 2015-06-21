@@ -191,6 +191,8 @@ class Interpreter {
 		String expression = command.get(1);
 		Matcher fieldNameM, arrayM = SourceScanner.arrayP.matcher(varName);
 
+		// System.out.println("[INFO_LOG]: ATR_EXPRESSION = {" + expression + "}");
+
 		if (arrayM.matches()) {
 			field = varName.substring(varName.indexOf("[") + 1, varName.lastIndexOf("]"));
 			varName = arrayM.group(1);
@@ -309,7 +311,13 @@ class Interpreter {
 
 					jfpM = SourceScanner.jfpP.matcher(input[j]);
 					if (jfpM.matches()) exp[1] = input[j];
-					else exp[1] = "\"" + input[j] + "\"";
+					else {
+						if (!input[j].startsWith("\"")) exp[1] = "\"" + input[j];
+						else exp[1] = "\"\\\"" + input[j].substring(1);
+
+						if (!exp[1].endsWith("\"")) exp[1] = exp[1] + "\"";
+						else exp[1] = exp[1].substring(0, exp[1].length() - 1) + "\\\"\"";
+					}
 
 					this.atr(new Command(SourceScanner.ATR, exp, command.lineNumber()));
 
@@ -330,7 +338,13 @@ class Interpreter {
 			exp[1] = sc.nextLine();
 
 			jfpM = SourceScanner.jfpP.matcher(exp[1]);
-			if (!jfpM.matches()) exp[1] = "\"" + exp[1] + "\"";
+			if (!jfpM.matches()) {
+				if (!exp[1].startsWith("\"")) exp[1] = "\"" + exp[1];
+				else exp[1] = "\"\\\"" + exp[1].substring(1);
+
+				if (!exp[1].endsWith("\"")) exp[1] = exp[1] + "\"";
+				else exp[1] = exp[1].substring(0, exp[1].length() - 1) + "\\\"\"";
+			}
 
 			this.atr(new Command(SourceScanner.ATR, exp, command.lineNumber()));
 		}
@@ -608,6 +622,8 @@ class Interpreter {
 		else {
 			throw new UatException("unknownSymbol", t);
 		}
+
+		// System.out.println("[INFO_LOG]: GET_OPERAND_RESULT = {" + v + "}");
 
         return v;
     }
