@@ -311,7 +311,7 @@ class SourceScanner {
 			varName = line.substring(0, eqIndex).trim();
 			fixedLine = line.substring(eqIndex + 1).trim();
 			fixedLine = new Expression(fixedLine).toPostfix();
-			fixedLine = varName + Expression.SEP.toString() + fixedLine;
+			fixedLine = varName + Expression.VSEP.toString() + fixedLine;
 		}
 		else varName = fixedLine = line.trim();
 

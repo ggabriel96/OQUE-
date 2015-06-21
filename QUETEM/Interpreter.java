@@ -139,7 +139,7 @@ class Interpreter {
 		ArrayList<String> fields = command.fields();
 
 		for (i = 1, max = fields.size(); i < max; i++) {
-			decl = fields.get(i).split(Expression.SEP.toString());
+			decl = fields.get(i).split(Expression.VSEP.toString());
 
 			// type is the first field
 			switch (command.get(0)) {

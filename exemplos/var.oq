@@ -1,6 +1,10 @@
-fn main() {
+fn main(a, b, c) {
     let x = 7: double
     let y = 11: double
+    let s = "OQUE" + " " + "QUETEM": string
+
+    --s = "OQUE" + " " + "QUETEM"
+    println(s: $s$)
 
     println(1 $x$)
 
@@ -19,7 +23,7 @@ fn main() {
     println(x: $x$)
     println(x[2]: $x[2]$)
 
-    x = x[]
+    --x = x[] -- gotta fix this!
 
     println(The value of x is $x$ and x * 11 is $x * 11$)
     println(The value of x[2] is $x[2]$ and x[2] * 11 is $x[2] * 11$)

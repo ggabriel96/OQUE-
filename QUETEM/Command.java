@@ -29,7 +29,7 @@ return <expression>
 
 VARIABLE DECLARATION
 let <vars>
-[20|type|var1`atr1|var2`atr2|...|lineNumber]
+[20|type|var1'atr1|var2'atr2|...|lineNumber]
 
 VARIABLE ASSIGNMENT
 <var> = <expression|function call>
