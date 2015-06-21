@@ -2,9 +2,9 @@
 * Reading invalid positions yield "could not find variable" error;
 * Nested commands don't work, for example: square(square(2)) or array[struct[field]];
 * Cannot initialize a variable with a fn call in its declaration!;
+* Assigning a function that doesn't return anything to a variable will reset its value to its type defaults, as if it was redeclared (type isn't changed);
 
-> fix assignment with fn that doesn't return
-> fix assignment of whole structures
+> fix assignment of whole structures (work in progress)
 
 PRIORITIES:
 -> if

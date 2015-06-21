@@ -27,7 +27,7 @@ class Interpreter {
 	public Variable run(String name, HashMap<String, Struct> args) throws UatException {
 		int i, max;
 		Command command = null;
-		Variable returnValue = null;
+		Variable returnValue = new StringVar();
 		ArrayList<Command> fn = this.code.get(name);
 
 		this.recursion.push(name);
@@ -42,7 +42,7 @@ class Interpreter {
 		for (i = 1, max = fn.size() - 1; i < max; i++) {
 			command = fn.get(i);
 
-			if (this.DEBUG) System.out.println("> " + command);
+			// if (this.DEBUG) System.out.println("> " + command);
 
 			try {
 				switch (command.code()) {
@@ -91,13 +91,15 @@ class Interpreter {
 				throw ue;
 			}
 
-			// System.out.println("====================");
-			// System.out.println(this.recursion.peek());
-			// for (Map.Entry<String, Struct> entry: this.vars.get(this.recursion.peek()).entrySet()) {
-			// 	System.out.println(entry.getKey());
-			// 	entry.getValue().printVars();
-			// }
-			// System.out.println("====================");
+			if (this.DEBUG) {
+				System.out.println("====================");
+				System.out.println(this.recursion.peek());
+				for (Map.Entry<String, Struct> entry: this.vars.get(this.recursion.peek()).entrySet()) {
+					System.out.println(entry.getKey());
+					entry.getValue().printVars();
+				}
+				System.out.println("====================");
+			}
 		}
 
 		this.recursion.pop();
@@ -187,6 +189,11 @@ class Interpreter {
 			field = varName.substring(varName.indexOf("[") + 1, varName.lastIndexOf("]"));
 			varName = arrayM.group(1);
 
+			// if (field.isEmpty()) {
+			// 	s = this.getStruct(varName);
+			// 	s.replaceVars(expression); // ?
+			// }
+
 			fieldNameM = SourceScanner.varNameP.matcher(field);
 			if (!fieldNameM.matches()) {
 				field = this.solve(field).toString();
@@ -220,11 +227,11 @@ class Interpreter {
 
 				v.setValue(this.solve(expression));
 				s.newVar(field, v);
-				if (this.DEBUG) {
-					System.out.println("\n---------------");
-					s.printVars();
-					System.out.println("---------------\n");
-				}
+				// if (this.DEBUG) {
+				// 	System.out.println("\n---------------");
+				// 	s.printVars();
+				// 	System.out.println("---------------\n");
+				// }
 			}
 			else {
 				v.setValue(this.solve(expression));
@@ -235,6 +242,12 @@ class Interpreter {
 			if (s == null) {
 				System.out.println("222222222222222222222222");
 				throw new UatException("varNotFound", varName);
+			}
+
+			arrayM = SourceScanner.arrayP.matcher(expression);
+			if (arrayM.matches() &&
+				expression.substring(expression.indexOf("[") + 1, expression.lastIndexOf("]")).isEmpty()) {
+				throw new UatException("cantAssign", varName + " = " + expression);
 			}
 
 			v = s.getVar(varName);

@@ -8,7 +8,7 @@ fn add(a, b) {
 }
 
 fn test() {
-    return 0
+    --return 0
 }
 
 fn main() {
@@ -31,5 +31,8 @@ fn main() {
     println(y = $y$)
 
     x = test()
-    println(x = $x$)
+    println(x = test(): $x$)
+
+    y = x
+    println(y after y = x: $y$)
 }

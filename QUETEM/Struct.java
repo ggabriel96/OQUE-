@@ -23,6 +23,10 @@ class Struct {
         this.vars = vars;
     }
 
+    public HashMap<String, Variable> getVars() {
+        return this.vars;
+    }
+
     public void newVar(String name, Variable v) {
 		this.vars.put(name, v);
 	}
