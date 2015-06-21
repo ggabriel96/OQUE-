@@ -25,7 +25,11 @@ class Interpreter {
 	}
 
 	public Variable run(String name, HashMap<String, Struct> args) throws UatException {
-		int i, max;
+		return this.run(name, args, 1, this.code.get(name).size() - 1);
+	}
+
+	public Variable run(String name, HashMap<String, Struct> args, int start, int end) throws UatException {
+		int i;
 		Command command = null;
 		Variable returnValue = new StringVar();
 		ArrayList<Command> fn = this.code.get(name);
@@ -36,13 +40,13 @@ class Interpreter {
 			this.vars.put(name, args);
 		}
 		else {
-			this.vars.put(name, new HashMap<String, Struct>());
+			this.vars.putIfAbsent(name, new HashMap<String, Struct>());
 		}
 
-		for (i = 1, max = fn.size() - 1; i < max; i++) {
+		for (i = start; i < end; i++) {
 			command = fn.get(i);
 
-			if (this.DEBUG) System.out.println("> " + command);
+			// System.out.println("> " + command);
 
 			try {
 				switch (command.code()) {
@@ -67,10 +71,13 @@ class Interpreter {
 						this.scan(command);
 						break;
 					case SourceScanner.IF:
+						i += this.ifBr(fn, i);
 						break;
 					case SourceScanner.ELSIF:
+						i += Integer.parseInt(command.get(command.size() - 1));
 						break;
 					case SourceScanner.ELSE:
+						i += Integer.parseInt(command.get(command.size() - 1));
 						break;
 					case SourceScanner.WHILE:
 						break;
@@ -82,7 +89,7 @@ class Interpreter {
 						break;
 					case SourceScanner.RETURN:
 						returnValue = this.ret(command);
-						i = max;
+						i = end;
 						break;
 				}
 			}
@@ -287,6 +294,36 @@ class Interpreter {
 
 	private void scan(Command command) {
 
+	}
+
+	private int ifBr(ArrayList<Command> fn, int index) throws UatException {
+		boolean done = false;
+		Command fi = fn.get(index);
+		int fiJump = Integer.parseInt(fi.get(fi.size() - 1));
+
+		if (this.solve(fi.get(0)).toBool()) {
+			this.run(this.recursion.peek(), null, index + 1, index + fiJump);
+		}
+		else {
+			while (!done) {
+				index += fiJump + 1;
+				fi = fn.get(index);
+
+				if (fi.code() == SourceScanner.ELSIF || fi.code() == SourceScanner.ELSE) {
+					fiJump = Integer.parseInt(fi.get(fi.size() - 1));
+
+					if (this.solve(fi.get(0)).toBool()) {
+						this.run(this.recursion.peek(), null, index + 1, index + fiJump);
+						done = true;
+					}
+				}
+				else {
+
+				}
+			}
+		}
+
+		return fiJump;
 	}
 
 	private Variable solve(String expression) throws UatException {

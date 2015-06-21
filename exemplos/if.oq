@@ -1,0 +1,28 @@
+fn square(x) {
+    return x * x
+}
+
+fn main() {
+    let x = 1: bool
+    x[square(2)] = true
+    
+    if (x[square(2)]) {
+        println(IF!)
+    }
+    elsif (false) {
+        println(ELSIF!)
+    }
+    elsif (true) {
+        if (true) {
+            println(IF DENTRO DO ELSIF 2!)
+        }
+        println(ELSIF 2!)
+    }
+    else {
+        println(ELSE!)
+    }
+
+    else {
+        println(ELSE PERDIDO!)
+    }
+}
