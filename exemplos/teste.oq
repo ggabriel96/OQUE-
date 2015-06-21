@@ -24,10 +24,15 @@ fn main() {
     println(Hey you $square(2)$ :P)
     scanln(i, j, k)
 
+    let putz = 2, funciona = 1: int
+    putz[vish] = 0
+    let raiden = "ElderGod": string
+
+
     if (putz < funciona) {
         println(println inside if)
     }
-    elsif (square(2) * putz[vish] > 11.7 || raiden == ElderGod) {
+    elsif (square(2) * putz[vish] > 11.7 || raiden == "ElderGod") {
         println(println inside elsif)
     }
     else {
@@ -63,11 +68,11 @@ fn teste(a, b, c) {
         continue
         break
         println(println inside while)
-        if (PQP + VAI * BUGAR ^ TUDO) {
+        if (1 + 2 * 3 ^ 0) {
             for (x = 1 + 1/2 + 1/4; x < square(2) * fu[jin]; println(oi)) {
                 break
                 continue
-                if (E(AGORA)) {
+                if (square(0)) {
                     break
                     continue
                 }

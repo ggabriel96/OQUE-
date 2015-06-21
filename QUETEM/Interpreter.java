@@ -78,6 +78,7 @@ class Interpreter {
 					case SourceScanner.ELSE:
 						throw new UatException("invalidElse", "else");
 					case SourceScanner.WHILE:
+						i += this.whileLoop(fn, i);
 						break;
 					case SourceScanner.FOR:
 						break;
@@ -324,6 +325,18 @@ class Interpreter {
 		}
 
 		return totalJump;
+	}
+
+	private int whileLoop(ArrayList<Command> fn, int index) throws UatException {
+		boolean done = false;
+		Command loop = fn.get(index);
+		int whileJump = Integer.parseInt(loop.get(loop.size() - 1));
+
+		while (this.solve(loop.get(0)).toBool()) {
+			this.run(this.recursion.peek(), null, index + 1, index + whileJump);
+		}
+
+		return whileJump;
 	}
 
 	private Variable solve(String expression) throws UatException {
