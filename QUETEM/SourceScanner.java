@@ -616,7 +616,7 @@ class SourceScanner {
 	public static final String fnParenR = "( )*\\(.*\\)";
 	public static final String printR = "(print|println)";
 	public static final String wholePrintR = printR + fnParenR;
-	public static final String scanContentR = "(" + varNameR + ")(( )*,( )*(" + varNameR + "))*";
+	public static final String scanContentR = "(" + arrayR + "|" + varNameR + ")(( )*,( )*(" + arrayR + "|" + varNameR + "))*";
 	// public static final String wholeScanR = "(scan)( )*\\(( )*" + scanContentR + "( )*\\)" + semicR;
 	public static final String wholeScanR = "(scan)( )*\\(( )*" + scanContentR + "( )*\\)";
 	// public static final String wholeScanlnR = "(scanln)( )*\\(( )*" + scanContentR + "( )*\\)" + semicR;
