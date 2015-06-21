@@ -47,6 +47,10 @@ class UatException extends Exception {
             this.setMessage("You cannot use break/continue here"); break;
         case "mainNotFound":
             this.setMessage("Could not find any fn main() definition"); break;
+        case "noRetExp":
+            this.setMessage("A return command must have an expression"); break;
+        case "wrongArgs":
+            this.setMessage("The arguments of the function call are wrong"); break;
         }
     }
 

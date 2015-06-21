@@ -257,6 +257,10 @@ class SourceScanner {
 			expression.add(this.varAtr(new Line(lineString, line.getNumber())).get(1));
 		}
 
+		if (expression.size() == 0) {
+			throw new UatException("noRetExp", line.toString());
+		}
+
 		return new Command(RETURN, expression, line.getNumber());
 	}
 
@@ -274,7 +278,7 @@ class SourceScanner {
 		tokens.add(lineString.substring(i + 1).trim());
 
 		lineString = lineString.substring(0, i);
-		aux = lineString.split(",");
+		aux = lineString.split(SourceScanner.commaR);
 		for (i = 0; i < aux.length; i++) {
 
 			strM = strP.matcher(aux[i]);
@@ -323,17 +327,24 @@ class SourceScanner {
 	private Command varAtr(Line line) throws UatException {
 		int equalsIndex;
 		String[] atr = new String[2];
-		String lineString = line.toString();
 		ArrayList<String> assignment = new ArrayList<>();
-		Matcher quotMarkM, strBackM, strAssignM, quotInStrM;
+		String lineString = line.toString(), varName, field;
+		Matcher quotMarkM, strBackM, strAssignM, quotInStrM, arrayM;
 
 		equalsIndex = lineString.indexOf("=");
 		atr[0] = lineString.substring(0, equalsIndex).trim();
 		atr[1] = lineString.substring(equalsIndex + 1).trim();
 
+		arrayM = arrayP.matcher(atr[0]);
+		if (arrayM.matches()) {
+			varName = arrayM.group(1);
+			field = new Expression(atr[0].substring(atr[0].indexOf("[") + 1, atr[0].lastIndexOf("]"))).toPostfix();
+
+			atr[0] = varName + "[" + field + "]";
+		}
+
 		// if it's a string (enclosed with "");
 		strAssignM = strAssignP.matcher(atr[1]);
-
         if (strAssignM.matches()) {
 			// // removing first "
 			// quotMarkM = quotMarkP.matcher(atr[1]);
@@ -634,6 +645,9 @@ class SourceScanner {
 	// ([A-Za-z_][A-Za-z_0-9]*) *\(("(?:\\.|[^"\\])*"|[^\)])*\)
 	public static final String fnCallR = "(" + varNameR + ") *\\(((" + strR + ")|[^\\)])*\\)";
 	// public static final String fnCallR = varNameR + "( )*\\((.+?)*\\)";
+
+	public static final String commaR = ",\\s*(?=([^\"]*\"[^\"]*\")*[^\"]*$)";
+	// ,\s*(?=([^"]*"[^"]*")*[^"]*$) to match ',' outside of quotes
 
 	public static final String signR = "[+-]";
 	public static final String intR = signR + "?[0-9]+";

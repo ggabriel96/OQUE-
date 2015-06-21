@@ -79,13 +79,24 @@ class Expression {
 			}
 
             if ((index1 >= 0 && index2 >= 0 && index1 <= index2) || (index1 >= 0 && index2 < 0)) {
+
                 j = tmp1.indexOf("(");
                 k = tmp1.lastIndexOf(")");
                 if (j > 0 && k > 0) {
                     inv = tmp1.substring(j + 1, k);
-					if (!inv.isEmpty()) {
-						tmp1 = tmp1.substring(0, j + 1) + new Expression(inv).toPostfix() + ")";
+
+					output = inv.split(SourceScanner.commaR);
+					tmp1 = tmp1.substring(0, j + 1);
+					for (int i = 0; i < output.length; i++) {
+						if (!output[i].isEmpty()) {
+							tmp1 += new Expression(output[i]).toPostfix();
+							// String tmp1Aux = new Expression(output[i]).toPostfix();
+
+							if (i < output.length - 1) tmp1 += ",";
+						}
 					}
+
+					tmp1 += ")";
                 }
 
 				tmp1 = tmp1.replaceAll(SEP.toString(), VSEP.toString());

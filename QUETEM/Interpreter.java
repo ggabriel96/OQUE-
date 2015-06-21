@@ -181,12 +181,16 @@ class Interpreter {
 		String field;
 		String varName = command.get(0);
 		String expression = command.get(1);
-		Matcher arrayM = SourceScanner.arrayP.matcher(varName);
+		Matcher fieldNameM, arrayM = SourceScanner.arrayP.matcher(varName);
 
 		if (arrayM.matches()) {
+			field = varName.substring(varName.indexOf("[") + 1, varName.lastIndexOf("]"));
 			varName = arrayM.group(1);
-			field = arrayM.group(2);
-			// field = field.substring(1, field.length() - 1);
+
+			fieldNameM = SourceScanner.varNameP.matcher(field);
+			if (!fieldNameM.matches()) {
+				field = this.solve(field).toString();
+			}
 
 			s = this.getStruct(varName);
 			if (s == null) {
@@ -274,10 +278,7 @@ class Interpreter {
 		Matcher wholeOpM;
 		String op;
 
-		// System.out.println("[INFO_LOG]: SOLVE_EXP = {" + exp + "}");
-		// System.out.println("[INFO_LOG]: SOLVE_TOKENS = {" + tokens + "}");
-
-		// System.out.println("solve expression: " + expression);
+		// System.out.println("[INFO_LOG]: SOLVE_EXP = {" + expression + "}");
 
         if (t.length == 1) {
             answ = this.getOperand(t[0]);
@@ -404,26 +405,61 @@ class Interpreter {
 			v = new StringVar(t);
 		}
 		else if (fnCallM.matches()) {
+			int i, max;
+			String argName;
 			Struct argValue = new Struct();
+			String fnCall = fnCallM.group();
 			HashMap<String, Struct> args = new HashMap<>();
-			String argName = this.code.get(fnCallM.group(1)).get(0).get(1);
+			Command fn = this.code.get(fnCallM.group(1)).get(0);
+			String[] usrArgs = fnCall.substring(fnCall.indexOf("(") + 1, fnCall.lastIndexOf(")")).split(SourceScanner.commaR);
 
-			field = fnCallM.group(2);
-			argValue.newVar(argName, this.solve(field));
+			// System.out.println("group: " + fnCallM.group());
+			//
+			// System.out.println("usrArgs:");
+			// for (String a: usrArgs) {
+			// 	System.out.println("[" + a + "]");
+			// }
+			//
+			// System.out.println("fn args:");
+			// for (i = 1; i < fn.size() - 1; i++) {
+			// 	System.out.println("[" + fn.get(i) + "]");
+			// }
 
-			// System.out.println(":" + this.code.get(fnCallM.group(1)).get(0));
-			// System.out.println("argName: {" + argName + "}");
-			// System.out.println("argValue:");
-			// argValue.printVars();
-			args.put(argName, argValue);
+			max = fn.size();
+			if ((max - 2 != usrArgs.length) &&
+				!(usrArgs.length == 1 && usrArgs[0].isEmpty())) {
+				throw new UatException("wrongArgs", t);
+			}
 
-			// System.out.println("NAME: {" + fnCallM.group(1) + "}");
-			// System.out.println("FIELD: {" + field + "}");
+			for (i = 1; i < max - 1; i++) {
+				argName = fn.get(i);
+
+				// System.out.println("i: " + i);
+				// System.out.println("argName: " + argName);
+				// System.out.println("usrArgs[i - 1]: " + usrArgs[i - 1]);
+
+				// argValue.newVar(
+				// 	argName, this.solve(usrArgs[i - 1].replaceAll(
+				// 		Expression.VSEP.toString(), Expression.SEP.toString())
+				// 	)
+				// );
+
+				argValue.newVar(
+					argName, this.getOperand(usrArgs[i - 1].replaceAll(
+						Expression.VSEP.toString(), Expression.SEP.toString())
+					)
+				);
+
+				args.put(argName, argValue);
+			}
 
 			v = this.run(fnCallM.group(1), args);
 		}
 		else if (arrayM.matches()) {
-			field = this.solve(arrayM.group(2)).toString();
+			String fieldAux = t.substring(t.indexOf("[") + 1, t.lastIndexOf("]"));
+			field = this.solve(fieldAux).toString();
+
+			// System.out.println("FIELD: " + field);
 
 			if ((v = this.getVar(arrayM.group(1), field)) == null) {
 				System.out.println("333333333333333333");
@@ -432,7 +468,7 @@ class Interpreter {
 		}
 		else if (varNameM.matches()) {
 			if ((v = this.getVar(t)) == null) {
-				System.out.println("444444444"+t+"444444444");
+				System.out.println("444444444" + t + "444444444");
 				throw new UatException("varNotFound", t);
 			}
 		}

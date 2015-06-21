@@ -1,10 +1,12 @@
 * Writing to invalid fields of a variable works right out of the box;
 * Reading invalid positions yield "could not find variable" error;
-* Gotta implement whole struct assignments (and throw an exception when trying something like: y = x[]);
 * Nested commands don't work, for example: square(square(2)) or array[struct[field]];
+* Cannot initialize a variable with a fn call in its declaration!;
+
+> fix assignment with fn that doesn't return
+> fix assignment of whole structures
 
 PRIORITIES:
--> functions (return!)
 -> if
 -> repetix (break & continue?)
 -> scan

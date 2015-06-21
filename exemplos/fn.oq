@@ -3,7 +3,33 @@ fn square(x) {
     return x * x
 }
 
+fn add(a, b) {
+    return a + b
+}
+
+fn test() {
+    return 0
+}
+
 fn main() {
     let x = 2: int
+    x = 5
     println(square(x), where x = $x$, is $square(x)$)
+
+    let y: int
+
+    println(square(2): $square(2)$)
+
+    x[square(2)] = 1
+    println(x[square(2)] = $x[square(2)]$)
+    y = x[square(2)]
+    println(y = $y$)
+    --y = add(1, 2, 3 * 5, "Gabriel, Galli", x[3 * 2 - 1 / 6])
+
+    x[3 * 2 - 1 / 6] = 11
+    y = add(1, x[3 * 2 - 1 / 6])
+    println(y = $y$)
+
+    x = test()
+    println(x = $x$)
 }
