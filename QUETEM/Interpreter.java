@@ -305,11 +305,8 @@ class Interpreter {
 			input = sc.nextLine().split(" ");
 
 			for (j = 0; j < input.length; j++) {
-				exp[0] = command.get(j);
+				exp[0] = command.get(i);
 				exp[1] = input[j];
-
-				System.out.println("name: " + exp[0]);
-				System.out.println("input: " + exp[1]);
 
 				this.atr(new Command(SourceScanner.ATR, exp, command.lineNumber()));
 
