@@ -15,23 +15,28 @@ import java.util.regex.*;
 class Interpreter {
 	private Stack<String> recursion;
 	private final boolean DEBUG = false;
+	private HashMap<String, ArrayList<Command>> code;
 	private HashMap<String, HashMap<String, Struct>> vars;
 
-	public Interpreter() {
+	public Interpreter(HashMap<String, ArrayList<Command>> code) {
+		this.code = code;
 		this.vars = new HashMap<>();
 		this.recursion = new Stack<>();
 	}
 
-	public void run(HashMap<String, ArrayList<Command>> code, String name, HashMap<String, Struct> args) throws UatException {
+	public Variable run(String name, HashMap<String, Struct> args) throws UatException {
 		int i, max;
 		Command command = null;
-		ArrayList<Command> fn = code.get(name);
+		Variable returnValue = null;
+		ArrayList<Command> fn = this.code.get(name);
 
 		this.recursion.push(name);
-		this.vars.put(name, new HashMap<String, Struct>());
 
 		if (args != null && args.size() > 0) {
-			this.vars.put("args", args);
+			this.vars.put(name, args);
+		}
+		else {
+			this.vars.put(name, new HashMap<String, Struct>());
 		}
 
 		for (i = 1, max = fn.size() - 1; i < max; i++) {
@@ -76,6 +81,8 @@ class Interpreter {
 					case SourceScanner.CONTINUE:
 						break;
 					case SourceScanner.RETURN:
+						returnValue = this.ret(command);
+						i = max;
 						break;
 				}
 			}
@@ -94,14 +101,11 @@ class Interpreter {
 		}
 
 		this.recursion.pop();
+
+		return returnValue;
     }
 
 	private void newStruct(HashMap<String, Struct> struct) {
-		// System.out.println(this.recursion.peek());
-		// for (Map.Entry<String, Struct> entry: struct.entrySet()) {
-		// 	System.out.println(entry.getKey());
-		// 	entry.getValue().printVars();
-		// }
 		this.vars.put(this.recursion.peek(), struct);
 	}
 
@@ -111,7 +115,6 @@ class Interpreter {
 
 		struct.newVar(name, v);
 		variable.put(name, struct);
-		// this.newStruct(variable);
 	}
 
 	private Struct getStruct(String name) {
@@ -168,6 +171,10 @@ class Interpreter {
 		}
 	}
 
+	private Variable ret(Command command) throws UatException {
+		return this.solve(command.get(0));
+	}
+
 	private void atr(Command command) throws UatException {
 		Struct s;
 		Variable v;
@@ -183,6 +190,7 @@ class Interpreter {
 
 			s = this.getStruct(varName);
 			if (s == null) {
+				System.out.println("111111111111111111111111");
 				throw new UatException("varNotFound", varName);
 			}
 
@@ -221,6 +229,7 @@ class Interpreter {
 		else {
 			s = this.getStruct(varName);
 			if (s == null) {
+				System.out.println("222222222222222222222222");
 				throw new UatException("varNotFound", varName);
 			}
 
@@ -267,6 +276,8 @@ class Interpreter {
 
 		// System.out.println("[INFO_LOG]: SOLVE_EXP = {" + exp + "}");
 		// System.out.println("[INFO_LOG]: SOLVE_TOKENS = {" + tokens + "}");
+
+		// System.out.println("solve expression: " + expression);
 
         if (t.length == 1) {
             answ = this.getOperand(t[0]);
@@ -343,10 +354,10 @@ class Interpreter {
 	}
 
     private Variable getOperand(String t) throws UatException {
-        Matcher intM, fpM, boolM, strM, quotInStrM, varNameM, anyM, arrayM;
-		String field = null;
-        Variable v = null;
 		int index;
+        Variable v = null;
+		String field = null;
+        Matcher intM, fpM, boolM, strM, quotInStrM, varNameM, anyM, arrayM, fnCallM;
 
         fpM = SourceScanner.jfpP.matcher(t);
         intM = SourceScanner.intP.matcher(t);
@@ -354,6 +365,7 @@ class Interpreter {
 		anyM = SourceScanner.anyP.matcher(t);
 		boolM = SourceScanner.boolP.matcher(t);
 		arrayM = SourceScanner.arrayP.matcher(t);
+		fnCallM = SourceScanner.fnCallP.matcher(t);
 		varNameM = SourceScanner.varNameP.matcher(t);
 
 		// System.out.println("[INFO_LOG]: GET_OPERAND = {" + t + "}");
@@ -391,15 +403,36 @@ class Interpreter {
 
 			v = new StringVar(t);
 		}
+		else if (fnCallM.matches()) {
+			Struct argValue = new Struct();
+			HashMap<String, Struct> args = new HashMap<>();
+			String argName = this.code.get(fnCallM.group(1)).get(0).get(1);
+
+			field = fnCallM.group(2);
+			argValue.newVar(argName, this.solve(field));
+
+			// System.out.println(":" + this.code.get(fnCallM.group(1)).get(0));
+			// System.out.println("argName: {" + argName + "}");
+			// System.out.println("argValue:");
+			// argValue.printVars();
+			args.put(argName, argValue);
+
+			// System.out.println("NAME: {" + fnCallM.group(1) + "}");
+			// System.out.println("FIELD: {" + field + "}");
+
+			v = this.run(fnCallM.group(1), args);
+		}
 		else if (arrayM.matches()) {
 			field = this.solve(arrayM.group(2)).toString();
 
 			if ((v = this.getVar(arrayM.group(1), field)) == null) {
+				System.out.println("333333333333333333");
 				throw new UatException("varNotFound", t);
 			}
 		}
 		else if (varNameM.matches()) {
 			if ((v = this.getVar(t)) == null) {
+				System.out.println("444444444"+t+"444444444");
 				throw new UatException("varNotFound", t);
 			}
 		}
@@ -438,6 +471,7 @@ class Interpreter {
 			if (neg) v = v.inverted();
 		}
 		else {
+			System.out.println("555555555555555555");
 			throw new UatException("varNotFound", t);
 		}
 

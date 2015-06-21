@@ -631,8 +631,8 @@ class SourceScanner {
 	// matches a \ followed by any character, or...
 	// doesn't match a " or a \
 
-	// [A-Za-z_][A-Za-z_0-9]*( )*\((?:"(?:\\.|[^"\\])*"|[^\)])*\)
-	public static final String fnCallR = varNameR + "( )*\\((?:" + strR + "|[^\\)])*\\)";
+	// ([A-Za-z_][A-Za-z_0-9]*) *\(("(?:\\.|[^"\\])*"|[^\)])*\)
+	public static final String fnCallR = "(" + varNameR + ") *\\(((" + strR + ")|[^\\)])*\\)";
 	// public static final String fnCallR = varNameR + "( )*\\((.+?)*\\)";
 
 	public static final String signR = "[+-]";

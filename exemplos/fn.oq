@@ -1,0 +1,9 @@
+--fn square(x[2]) ?
+fn square(x) {
+    return x * x
+}
+
+fn main() {
+    let x = 2: int
+    println(square(x), where x = $x$, is $square(x)$)
+}

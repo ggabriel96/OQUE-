@@ -17,7 +17,7 @@ class OQUE {
     public static void main(String[] args) {
         File f;
         int ind = 0;
-        Interpreter ovm = new Interpreter();
+        Interpreter ovm;
         HashMap<String, ArrayList<Command>> code;
         boolean hasParam = true, validParam = true;
         SourceScanner scanner = new SourceScanner();
@@ -52,8 +52,8 @@ class OQUE {
                         scanner.printCommandBlock(block);
                         System.out.println();
                     }
-
-                    ovm.run(code, "main", null);
+                    ovm = new Interpreter(code);
+                    ovm.run("main", null);
                 }
                 catch (IOException ioe) {
 					ioe.toString();
