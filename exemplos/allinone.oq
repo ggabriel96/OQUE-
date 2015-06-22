@@ -35,8 +35,8 @@ fn main(){
     vet[3] = 54321
 
     --println (\nPosicao 1 do vetor: $z[1]$) Gera erro e descreve onde
-    println (\nPosicao 2 do vetor: $z[2*2+7-9]$)
-    println (\nPosicao 3 do vetor: $z[3]$)
+    println (\nPosicao 2 do vetor: $vet[2*2+7-9]$)
+    println (\nPosicao 3 do vetor: $vet[3]$)
 
 
     --Exemplo de utilização de structs
