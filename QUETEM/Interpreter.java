@@ -387,16 +387,16 @@ class Interpreter {
 
 	private int whileLoop(ArrayList<Command> fn, int index) throws UatException {
 		boolean done = false;
-		Variable aux = new IntVar(-1);
 		Command loop = fn.get(index);
+		int loopNum = loop.lineNumber();
 		int whileJump = Integer.parseInt(loop.get(loop.size() - 1));
 
-		while (aux.toInt() == -1 && this.solve(loop.get(0)).toBool()) {
-			aux = this.run(this.recursion.peek(), null, index + 1, index + whileJump);
+		while ((loopNum == loop.lineNumber()) && this.solve(loop.get(0)).toBool()) {
+			loopNum = this.run(this.recursion.peek(), null, index + 1, index + whileJump).toInt();
 		}
 
-		if (aux.toInt() != -1) return aux.toInt();
-		else return whileJump;
+		if (loopNum != 0) return loopNum;
+		else return index + whileJump;
 	}
 
 	private Variable solve(String expression) throws UatException {
