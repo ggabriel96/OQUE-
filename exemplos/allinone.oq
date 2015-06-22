@@ -1,6 +1,7 @@
 fn main(){
     let i = (3 + 4) - (5 * 2) + 1: int
     let j = 2 : double
+    let x: int
 
     repetix(i < (j + 3)){
         println(Meu i esta valendo $i-1$ somado ao literal '1'.)
@@ -16,4 +17,21 @@ fn main(){
         }
         i = i + 1
     }
+    print(Estou mandando essa linha pro além)
+
+    print (Insira um valor inteiro arbitrario: )
+    scan(x)
+    x = sqr(x)
+    println (O quadrado do valor inserido eh $x$)
+
+    x = soma(j, 4*3)
+    print(A soma de j com 12 eh: $x$)
+}
+
+fn sqr(param){
+    return param * param
+}
+
+fn soma(par1, par2){
+    return par1 + par2
 }
