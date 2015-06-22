@@ -3,9 +3,9 @@ fn main() {
 
     repetix (i < 10) {
         println($i$)
-        --break
         i = i + 1
         continue
         i = i + 1
+        break
     }
 }
