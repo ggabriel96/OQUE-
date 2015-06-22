@@ -5,7 +5,3 @@
 * Assigning a function that doesn't return anything to a variable will reset its value to its type defaults, as if it was redeclared (type isn't changed);
 
 > fix assignment of whole structures (work in progress)
-
-PRIORITIES:
--> repetix (break & continue?)
--> scan

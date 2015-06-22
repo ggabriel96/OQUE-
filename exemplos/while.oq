@@ -1,8 +1,17 @@
 fn main() {
     let i = 0: int
+    let z: int
+
+    z[2] = 12345
+    z[3] = 54321
+
+    println (\nPosicao 2 do vetor: $z[2*2+7-9]$)
+    println (\nPosicao 3 do vetor: $z[1+1+1]$)
 
     repetix (i < 10) {
         println($i$)
+        --break
+        continue
         i = i + 1
     }
 }

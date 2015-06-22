@@ -46,6 +46,7 @@ class Interpreter {
 		for (i = start; i < end; i++) {
 			command = fn.get(i);
 
+			// System.out.println("i: " + i);
 			// System.out.println("> " + command);
 
 			try {
@@ -78,14 +79,16 @@ class Interpreter {
 					case SourceScanner.ELSE:
 						throw new UatException("invalidElse", "else");
 					case SourceScanner.WHILE:
-						i += this.whileLoop(fn, i);
+						i = this.whileLoop(fn, i);
 						break;
-					case SourceScanner.FOR:
-						break;
+					// case SourceScanner.FOR:
+					// 	break;
 					case SourceScanner.BREAK:
-						break;
+						// linesToJump
+						return new IntVar(i + Integer.parseInt(command.get(0)));
 					case SourceScanner.CONTINUE:
-						break;
+						// initialLineOfLoop
+						return new IntVar(Integer.parseInt(command.get(0)));
 					case SourceScanner.RETURN:
 						returnValue = this.ret(command);
 						i = end;
@@ -384,18 +387,23 @@ class Interpreter {
 
 	private int whileLoop(ArrayList<Command> fn, int index) throws UatException {
 		boolean done = false;
+		Variable aux = new IntVar(-1);
 		Command loop = fn.get(index);
 		int whileJump = Integer.parseInt(loop.get(loop.size() - 1));
 
-		while (this.solve(loop.get(0)).toBool()) {
-			this.run(this.recursion.peek(), null, index + 1, index + whileJump);
+		while (aux.toInt() == -1 && this.solve(loop.get(0)).toBool()) {
+			aux = this.run(this.recursion.peek(), null, index + 1, index + whileJump);
 		}
 
-		return whileJump - 1;
+		if (aux.toInt() != -1) return aux.toInt();
+		else return whileJump;
 	}
 
 	private Variable solve(String expression) throws UatException {
-		if (expression.contains(Expression.VSEP.toString()) &&
+		// System.out.println("[INFO_LOG]: SOLVE_EXP = {" + expression + "}");
+		Matcher arrayM = SourceScanner.arrayP.matcher(expression);
+
+		if (!arrayM.matches() && expression.contains(Expression.VSEP.toString()) &&
 			!expression.contains(Expression.SEP.toString())) {
 			expression = expression.replaceAll(Expression.VSEP.toString(), Expression.SEP.toString());
 		}
@@ -406,8 +414,6 @@ class Interpreter {
 		String[] front, back;
 		Matcher wholeOpM;
 		String op;
-
-		// System.out.println("[INFO_LOG]: SOLVE_EXP = {" + expression + "}");
 
         if (t.length == 1) {
             answ = this.getOperand(t[0]);
