@@ -35,15 +35,15 @@ fn main(){
     vet[3] = 54321
 
     --println (\nPosicao 1 do vetor: $z[1]$) Gera erro e descreve onde
-    println (\nPosicao 2 do vetor: $vet[2*2+7-9]$)
-    println (\nPosicao 3 do vetor: $vet[3]$)
+    println (\n\nPosicao 2 do vetor: $vet[2*2+7-9]$)
+    println (Posicao 3 do vetor: $vet[3]$)
 
 
     --Exemplo de utilização de structs
     str[1] = 1
-    str[nome] = OQUE/QUETEM
+    str[nome] = "OQUE"
     --println (Gera erro pois não existe [telefone]: $str[telefone]$)
-    println (O nome eh: $str[nome]$)
+    println (\n\nO nome eh: $str[nome]$)
     println (O campo 1 eh: $str[1+1-1]$)
 
 }
