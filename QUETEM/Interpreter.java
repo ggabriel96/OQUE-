@@ -391,7 +391,7 @@ class Interpreter {
 			this.run(this.recursion.peek(), null, index + 1, index + whileJump);
 		}
 
-		return whileJump;
+		return whileJump - 1;
 	}
 
 	private Variable solve(String expression) throws UatException {
