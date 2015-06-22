@@ -63,6 +63,7 @@ class OQUE {
                 catch (UatException ue) {
                     System.out.println("\n> " + ue.getMessage() + " @ line #" + ue.getNumber() + ":");
                     System.out.println(ue.getLine());
+                    ue.printStackTrace();
                     System.exit(1);
                 }
 

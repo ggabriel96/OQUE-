@@ -41,9 +41,9 @@ fn main(){
 
     --Exemplo de utilização de structs
     str[1] = 1
-    str[nome] = "OQUE"
+    str["nome"] = "OQUE"
     --println (Gera erro pois não existe [telefone]: $str[telefone]$)
-    println (\n\nO nome eh: $str[nome]$)
+    println (\n\nO nome eh: $str["nome"]$)
     println (O campo 1 eh: $str[1+1-1]$)
 
 }

@@ -4,20 +4,20 @@ fn square(x) {
 
 fn main() {
     let x, fu, oi, sq: double
-    fu[jin] = 10
+    fu["jin"] = 10
     fu[square(sq + 1 ^ 1)] = 0
-    oi[tu] = 5
+    oi["tu"] = 5
     oi["OQUE" + "QUETEM"] = "segfault"
 
-    x = square(fu[jin]) + fu[jin] - square(2)
+    x = square(fu["jin"]) + fu["jin"] - square(2)
     println(1 $x$)
 
     println(#### $square(sq + 1 ^ 1)$)
 
-    x = fu[square(sq + 1 ^ 1)] - 2 * 5 ^ oi[tu]
+    x = fu[square(sq + 1 ^ 1)] - 2 * 5 ^ oi["tu"]
     println(2 $x$)
 
-    x = square(fu[jin])
+    x = square(fu["jin"])
     println(3 $x$)
 
     x = oi["OQUE" + "QUETEM"]

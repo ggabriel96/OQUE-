@@ -6,16 +6,17 @@ fn main() {
     let i: int
     let x: int
 
+    i = 0
     repetix (i < 10) {
-        println($i$: $square(i)$)
+        println(i: $i$, i^2: $square(i)$)
         x[i] = square(i)
         i = i + 1
     }
+    println()
 
     i = 0
     repetix (i < 10) {
-        print($i$: $square(i)$ | )
-        println($x[i]$)
+        println(x[i]: $x[i]$)
         i = i + 1
     }
 }

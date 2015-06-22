@@ -188,33 +188,25 @@ class Interpreter {
 
 	private void atr(Command command) throws UatException {
 		Struct s;
-		Variable v;
 		String field;
+		Variable v, aux;
 		String varName = command.get(0);
 		String expression = command.get(1);
 		Matcher fieldNameM, arrayM = SourceScanner.arrayP.matcher(varName);
 
+		// System.out.println("[INFO_LOG]: VAR_NAME = {" + varName + "}");
 		// System.out.println("[INFO_LOG]: ATR_EXPRESSION = {" + expression + "}");
 
 		if (arrayM.matches()) {
 			field = varName.substring(varName.indexOf("[") + 1, varName.lastIndexOf("]"));
 			varName = arrayM.group(1);
 
-			// if (field.isEmpty()) {
-			// 	s = this.getStruct(varName);
-			// 	s.replaceVars(expression); // ?
-			// }
-
-			fieldNameM = SourceScanner.varNameP.matcher(field);
-			if (!fieldNameM.matches()) {
-				field = this.solve(field).toString();
-			}
-
 			s = this.getStruct(varName);
 			if (s == null) {
-				System.out.println("111111111111111111111111");
 				throw new UatException("varNotFound", varName);
 			}
+
+			field = this.solve(field).toString();
 
 			v = s.getVar(field);
 			if (v == null) {
@@ -239,9 +231,9 @@ class Interpreter {
 				v.setValue(this.solve(expression));
 				s.newVar(field, v);
 				// if (this.DEBUG) {
-				// 	System.out.println("\n---------------");
-				// 	s.printVars();
-				// 	System.out.println("---------------\n");
+					// System.out.println("\n---------------");
+					// s.printVars();
+					// System.out.println("---------------\n");
 				// }
 			}
 			else {
@@ -251,7 +243,6 @@ class Interpreter {
 		else {
 			s = this.getStruct(varName);
 			if (s == null) {
-				System.out.println("222222222222222222222222");
 				throw new UatException("varNotFound", varName);
 			}
 
@@ -403,10 +394,14 @@ class Interpreter {
 		// System.out.println("[INFO_LOG]: SOLVE_EXP = {" + expression + "}");
 		Matcher arrayM = SourceScanner.arrayP.matcher(expression);
 		Matcher fnM = SourceScanner.fnCallP.matcher(expression);
+		boolean foundArr = arrayM.find();
+		boolean foundFn = fnM.find();
 
-		if (/*fnM.matches() || arrayM.matches() ||*/
-			(!fnM.find() && !arrayM.find() && expression.contains(Expression.VSEP.toString()) &&
-			!expression.contains(Expression.SEP.toString())))
+		if (((!foundArr && foundFn && !fnM.group().contains(Expression.VSEP.toString())) ||
+			(!foundFn && foundArr && !arrayM.group().contains(Expression.VSEP.toString())) ||
+			(!foundFn && !foundArr)) &&
+			expression.contains(Expression.VSEP.toString()) &&
+			!expression.contains(Expression.SEP.toString()))
 		{
 			expression = expression.replaceAll(Expression.VSEP.toString(), Expression.SEP.toString());
 		}
@@ -586,16 +581,6 @@ class Interpreter {
 			for (i = 1; i < max - 1; i++) {
 				argName = fn.get(i);
 
-				// System.out.println("i: " + i);
-				// System.out.println("argName: " + argName);
-				// System.out.println("usrArgs[i - 1]: " + usrArgs[i - 1]);
-
-				// argValue.newVar(
-				// 	argName, this.solve(usrArgs[i - 1].replaceAll(
-				// 		Expression.VSEP.toString(), Expression.SEP.toString())
-				// 	)
-				// );
-
 				arrayM = SourceScanner.arrayP.matcher(usrArgs[i - 1]);
 				fnCallM = SourceScanner.fnCallP.matcher(usrArgs[i - 1]);
 
@@ -630,19 +615,14 @@ class Interpreter {
 			String fieldAux = t.substring(t.indexOf("[") + 1, t.lastIndexOf("]"));
 			varNameM = SourceScanner.varNameP.matcher(fieldAux);
 
-			if (varNameM.matches()) {
-				field = fieldAux;
-			}
-			else field = this.solve(fieldAux).toString();
+			field = this.solve(fieldAux).toString();
 
 			if ((v = this.getVar(arrayM.group(1), field)) == null) {
-				System.out.println("333333333333333333");
 				throw new UatException("varNotFound", t);
 			}
 		}
 		else if (varNameM.matches()) {
 			if ((v = this.getVar(t)) == null) {
-				System.out.println("444444444" + t + "444444444");
 				throw new UatException("varNotFound", t);
 			}
 		}
@@ -683,7 +663,6 @@ class Interpreter {
 			if (neg) v = v.inverted();
 		}
 		else {
-			System.out.println("555555555555555555");
 			throw new UatException("varNotFound", t);
 		}
 

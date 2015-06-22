@@ -9,30 +9,30 @@ fn main() {
 
     println(putz: $putz$)
 
-    putz[idade] = 1
+    putz["idade"] = 1
     putz[2] = 1
-    putz[uat] = 0
+    putz["uat"] = 0
     let fu = 5: int
-    fu[jin] = 7
+    putz["jin"] = 7
 
-    let funciona = square(2) - (putz[2] + putz[idade]) / ((7.11 + 11.7 ^ square(fu[jin])) ^ putz[uat]): double -- equals 2.0
+    let funciona = square(2) - (putz[2] + putz["idade"]) / ((7.11 + 11.7 ^ square(putz["jin"])) ^ putz["uat"]): double -- equals 2.0
     println(funciona: $funciona$)
     i = 1 + 1/2 + 1/4
     println(i: $i$)
-    i = (putz[2] + putz[idade]) / ((7.11 + 11.7) ^ putz[uat])
+    i = (putz[2] + putz["idade"]) / ((7.11 + 11.7) ^ putz["uat"])
     println(i: $i$)
     println(Hey you $square(2)$ :P)
     scanln(i, j, k)
 
     let putz = 2, funciona = 1: int
-    putz[vish] = 0
+    putz["vish"] = 0
     let raiden = "ElderGod": string
 
 
     if (putz < funciona) {
         println(println inside if)
     }
-    elsif (square(2) * putz[vish] > 11.7 || raiden == "ElderGod") {
+    elsif (square(2) * putz["vish"] > 11.7 || raiden == "ElderGod") {
         println(println inside elsif)
     }
     else {
@@ -44,6 +44,7 @@ fn main() {
 }
 
 fn teste(a, b, c) {
+    let i = 0: int
     let x = 7: int
     let fu = 1.0: double
     let putz: int
@@ -56,8 +57,7 @@ fn teste(a, b, c) {
     putz[-3 +4 *square(2) / ( fu - 5)^ 2 ^ 3] = 0
     println(testando $putz[-3 +4 *square(2) / ( fu - 5)^ 2 ^ 3] * 2 - 1 + 4 / (3 ^ fu)$ expressoes >_<)
 
-    repetix (WHILE + CONDITION) {
-        continue
+    repetix (i < 2) {
         break
         -- ESSE AQUI TA BUGADO:
         x = square(oi[2])
@@ -69,7 +69,7 @@ fn teste(a, b, c) {
         break
         println(println inside while)
         if (1 + 2 * 3 ^ 0) {
-            for (x = 1 + 1/2 + 1/4; x < square(2) * fu[jin]; println(oi)) {
+            for (x = 1 + 1/2 + 1/4; x < square(2) * putz["jin"]; println(oi)) {
                 break
                 continue
                 if (square(0)) {
@@ -89,6 +89,8 @@ fn teste(a, b, c) {
         }
         continue
         break
+
+        i = i + 1
     }
 
     for (i = 0; i < max; i = i + 1) {
