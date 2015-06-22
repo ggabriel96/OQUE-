@@ -34,7 +34,7 @@ fn main(){
     vet[2] = 12345
     vet[3] = 54321
 
-    --println (\nPosicao 1 do vetor: $z[1]$) // Gera erro e descreve onde
+    --println (\nPosicao 1 do vetor: $z[1]$) Gera erro e descreve onde
     println (\nPosicao 2 do vetor: $z[2*2+7-9]$)
     println (\nPosicao 3 do vetor: $z[3]$)
 
