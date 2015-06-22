@@ -19,19 +19,27 @@ fn main(){
     }
     print(Estou mandando essa linha pro além)
 
-    print (Insira um valor inteiro arbitrario: )
-    scan(x)
+    print (\nInsira um valor inteiro arbitrario: )
+    scan (x)
     x = sqr(x)
     println (O quadrado do valor inserido eh $x$)
 
-    x = soma(j, 4*3)
-    print(A soma de j com 12 eh: $x$)
+    print (\nO resultado eh: $conta(j,x)$\n\n)
+
+    print (Estou$tela()$.)
 }
 
+--Função com um parêmtro e retorno:
 fn sqr(param){
     return param * param
 }
 
-fn soma(par1, par2){
-    return par1 + par2
+--Função com múltiplos parâmetros e retorno:
+fn conta(par1, par2){
+    return (par1 + par2) * par1 -+(-5*5) --Expressões com múltiplas variáveis e parâmetros
+}
+
+--Função sem atribuição e sem retorno
+fn tela(){
+    print(>>>Printando...<<<)
 }
