@@ -48,7 +48,7 @@ fn main(){
 
 }
 
---Função com um parêmtro e retorno:
+--Função com um parâmtro e retorno:
 fn sqr(param){
     return param * param
 }
