@@ -1,6 +1,25 @@
+fn square(x) {
+    return x * x
+}
+
 fn main() {
+    let x, fu, oi, sq: double
+    fu[jin] = 10
+    fu[square(sq + 1 ^ 1)] = 0
+    oi[tu] = 5
+    oi["OQUE" + "QUETEM"] = "segfault"
+
     x = square(fu[jin]) + fu[jin] - square(2)
+    println(1 $x$)
+
+    println(#### $square(sq + 1 ^ 1)$)
+
     x = fu[square(sq + 1 ^ 1)] - 2 * 5 ^ oi[tu]
+    println(2 $x$)
+
     x = square(fu[jin])
-    x = oi[Gabriel + "Galli"]
+    println(3 $x$)
+
+    x = oi["OQUE" + "QUETEM"]
+    println(4 $x$)
 }

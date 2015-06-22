@@ -391,7 +391,7 @@ class Interpreter {
 		int loopNum = loop.lineNumber();
 		int whileJump = Integer.parseInt(loop.get(loop.size() - 1));
 
-		while ((loopNum == loop.lineNumber()) && this.solve(loop.get(0)).toBool()) {
+		while ((loopNum == 0 || loopNum == loop.lineNumber()) && this.solve(loop.get(0)).toBool()) {
 			loopNum = this.run(this.recursion.peek(), null, index + 1, index + whileJump).toInt();
 		}
 
@@ -402,11 +402,16 @@ class Interpreter {
 	private Variable solve(String expression) throws UatException {
 		// System.out.println("[INFO_LOG]: SOLVE_EXP = {" + expression + "}");
 		Matcher arrayM = SourceScanner.arrayP.matcher(expression);
+		Matcher fnM = SourceScanner.fnCallP.matcher(expression);
 
-		if (!arrayM.find() && expression.contains(Expression.VSEP.toString()) &&
-			!expression.contains(Expression.SEP.toString())) {
+		if (/*fnM.matches() || arrayM.matches() ||*/
+			(!fnM.find() && !arrayM.find() && expression.contains(Expression.VSEP.toString()) &&
+			!expression.contains(Expression.SEP.toString())))
+		{
 			expression = expression.replaceAll(Expression.VSEP.toString(), Expression.SEP.toString());
 		}
+
+		// System.out.println("2 [INFO_LOG]: SOLVE_EXP = {" + expression + "}");
 
         Variable answ = null, num1 = null, num2 = null;
 		String[] t = expression.split(Expression.SEP.toString());
@@ -558,6 +563,8 @@ class Interpreter {
 
 			if (fn == null) throw new UatException("fnNotFound", fnCallM.group(1));
 
+			fnCall = fnCallM.group(1);
+
 			// System.out.println("group: " + fnCallM.group());
 			//
 			// System.out.println("usrArgs:");
@@ -589,16 +596,35 @@ class Interpreter {
 				// 	)
 				// );
 
-				argValue.newVar(
-					argName, this.getOperand(usrArgs[i - 1].replaceAll(
-						Expression.VSEP.toString(), Expression.SEP.toString())
-					)
-				);
+				arrayM = SourceScanner.arrayP.matcher(usrArgs[i - 1]);
+				fnCallM = SourceScanner.fnCallP.matcher(usrArgs[i - 1]);
+
+				// if (arrayM.matches() || fnCallM.matches()) {
+				// 	argValue.newVar(
+				// 		argName, this.getOperand(usrArgs[i - 1].replaceAll(
+				// 			Expression.VSEP.toString(), Expression.SEP.toString())
+				// 		)
+				// 	);
+				// }
+				// else {
+				// 	argValue.newVar(
+				// 		argName, this.solve(usrArgs[i - 1].replaceAll(
+				// 			Expression.VSEP.toString(), Expression.SEP.toString())
+				// 		)
+				// 	);
+				// }
+
+				if (arrayM.matches() || fnCallM.matches()) {
+					argValue.newVar(argName, this.getOperand(usrArgs[i - 1]));
+				}
+				else {
+					argValue.newVar(argName, this.solve(usrArgs[i - 1]));
+				}
 
 				args.put(argName, argValue);
 			}
 
-			v = this.run(fnCallM.group(1), args);
+			v = this.run(fnCall, args);
 		}
 		else if (arrayM.matches()) {
 			String fieldAux = t.substring(t.indexOf("[") + 1, t.lastIndexOf("]"));
