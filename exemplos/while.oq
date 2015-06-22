@@ -1,11 +1,21 @@
+fn square(x) {
+    return x * x
+}
+
 fn main() {
-    let i = 0: int
+    let i: int
+    let x: int
 
     repetix (i < 10) {
-        println($i$)
+        println($i$: $square(i)$)
+        x[i] = square(i)
         i = i + 1
-        continue
+    }
+
+    i = 0
+    repetix (i < 10) {
+        print($i$: $square(i)$ | )
+        println($x[i]$)
         i = i + 1
-        break
     }
 }
