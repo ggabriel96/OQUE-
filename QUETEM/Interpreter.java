@@ -391,7 +391,7 @@ class Interpreter {
 		Command loop = fn.get(index);
 		int whileJump = Integer.parseInt(loop.get(loop.size() - 1));
 
-		while (aux.toInt() == -1 && this.solve(loop.get(0)).toBool()) {
+		while ((aux.toInt() == -1 || aux.toInt() == index) && this.solve(loop.get(0)).toBool()) {
 			aux = this.run(this.recursion.peek(), null, index + 1, index + whileJump);
 		}
 
