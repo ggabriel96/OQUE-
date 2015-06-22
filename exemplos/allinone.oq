@@ -1,7 +1,8 @@
 fn main(){
     let i = (3 + 4) - (5 * 2) + 1: int
     let j = 2 : double
-    let x, z: int
+    let x, vet: int
+    let str: string
 
     repetix(i < (j + 4-1)){
         println(Meu i esta valendo $i-1$ somado ao literal '1'.)
@@ -27,12 +28,24 @@ fn main(){
 
     print ($tela()$ na tela.\n)
 
-    z[2] = 12345
-    z[3] = 54321
 
-    --println (\nPosicao 1 do vetor: $z[1]$)
+
+    --Exemplo de utilização de vetores
+    vet[2] = 12345
+    vet[3] = 54321
+
+    --println (\nPosicao 1 do vetor: $z[1]$) // Gera erro e descreve onde
     println (\nPosicao 2 do vetor: $z[2*2+7-9]$)
-    println (\nPosicao 3 do vetor: $z[1+1+1]$)
+    println (\nPosicao 3 do vetor: $z[3]$)
+
+
+    --Exemplo de utilização de structs
+    str[1] = 1
+    str[nome] = OQUE/QUETEM
+    --println (Gera erro pois não existe [telefone]: $str[telefone]$)
+    println (O nome eh: $str[nome]$)
+    println (O campo 1 eh: $str[1+1-1]$)
+
 }
 
 --Função com um parêmtro e retorno:
