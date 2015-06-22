@@ -396,14 +396,14 @@ class Interpreter {
 		}
 
 		if (loopNum != 0) return loopNum;
-		else return index + whileJump;
+		else return index + whileJump - 1;
 	}
 
 	private Variable solve(String expression) throws UatException {
 		// System.out.println("[INFO_LOG]: SOLVE_EXP = {" + expression + "}");
 		Matcher arrayM = SourceScanner.arrayP.matcher(expression);
 
-		if (!arrayM.matches() && expression.contains(Expression.VSEP.toString()) &&
+		if (!arrayM.find() && expression.contains(Expression.VSEP.toString()) &&
 			!expression.contains(Expression.SEP.toString())) {
 			expression = expression.replaceAll(Expression.VSEP.toString(), Expression.SEP.toString());
 		}
